@@ -1,0 +1,7 @@
+
+*.editorconfig
+
+.vs/
+
+NAUL/obj/
+NAUL/bin/
