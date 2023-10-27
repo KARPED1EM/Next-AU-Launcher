@@ -14,6 +14,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml.Documents;
+using System.Security.AccessControl;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -55,6 +56,11 @@ public sealed partial class Page_Version : Page
     private void OepnLocation_Click(object sender, RoutedEventArgs e)
     {
 
+    }
+
+    private void CreateVersionButton_Click(object sender, RoutedEventArgs e)
+    {
+        Main.mainWindow.NavigateTo(typeof(Page_CreateVersion));
     }
 }
 

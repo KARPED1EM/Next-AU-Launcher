@@ -44,6 +44,7 @@ public sealed partial class MainWindow : Window
         this.ExtendsContentIntoTitleBar = true;
         this.SetTitleBar(AppTitleBar);
 
+        Main.mainWindow = this;
     }
 
     private void GloabalNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -57,6 +58,11 @@ public sealed partial class MainWindow : Window
             _ => typeof(Page_Play),
         };
 
+        NavigateTo(pageType);
+    }
+
+    public void NavigateTo(Type pageType)
+    {
         _ = contentFrame.Navigate(pageType);
     }
 }
