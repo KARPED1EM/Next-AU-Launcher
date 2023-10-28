@@ -15,7 +15,7 @@
             <TextBlock Margin="50, 40, 0, 0" Text="版本列表" FontSize="50" FontWeight="ExtraBold" />
             <ListView x:Name="VersionsList"
                       Margin="30, 30, 0, 0"
-                      Height="400"
+                      Height="390"
                       SelectionMode="Single"
                       VerticalAlignment="Stretch"
                       IsItemClickEnabled="True"
@@ -45,7 +45,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button  Margin="34, 23, 0, 0" Click="CreateVersionButton_Click">
+            <Button  Margin="34, 10, 0, 0" Click="CreateVersionButton_Click">
                 <StackPanel Orientation="Horizontal" Padding="5, 10, 324, 10">
                     <FontIcon Glyph="&#xE710;" FontSize="35" Margin="0, 0, 20, 0"/>
                     <TextBlock Text="新建" FontSize="22" FontWeight="Bold" />
