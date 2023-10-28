@@ -129,6 +129,10 @@ public class VersionItem
     public string FolderLocation { get; set; }
     public string FontGlyph { get; set; }
 
+    public string DisplayDescriptionForUI => IsVanilla
+        ? $"{GameVersion} {Platform}"
+        : $"{ModVersion} {Platform}";
+
     public VersionItem(string name, string mod, Version modVersion, Version gameVersion, string bepInExVersion, GamePlatform platform, string folderLocation, string fontGlyph = "\uE7FC")
     {
         bool broken = !Directory.Exists(folderLocation);
