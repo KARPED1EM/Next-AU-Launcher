@@ -24,6 +24,7 @@ using System.Security.AccessControl;
 using Vanara.PInvoke;
 using Windows.UI;
 using Microsoft.UI.Xaml.Media.Animation;
+using NAUL.Services;
 
 namespace NAUL;
 
@@ -37,6 +38,12 @@ public sealed partial class MainWindow : Window
     {
         Current = this;
         this.InitializeComponent();
+
+        GamePathService.SearchAllByRegistry();
+        VersionService.SearchAllVersion();
+
+        VersionService.currentVersion = VersionService.versions.FirstOrDefault();
+
         InitializeMainWindow();
     }
 

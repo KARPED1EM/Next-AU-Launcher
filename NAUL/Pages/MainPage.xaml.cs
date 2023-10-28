@@ -48,11 +48,6 @@ public sealed partial class Page_Main : Page
         //InitializeSystemTray();
         //await UpdateBackgroundImageAsync(true);
         //await CheckUpdateAsync();
-
-        GamePathService.SearchAllByRegistry();
-        VersionService.SearchAllVersion();
-
-        VersionService.currentVersion = VersionService.versions.FirstOrDefault();
     }
 
     private void Page_SizeChanged(object sender, SizeChangedEventArgs e)

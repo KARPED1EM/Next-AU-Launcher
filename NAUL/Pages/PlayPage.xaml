@@ -8,24 +8,68 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid ColumnDefinitions="*, 400" Margin="70, 300, 0, 0">
+    <Grid>
 
-        <StackPanel Grid.Column="0" Orientation="Vertical">
-            <TextBlock Text="{x:Bind titleText}" FontSize="70" FontWeight="ExtraBold" />
-            <TextBlock Text="{x:Bind descriptionText}" FontSize="16" Margin="20, -8, 0, 0" />
+        <!--  Title  -->
+        <StackPanel Margin="70, 300, 0, 0" Orientation="Vertical">
+            <Grid MaxWidth="1000"
+                  HorizontalAlignment="Left">
+                <TextBlock Margin="0, 0, 0, 0" Text="{x:Bind titleText}" FontSize="70" FontWeight="ExtraBold" Foreground="Black" Opacity="0.4" />
+                <TextBlock Margin="-4, -4, 0, 0" Text="{x:Bind titleText}" FontSize="70" FontWeight="ExtraBold" />
+            </Grid>
+            <Grid Margin="0, -8, 0, 0"
+                  HorizontalAlignment="Left"
+                  MaxWidth="500"
+                  Height="28"
+                  Background="{ThemeResource CustomAcrylicBrush}"
+                  Shadow="{StaticResource ThemeShadow}"
+                  CornerRadius="10">
+                <TextBlock VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Padding="10, 0, 10, 0"
+                           Text="{x:Bind descriptionText}"
+                           FontSize="15" />
+            </Grid>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0, 0, 130, -30">
-            <Button CornerRadius="23" Margin="0, 0, 10, 0" Width="200" Height="55">
-                <StackPanel Orientation="Horizontal">
-                    <FontIcon Glyph="&#xE768;" FontSize="18"/>
-                    <TextBlock Margin="8, 0, 0, 0" Text="启动" FontSize="18" />
+        <Grid Margin="0,0,130,100"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Bottom"
+              MinWidth="240"
+              MinHeight="55"
+              Background="{ThemeResource CustomAcrylicBrush}"
+              CornerRadius="20"
+              Shadow="{StaticResource ThemeShadow}"
+              Translation="0,0,16">
+
+            <!--  Start Game  -->
+            <Button Name="Button_StartGame"
+                    Height="55"
+                    HorizontalAlignment="Stretch"
+                    BorderThickness="0"
+                    CornerRadius="20,0,0,20"
+                    FontSize="17">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon Margin="-30,2,0,0"
+                              VerticalAlignment="Center"
+                              FontSize="18"
+                              Glyph="&#xE768;" />
+                    <TextBlock Text="开始游戏"
+                               VerticalAlignment="Center"
+                               FontWeight="ExtraBold" />
                 </StackPanel>
             </Button>
-            <Button CornerRadius="23" Width="55" Height="55">
-                <FontIcon Glyph="&#xE96D;" FontSize="18"/>
+
+            <!--  Game Setting  -->
+            <Button Width="50"
+                    Height="55"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    CornerRadius="20">
+                <FontIcon Glyph="&#xE96D;" Width="20" Height="20" />
             </Button>
-        </StackPanel>
-        
+        </Grid>
+
     </Grid>
 </Page>
