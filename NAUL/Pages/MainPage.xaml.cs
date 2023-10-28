@@ -1,0 +1,144 @@
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Navigation;
+using NAUL.Services;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Numerics;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Gaming.UI;
+using Windows.Graphics;
+using Windows.UI.ApplicationSettings;
+
+// To learn more about WinUI, the WinUI project structure,
+// and more about our project templates, see: http://aka.ms/winui-project-info.
+
+namespace NAUL;
+/// <summary>
+/// An empty page that can be used on its own or navigated to within a Frame.
+/// </summary>
+public sealed partial class Page_Main : Page
+{
+    public static Page_Main Current { get; private set; }
+    private readonly Compositor compositor;
+    private ImageSource backgroundImage = new BitmapImage(new Uri("file:///D:/Desktop/NAUL/NAUL/Assets/BG.jpg"));
+
+    public Page_Main()
+    {
+        Current = this;
+        this.InitializeComponent();
+        compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+        NavigateTo(typeof(Page_Play));
+    }
+
+    private async void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        //InitializeSystemTray();
+        //await UpdateBackgroundImageAsync(true);
+        //await CheckUpdateAsync();
+
+        GamePathService.SearchAllByRegistry();
+        VersionService.SearchAllVersion();
+
+        VersionService.currentVersion = VersionService.versions.FirstOrDefault();
+    }
+
+    private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        InitializeTitleBarBackground();
+        UpdateDragRectangles();
+    }
+
+    public bool IsPaneToggleButtonVisible
+    {
+        get => GlobalNavigation.IsPaneToggleButtonVisible;
+        set
+        {
+            GlobalNavigation.IsPaneToggleButtonVisible = value;
+            Border_TitleText.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+        }
+    }
+
+    private void InitializeTitleBarBackground()
+    {
+        var surface = compositor.CreateVisualSurface();
+        surface.SourceOffset = Vector2.Zero;
+        surface.SourceVisual = ElementCompositionPreview.GetElementVisual(Border_ContentImage);
+        surface.SourceSize = new Vector2((float)Border_TitleBar.ActualWidth, 12);
+        var visual = compositor.CreateSpriteVisual();
+        visual.Size = new Vector2((float)Border_TitleBar.ActualWidth, (float)Border_TitleBar.ActualHeight);
+        var brush = compositor.CreateSurfaceBrush(surface);
+        brush.Stretch = CompositionStretch.Fill;
+        visual.Brush = brush;
+        ElementCompositionPreview.SetElementChildVisual(Border_TitleBar, visual);
+    }
+
+    public void UpdateDragRectangles()
+    {
+        try
+        {
+            var scale = MainWindow.Current.UIScale;
+            var point = Grid_TitleBar.TransformToVisual(this).TransformPoint(new Point());
+            var width = Grid_TitleBar.ActualWidth;
+            var height = Grid_TitleBar.ActualHeight;
+            int len = (int)(48 * scale);
+            var rect1 = new RectInt32(len, 0, (int)((point.X - 48) * scale), len);
+            var rect2 = new RectInt32((int)((point.X + width) * scale), 0, 100000, len);
+            MainWindow.Current.SetDragRectangles(rect1, rect2);
+        }
+        catch { }
+    }
+
+    private async void GlobalNavigation_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+    {
+        if (args.InvokedItemContainer?.IsSelected ?? false || args.IsSettingsInvoked) return;
+        var item = args.InvokedItemContainer as NavigationViewItem;
+        if (item == null) return;
+        Type pageType = item.Tag switch
+        {
+            "Play" => typeof(Page_Play),
+            "Version" => typeof(Page_Version),
+            "About" => typeof(Page_About),
+            "Setting" => typeof(Page_Setting),
+            _ => typeof(Page_Play),
+        };
+        NavigateTo(pageType);
+    }
+
+#nullable enable
+    public void NavigateTo(Type? page, object? param = null)
+    {
+        Border_ContentBackground.Visibility = Visibility.Visible;
+        string? sourcePage = Content_Frame.CurrentSourcePageType?.Name, destPage = page?.Name;
+        if (page is null)
+        {
+            page = typeof(Page_Play);
+            destPage = nameof(Page_Play);
+        }
+
+        if (page?.Name is nameof(Page_Play))
+        {
+            GlobalNavigation.SelectedItem = GlobalNavigation.MenuItems.FirstOrDefault();
+        }
+
+        Content_Frame.Navigate(page, param);
+
+        Border_ContentBackground.Opacity = destPage is nameof(Page_Play) ? 0 : 1;
+
+        IsPaneToggleButtonVisible = true;
+    }
+#nullable disable
+
+}

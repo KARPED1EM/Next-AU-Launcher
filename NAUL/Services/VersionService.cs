@@ -16,6 +16,7 @@ internal class VersionService
 {
     public static List<AssemblyMD5Info> assemblyMD5Info = CloudService.RequestAssemblyMODInfo();
     public static List<VersionItem> versions = new();
+    public static VersionItem currentVersion;
 
     public static ObservableCollection<VersionItem> GetCollectionOfVersions()
     {

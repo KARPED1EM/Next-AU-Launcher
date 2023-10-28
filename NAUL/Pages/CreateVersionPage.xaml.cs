@@ -40,7 +40,7 @@ public sealed partial class Page_CreateVersion : Page
 
     private void BackButton_Click(object sender, RoutedEventArgs e)
     {
-        Main.mainWindow.NavigateTo(typeof(Page_Version));
+        Page_Main.Current.NavigateTo(typeof(Page_Version));
     }
 
     private void SelectGameFolderCombo_Loaded(object sender, RoutedEventArgs e)
@@ -53,7 +53,7 @@ public sealed partial class Page_CreateVersion : Page
     {
 
         FolderPicker openPicker = new FolderPicker();
-        WinRT.Interop.InitializeWithWindow.Initialize(openPicker, Main.mainWindow.hWnd);
+        WinRT.Interop.InitializeWithWindow.Initialize(openPicker, MainWindow.Current.hWnd);
 
         openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
         openPicker.FileTypeFilter.Add("*");

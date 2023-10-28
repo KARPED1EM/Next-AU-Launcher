@@ -8,39 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Window.SystemBackdrop>
-        <DesktopAcrylicBackdrop/>
-    </Window.SystemBackdrop>
-
-    <Grid x:Name="RooGrid"
-          RowDefinitions="48, *"
+    <Grid Name="RootGrid"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Border x:Name="AppTitleBar"
-                Grid.Row="0"
-                Height="48"
-            VerticalAlignment="Top">
-            <Grid ColumnDefinitions="52, Auto, *">
-                <Image Grid.Column="0" Source="/Assets/LOGO.ico" Height="22" />
-                <TextBlock x:Name="WindowTitle" Grid.Column="1" VerticalAlignment="Center" Text="Next Among Us Launch" />
-            </Grid>
-        </Border>
-        <NavigationView x:Name="GloabalNavigation"
-                        Grid.Row="1"
-                        IsBackButtonVisible="Collapsed"
-                        PaneDisplayMode="LeftCompact"
-                        IsTabStop="False"
-                        IsSettingsVisible="False"
-                        SelectionChanged="GloabalNavigation_SelectionChanged">
-            <NavigationView.MenuItems>
-                <NavigationViewItem x:Name="defaultNaviItem" Content="启动游戏" Tag="Play" Icon="Play" />
-                <NavigationViewItem Content="版本管理" Tag="Version" Icon="Library" />
-            </NavigationView.MenuItems>
-            <NavigationView.FooterMenuItems>
-                <NavigationViewItem Content="关于" Tag="About" Icon="ContactInfo" />
-                <NavigationViewItem Content="设置" Tag="Setting" Icon="Setting" />
-            </NavigationView.FooterMenuItems>
-            <Frame x:Name="contentFrame"/>
-        </NavigationView>
+        <Frame Name="MainWindow_Frame" />
+        <Frame Name="Frame_Overlay" Visibility="Collapsed" />
     </Grid>
  
 </Window>

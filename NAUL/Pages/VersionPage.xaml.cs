@@ -37,14 +37,14 @@ public sealed partial class Page_Version : Page
 
     private void VersionsList_Loaded(object sender, RoutedEventArgs e)
     {
-        VersionsList.SelectedIndex = VersionService.versions.FindIndex(v => v.Name == Main.currentVersion.Name);
+        VersionsList.SelectedIndex = VersionService.versions.FindIndex(v => v.Name == VersionService.currentVersion.Name);
     }
 
     private void VersionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var version = (VersionItem)e.AddedItems.FirstOrDefault();
 
-        Main.currentVersion = version;
+        VersionService.currentVersion = version;
 
         GameVersionTextBlock.Text = version.GameVersion.ToString();
         GamePlatformTextBlock.Text = version.Platform.ToString();
@@ -68,7 +68,7 @@ public sealed partial class Page_Version : Page
 
     private void CreateVersionButton_Click(object sender, RoutedEventArgs e)
     {
-        Main.mainWindow.NavigateTo(typeof(Page_CreateVersion));
+        Page_Main.Current.NavigateTo(typeof(Page_CreateVersion));
     }
 
 }

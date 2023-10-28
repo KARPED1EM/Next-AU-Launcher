@@ -21,52 +21,96 @@ using Windows.Storage;
 using System.Runtime.InteropServices;
 using Windows.System;
 using System.Security.AccessControl;
+using Vanara.PInvoke;
+using Windows.UI;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace NAUL;
 
 public sealed partial class MainWindow : Window
 {
-    public IntPtr hWnd;
-    private AppWindow appWindow;
+    public static new MainWindow Current { get; private set; }
+    public IntPtr hWnd { get; private set; }
+    public double UIScale => User32.GetDpiForWindow(hWnd) / 96d;
 
     public MainWindow()
     {
+        Current = this;
         this.InitializeComponent();
+        InitializeMainWindow();
+    }
 
-        SystemBackdrop = new DesktopAcrylicBackdrop();
-
+    private void InitializeMainWindow()
+    {
         hWnd = WindowNative.GetWindowHandle(this);
-        WindowId id = Win32Interop.GetWindowIdFromWindow(hWnd);
-        appWindow = AppWindow.GetFromWindowId(id);
+        var titleBar = AppWindow.TitleBar;
+        titleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
+        var len = (int)(48 * UIScale);
+        titleBar.ExtendsContentIntoTitleBar = true;
+        SetDragRectangles(new RectInt32(0, 0, 100000, len));
+        ChangeTitleBarButtonColor();
 
-        appWindow.MoveAndResize(new RectInt32(_X: 335, _Y: 165, _Width: 1250, _Height: 750));
+        Title = "Next Among Us Launcher";
+        ResizeToCertainSize();
+        AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, @"Assets\LOGO.ico"));
 
-        this.ExtendsContentIntoTitleBar = true;
-        this.SetTitleBar(AppTitleBar);
-
-        Main.mainWindow = this;
-        Main.Init();
-
-        NavigateTo(typeof(Page_Play));
-        GloabalNavigation.SelectedItem = defaultNaviItem;
+        MainWindow_Frame.Content = new Page_Main();
     }
 
-    private void GloabalNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+    public void SetDragRectangles(params RectInt32[] value)
     {
-        Type pageType = ((NavigationViewItem)args.SelectedItem).Tag switch
+        AppWindow.TitleBar.SetDragRectangles(value);
+    }
+
+    public void ResizeToCertainSize(int width = 0, int height = 0)
+    {
+        var display = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary);
+        var scale = UIScale;
+        if (width * height == 0)
         {
-            "Play" => typeof(Page_Play),
-            "Version" => typeof(Page_Version),
-            "About" => typeof(Page_About),
-            "Setting" => typeof(Page_Setting),
-            _ => typeof(Page_Play),
-        };
-
-        NavigateTo(pageType);
+            width = (int)(1280 * scale);
+            height = (int)(768 * scale);
+        }
+        else
+        {
+            width = (int)(width * scale);
+            height = (int)(height * scale);
+        }
+        var x = (display.WorkArea.Width - width) / 2;
+        var y = (display.WorkArea.Height - height) / 2;
+        AppWindow.MoveAndResize(new RectInt32(x, y, width, height));
+        if (AppWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.IsMaximizable = false;
+            presenter.IsResizable = false;
+        }
     }
 
-    public void NavigateTo(Type pageType)
+    private void ChangeTitleBarButtonColor()
     {
-        _ = contentFrame.Navigate(pageType);
+        if (AppWindowTitleBar.IsCustomizationSupported())
+        {
+            var titleBar = AppWindow.TitleBar;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            switch (RootGrid.ActualTheme)
+            {
+                case ElementTheme.Default:
+                    break;
+                case ElementTheme.Light:
+                    titleBar.ButtonForegroundColor = Colors.Black;
+                    titleBar.ButtonHoverForegroundColor = Colors.Black;
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x20, 0x00, 0x00, 0x00);
+                    break;
+                case ElementTheme.Dark:
+                    titleBar.ButtonForegroundColor = Colors.White;
+                    titleBar.ButtonHoverForegroundColor = Colors.White;
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(0x20, 0xFF, 0xFF, 0xFF);
+                    titleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, 0x99, 0x99, 0x99);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

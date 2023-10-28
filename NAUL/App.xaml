@@ -11,8 +11,24 @@
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
-            <StaticResource x:Key="WindowCaptionBackground" ResourceKey="ControlFillColorTransparentBrush" />
-            <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+            
+            <!--  Custom Acrylic  -->
+            <AcrylicBrush x:Key="CustomAcrylicBrush"
+              FallbackColor="#F52C2C2C"
+              TintColor="{ThemeResource ControlOnImageFillColorDefault}"
+              TintOpacity="0.6" />
+            <AcrylicBrush x:Key="CustomOverlayAcrylicBrush"
+              FallbackColor="#F52C2C2C"
+              TintColor="{ThemeResource ControlOnImageFillColorDefault}"
+              TintOpacity="0.4" />
+
+            <Thickness x:Key="NavigationViewBorderThickness">0</Thickness>
+            <StaticResource x:Key="ComboBoxDropDownBackground" ResourceKey="CustomAcrylicBrush" />
+            <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="CustomAcrylicBrush" />
+            <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="ControlFillColorTransparentBrush" />
+            
+            
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

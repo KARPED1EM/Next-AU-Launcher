@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using NAUL.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,12 +23,12 @@ namespace NAUL;
 /// </summary>
 public sealed partial class Page_Play : Page
 {
-    private string titleText => (Main.currentVersion?.IsVanilla ?? true)
+    private string titleText => (VersionService.currentVersion?.IsVanilla ?? true)
         ? "Among Us"
-        : Main.currentVersion?.Name;
-    private string descriptionText => (Main.currentVersion?.IsVanilla ?? true)
-        ? (Main.currentVersion?.GameVersion.ToString() + " | " + Main.currentVersion?.Platform)
-        : (Main.currentVersion?.ModVersion.ToString() + " | " + Main.currentVersion?.Platform);
+        : VersionService.currentVersion?.Name;
+    private string descriptionText => (VersionService.currentVersion?.IsVanilla ?? true)
+        ? (VersionService.currentVersion?.GameVersion.ToString() + " | " + VersionService.currentVersion?.Platform)
+        : (VersionService.currentVersion?.ModVersion.ToString() + " | " + VersionService.currentVersion?.Platform);
    
     public Page_Play()
     {
