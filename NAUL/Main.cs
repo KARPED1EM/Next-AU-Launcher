@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NAUL;
+
 public static class Main
 {
+    // Global using variables here
     public static MainWindow mainWindow;
 
     public static void Init()

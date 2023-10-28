@@ -26,4 +26,14 @@ public sealed partial class Page_CreateVersion : Page
     {
         this.InitializeComponent();
     }
+
+    private void BackButton_Click(object sender, RoutedEventArgs e)
+    {
+        Main.mainWindow.NavigateTo(typeof(Page_Version));
+    }
+
+    private void PickGameFolderButton_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

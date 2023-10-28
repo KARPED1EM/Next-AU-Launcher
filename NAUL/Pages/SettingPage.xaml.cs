@@ -35,14 +35,4 @@ public sealed partial class Page_Setting : Page
 
     }
 
-    private void PickSteamFolderButton_Click(object sender, RoutedEventArgs e)
-    {
-        
-    }
-
-    private void PickEpicFolderButton_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
-
 }
