@@ -66,8 +66,9 @@
                     HorizontalAlignment="Right"
                     Background="Transparent"
                     BorderThickness="0"
-                    CornerRadius="20">
-                <FontIcon Glyph="&#xE96D;" Width="20" Height="20" />
+                    CornerRadius="20"
+                    Click="JumpToVersionButton_Click">
+                <FontIcon Glyph="&#xE713;" Width="20" Height="20" />
             </Button>
         </Grid>
 
