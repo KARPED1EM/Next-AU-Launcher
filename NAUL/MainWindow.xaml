@@ -26,7 +26,6 @@
                         Grid.Row="1"
                         IsBackButtonVisible="Collapsed"
                         PaneDisplayMode="LeftCompact"
-                        SelectionFollowsFocus="Enabled"
                         IsTabStop="False"
                         IsSettingsVisible="False"
                         SelectionChanged="GloabalNavigation_SelectionChanged">
