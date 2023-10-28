@@ -8,8 +8,8 @@ namespace NAUL.Services;
 
 internal class GamePathService
 {
-    public static IReadOnlyList<string> gamePaths => allGamePaths;
-    private static List<string> allGamePaths = new();
+    public static IReadOnlyList<string> GamePaths => gamePaths;
+    private static List<string> gamePaths = new();
 
     protected static readonly List<(RegistryKey, string)> registryKeysToSearch = new()
     {
@@ -32,7 +32,7 @@ internal class GamePathService
         foreach(var kvp in registryKeysToSearch)
         {
             var (valid, path) = FindValidPathInKey(kvp.Item1, kvp.Item2);
-            if (valid) allGamePaths.Add(path);
+            if (valid) gamePaths.Add(path);
         }
     }
     private static (bool, string) FindValidPathInKey(RegistryKey registerRoot, string inputKey)
@@ -60,7 +60,7 @@ internal class GamePathService
                 path += @"steamapps\common\Among Us\";
 
             if (!IsValidAmongUsFolder(path)) continue;
-            if (gamePaths.Contains(path)) continue;
+            if (GamePaths.Contains(path)) continue;
             return (true, path.TrimEnd('\\'));
         }
 
