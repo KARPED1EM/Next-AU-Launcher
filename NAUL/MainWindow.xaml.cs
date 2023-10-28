@@ -75,8 +75,8 @@ public sealed partial class MainWindow : Window
         var scale = UIScale;
         if (width * height == 0)
         {
-            width = (int)(1280 * scale);
-            height = (int)(768 * scale);
+            width = (int)(1200 * scale);
+            height = (int)(700 * scale);
         }
         else
         {
