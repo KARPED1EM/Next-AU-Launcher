@@ -76,9 +76,10 @@ internal class GamePathService
             else if (path.EndsWith("Steam\\"))
                 path += @"steamapps\common\Among Us\";
 
+            path = TrimGamePath(path, false);
             if (!IsValidAmongUsFolder(path)) continue;
             if (GamePaths.Contains(path)) continue;
-            return (true, path.TrimEnd('\\'));
+            return (true, path);
         }
 
         return notFound;
@@ -95,11 +96,11 @@ internal class GamePathService
             || !File.Exists(path + "UnityCrashHandler32.exe")
             );
     }
-    private static string TrimGamePath(string path)
+    private static string TrimGamePath(string path, bool endWithSolidus = true)
     {
         if (path.EndsWith("Among Us.exe")) path = Path.GetDirectoryName(path) ?? "";
-        path = path.Replace("\\", "/");
-        if (!path.EndsWith('/')) path += "/";
+        path = path.Replace("\\", "/").TrimEnd('/');
+        if (endWithSolidus) path += "/";
         return path;
     }
 }

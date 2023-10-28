@@ -11,10 +11,14 @@ public static class Main
 {
     // Global using variables here
     public static MainWindow mainWindow;
+    public static VersionItem currentVersion;
 
     public static void Init()
     {
         GamePathService.SearchAllByRegistry();
+        VersionService.SearchAllVersion();
+
+        currentVersion = VersionService.versions.FirstOrDefault();
 
     }
 }

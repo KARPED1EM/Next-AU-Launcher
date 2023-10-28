@@ -15,6 +15,8 @@ using Windows.Foundation.Collections;
 using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml.Documents;
 using System.Security.AccessControl;
+using NAUL.Services;
+using System.Diagnostics;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,28 +27,26 @@ namespace NAUL;
 /// </summary>
 public sealed partial class Page_Version : Page
 {
-    private ObservableCollection<VersionItem> versions = new();
+    private ObservableCollection<VersionItem> versions => VersionService.GetCollectionOfVersions();
+    private Visibility versionSettingsPanelVisibility => VersionsList.SelectedIndex != -1 ? Visibility.Visible : Visibility.Collapsed;
 
     public Page_Version()
     {
         this.InitializeComponent();
-        versions = SetData();
-    }
-    private ObservableCollection<VersionItem> SetData()
-    {
-        var data = new ObservableCollection<VersionItem>
-        {
-            new VersionItem("TONX", "Beta", "2023.10.24s", VersionPlatform.Steam, "F:/Game/Platform/Steam/steamapps/common/Among Us/"),
-            new VersionItem("TOHE", "2.3.6", "2023.10.24e", VersionPlatform.Epic, ""),
-            new VersionItem("TOH", "5.1.1", "2023.10.24e", VersionPlatform.Epic, ""),
-            new VersionItem("Extream Roles", "9.0.0.0", "2023.10.24s", VersionPlatform.Steam, ""),
-        };
-        return data;
     }
 
-    private void VersionsList_ItemClick(object sender, ItemClickEventArgs e)
+    private void VersionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        
+        var version = (VersionItem)e.AddedItems.FirstOrDefault();
+
+        GameVersionTextBlock.Text = version.GameVersion.ToString();
+        GamePlatformTextBlock.Text = version.Platform.ToString();
+        ModTextBlock.Text = version.Mod == "原版" ? "无" : $"{version.Mod} v{version.ModVersion}";
+        BepInExTextBlock.Text = version.BepInExVersion == "None" || version.Mod == "原版" ? "无" : version.BepInExVersion;
+
+        GamePathTextBox.Text = version.FolderLocation;
+
+        VersionSettingsPanel.Visibility = Visibility.Visible;
     }
 
     private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -63,31 +63,6 @@ public sealed partial class Page_Version : Page
     {
         Main.mainWindow.NavigateTo(typeof(Page_CreateVersion));
     }
-}
 
-public class VersionItem
-{
-    public string Name { get; set; }
-    public string ModVersion { get; set; }
-    public string GameVersion { get; set; }
-    public VersionPlatform Platform { get; set; }
-    public string FolderLocation { get; set; }
-    public string FontGlyph { get; set; }
-
-    public VersionItem(string name, string modVersion, string gameVersion, VersionPlatform platform, string folderLocation, string fontGlyph = "\uE7FC")
-    {
-        bool broken = !Directory.Exists(folderLocation);
-        this.Name = (broken ? "(无效) " : string.Empty) + name;
-        this.ModVersion = modVersion;
-        this.GameVersion = gameVersion;
-        this.Platform = platform;
-        this.FolderLocation = folderLocation;
-        this.FontGlyph = broken ? "\uE729" : fontGlyph;
-    }
-}
-
-public enum VersionPlatform
-{
-    Steam,
-    Epic
+    
 }
