@@ -12,6 +12,7 @@
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
 		<ApplicationIcon>Assets\LOGO.ico</ApplicationIcon>
+		<NoWarn>CS1998</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
