@@ -21,6 +21,7 @@
                       VerticalAlignment="Stretch"
                       IsItemClickEnabled="True"
                       SelectionChanged="VersionsList_SelectionChanged"
+                      Loaded="VersionsList_Loaded"
                       AllowDrop="True"
                       CanReorderItems="True"
                       ItemsSource="{x:Bind versions}">

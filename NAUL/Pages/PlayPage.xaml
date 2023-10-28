@@ -9,20 +9,24 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid ColumnDefinitions="400, *" Margin="70, 300, 0, 0">
-        
-        <StackPanel Grid.Column="0"
-            Orientation="Vertical">
-            <TextBlock Text="TOHE" FontSize="100" FontWeight="ExtraBold"></TextBlock>
-            <TextBlock Text="v2.3.6" FontSize="30" Margin="20, -15, 0, 0"></TextBlock>
+    <Grid ColumnDefinitions="*, 400" Margin="70, 300, 0, 0">
+
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <TextBlock Text="{x:Bind titleText}" FontSize="70" FontWeight="ExtraBold" />
+            <TextBlock Text="{x:Bind descriptionText}" FontSize="16" Margin="20, -8, 0, 0" />
         </StackPanel>
-        <Grid Grid.Column="1" HorizontalAlignment="Right" Margin="0, 0, 130, -30">
-            <Button>
-                <StackPanel Orientation="Horizontal" Padding="60, 8, 60, 8">
+
+        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0, 0, 130, -30">
+            <Button CornerRadius="23" Margin="0, 0, 10, 0" Width="200" Height="55">
+                <StackPanel Orientation="Horizontal">
                     <FontIcon Glyph="&#xE768;" FontSize="18"/>
-                    <TextBlock Margin="8, 0, 0, 0" Text="启动" FontSize="18"></TextBlock>
+                    <TextBlock Margin="8, 0, 0, 0" Text="启动" FontSize="18" />
                 </StackPanel>
             </Button>
-        </Grid>
+            <Button CornerRadius="23" Width="55" Height="55">
+                <FontIcon Glyph="&#xE96D;" FontSize="18"/>
+            </Button>
+        </StackPanel>
+        
     </Grid>
 </Page>

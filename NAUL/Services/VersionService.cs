@@ -141,6 +141,8 @@ public class VersionItem
         this.FolderLocation = folderLocation;
         this.FontGlyph = broken ? "\uE729" : fontGlyph;
     }
+
+    public bool IsVanilla => ModVersion == new Version();
 }
 
 public class AssemblyMD5Info

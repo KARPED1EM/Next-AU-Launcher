@@ -16,10 +16,10 @@
                 <Button Padding="18, 10, 18, 10" CornerRadius="18" Click="BackButton_Click">
                     <FontIcon Glyph="&#xE76B;" FontSize="23"/>
                 </Button>
-                <TextBlock Text="新建版本" FontSize="50" FontWeight="ExtraBold" Margin="18, -10, 0, 0"></TextBlock>
+                <TextBlock Text="新建版本" FontSize="50" FontWeight="ExtraBold" Margin="18, -10, 0, 0" />
             </StackPanel>
-            
-            <TextBlock Text="游戏目录" FontSize="18" FontWeight="SemiBold" Margin="0, 50, 0, 10"></TextBlock>
+
+            <TextBlock Text="游戏目录" FontSize="18" FontWeight="SemiBold" Margin="0, 50, 0, 10"/> 
             <StackPanel Orientation="Horizontal">
                 <ComboBox x:Name="SelectGameFolderCombo"
                           IsEditable="True"

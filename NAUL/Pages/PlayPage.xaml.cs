@@ -22,6 +22,13 @@ namespace NAUL;
 /// </summary>
 public sealed partial class Page_Play : Page
 {
+    private string titleText => (Main.currentVersion?.IsVanilla ?? true)
+        ? "Among Us"
+        : Main.currentVersion?.Name;
+    private string descriptionText => (Main.currentVersion?.IsVanilla ?? true)
+        ? (Main.currentVersion?.GameVersion.ToString() + " | " + Main.currentVersion?.Platform)
+        : (Main.currentVersion?.ModVersion.ToString() + " | " + Main.currentVersion?.Platform);
+   
     public Page_Play()
     {
         this.InitializeComponent();

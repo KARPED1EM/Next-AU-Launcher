@@ -35,14 +35,21 @@ public sealed partial class Page_Version : Page
         this.InitializeComponent();
     }
 
+    private void VersionsList_Loaded(object sender, RoutedEventArgs e)
+    {
+        VersionsList.SelectedIndex = VersionService.versions.FindIndex(v => v.Name == Main.currentVersion.Name);
+    }
+
     private void VersionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var version = (VersionItem)e.AddedItems.FirstOrDefault();
 
+        Main.currentVersion = version;
+
         GameVersionTextBlock.Text = version.GameVersion.ToString();
         GamePlatformTextBlock.Text = version.Platform.ToString();
-        ModTextBlock.Text = version.Mod == "原版" ? "无" : $"{version.Mod} v{version.ModVersion}";
-        BepInExTextBlock.Text = version.BepInExVersion == "None" || version.Mod == "原版" ? "无" : version.BepInExVersion;
+        ModTextBlock.Text = version.IsVanilla ? "无" : $"{version.Mod} v{version.ModVersion}";
+        BepInExTextBlock.Text = version.BepInExVersion == "None" || version.IsVanilla ? "无" : version.BepInExVersion;
 
         GamePathTextBox.Text = version.FolderLocation;
 
@@ -64,5 +71,4 @@ public sealed partial class Page_Version : Page
         Main.mainWindow.NavigateTo(typeof(Page_CreateVersion));
     }
 
-    
 }
