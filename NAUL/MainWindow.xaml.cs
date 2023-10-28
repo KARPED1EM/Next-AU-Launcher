@@ -45,6 +45,8 @@ public sealed partial class MainWindow : Window
         this.SetTitleBar(AppTitleBar);
 
         Main.mainWindow = this;
+
+        Main.Init();
     }
 
     private void GloabalNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
