@@ -9,7 +9,7 @@ namespace NAUL;
 public sealed partial class Page_Version : Page
 {
     private ObservableCollection<VersionItem> versions => VersionService.GetCollectionOfVersions();
-    private Visibility versionSettingsPanelVisibility => VersionsList.SelectedIndex != -1 ? Visibility.Visible : Visibility.Collapsed;
+    private Visibility versionSettingsGridVisibility => VersionsList.SelectedIndex != -1 ? Visibility.Visible : Visibility.Collapsed;
 
     public Page_Version()
     {
@@ -34,7 +34,7 @@ public sealed partial class Page_Version : Page
 
         GamePathTextBox.Text = version.FolderLocation;
 
-        VersionSettingsPanel.Visibility = Visibility.Visible;
+        VersionSettingsGrid.Visibility = Visibility.Visible;
     }
 
     private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -48,8 +48,8 @@ public sealed partial class Page_Version : Page
     }
 
     private void CreateVersionButton_Click(object sender, RoutedEventArgs e)
-    {
-        Page_Main.Current.NavigateTo(typeof(Page_CreateVersion));
-    }
+        => Page_Main.Current.NavigateTo(typeof(Page_CreateVersion));
 
+    private void JumpToPlayButton_Click(object sender, RoutedEventArgs e)
+        => Page_Main.Current.NavigateTo(typeof(Page_Play));
 }
