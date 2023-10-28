@@ -1,11 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using System.Collections.ObjectModel;
 
 namespace NAUL.Services;
 
@@ -46,7 +44,7 @@ internal class GamePathService
 
     public static void SearchAllByRegistry()
     {
-        foreach(var kvp in registryKeysToSearch)
+        foreach (var kvp in registryKeysToSearch)
         {
             var (valid, path) = FindValidPathInKey(kvp.Item1, kvp.Item2);
             if (valid) gamePaths.Add(path);

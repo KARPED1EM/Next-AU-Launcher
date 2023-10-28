@@ -4,11 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using NAUL.Services;
 
 namespace NAUL.Services;
 
@@ -28,7 +24,7 @@ internal class VersionService
 
     public static void SearchAllVersion()
     {
-        foreach(var gamePath in GamePathService.GamePaths)
+        foreach (var gamePath in GamePathService.GamePaths)
         {
             Version gameVer = GetGameVersion(gamePath);
             string bepInExVer = GetBepInExVersion(gamePath);
@@ -52,7 +48,7 @@ internal class VersionService
 
             var dllPaths = Directory.EnumerateFiles(pluginPath);
 
-            foreach(var dllPath in dllPaths)
+            foreach (var dllPath in dllPaths)
             {
                 if (!dllPath.EndsWith(".disabled") && !dllPath.EndsWith(".dll")) continue;
                 string dllName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(dllPath));
