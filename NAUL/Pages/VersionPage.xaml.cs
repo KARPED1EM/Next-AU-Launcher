@@ -26,6 +26,7 @@ namespace NAUL;
 public sealed partial class Page_Version : Page
 {
     private ObservableCollection<VersionItem> versions = new();
+
     public Page_Version()
     {
         this.InitializeComponent();

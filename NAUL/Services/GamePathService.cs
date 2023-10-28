@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using System.Collections.ObjectModel;
 
 namespace NAUL.Services;
 
@@ -26,6 +29,20 @@ internal class GamePathService
         (Registry.LocalMachine, @"SOFTWARE\WOW6432Node\Valve\Steam"),
         (Registry.LocalMachine, @"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam"),
     };
+
+    public static ObservableCollection<string> GetCollectionOfGamePaths()
+    {
+        var collection = new ObservableCollection<string>();
+        foreach (var path in GamePaths)
+            collection.Add(path);
+        return collection;
+    }
+    public static void AddGamePath(string path)
+    {
+        path = path.TrimEnd('\\');
+        if (GamePaths.Contains(path)) return;
+        gamePaths.Add(path);
+    }
 
     public static void SearchAllByRegistry()
     {
@@ -66,7 +83,7 @@ internal class GamePathService
 
         return notFound;
     }
-    private static bool IsValidAmongUsFolder(string path)
+    public static bool IsValidAmongUsFolder(string path)
     {
         if (string.IsNullOrWhiteSpace(path)) return false;
         path = TrimGamePath(path);
