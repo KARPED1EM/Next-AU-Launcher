@@ -10,4 +10,11 @@ public class AssemblyInfoItem
 
     public Version Version { get; set; }
 
+    public AssemblyInfoItem(string md5, GamePlatforms platform, Version version)
+    {
+        this.MD5 = md5;
+        this.Platform = platform;
+        this.Version = version;
+    }
+
 }

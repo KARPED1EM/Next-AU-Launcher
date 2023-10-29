@@ -5,13 +5,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NAUL.Models;
 using NAUL.Services;
 
 namespace NAUL.Manager;
 
 internal class VersionManager
 {
-    public static List<AssemblyMD5InfoItem> AssemblyMD5Infos = CloudService.RequestAssemblyMODInfo();
+    public static List<AssemblyInfoItem> AssemblyMD5Infos = CloudService.RequestAssemblyMODInfo();
     public static List<VersionItem> versions = new();
     public static VersionItem currentVersion;
 
@@ -73,90 +74,10 @@ internal class VersionManager
         return formatedName;
     }
 
-    public static Version GetGameVersion(string path)
-    {
-        string md5 = Utils.GetMD5HashFromFile(path + "/GameAssembly.dll");
-        return AssemblyMD5Infos.Find(info => info.MD5 == md5)?.Version;
-    }
-
-    public static bool HasBepInExInstalled(string path)
-    {
-        return !(
-            !Directory.Exists(path)
-            || !Directory.Exists(path + "/BepInEx")
-            || !Directory.Exists(path + "/dotnet")
-            || !File.Exists(path + "/winhttp.dll")
-            );
-    }
-
-    public static string GetBepInExVersion(string path)
-    {
-        string fileName = path + "/BepInEx/core/BepInEx.Core.dll";
-        if (!File.Exists(fileName)) return "None";
-        //AssemblyInformationalVersion
-        //var assembly = Assembly.LoadFrom(fileName);
-        string version = FileVersionInfo.GetVersionInfo(fileName).ProductVersion;
-        version = Regex.Replace(version, @"\+.+", string.Empty);
-        return version;
-    }
-
-    public static GamePlatform GetGamePlatformByPath(string path)
-    {
-        if (Directory.Exists(path + "/.egstore")) return GamePlatform.Epic;
-        else if (Path.GetDirectoryName(Path.GetDirectoryName(path)).EndsWith("steamapps")) return GamePlatform.Steam;
-        else return GamePlatform.Local;
-    }
-
     public static Version GetModVersion(string path)
     {
         var version = FileVersionInfo.GetVersionInfo(path).FileVersion;
         return Version.Parse(version);
     }
 
-}
-
-public class VersionItem
-{
-    public string Name { get; set; }
-    public string Mod { get; set; }
-    public Version ModVersion { get; set; }
-    public Version GameVersion { get; set; }
-    public string BepInExVersion { get; set; }
-    public GamePlatform Platform { get; set; }
-    public string FolderLocation { get; set; }
-    public string FontGlyph { get; set; }
-
-    public string DisplayDescriptionForUI => IsVanilla
-        ? $"{GameVersion} {Platform}"
-        : $"{ModVersion} {Platform}";
-
-    public VersionItem(string name, string mod, Version modVersion, Version gameVersion, string bepInExVersion, GamePlatform platform, string folderLocation, string fontGlyph = "\uE7FC")
-    {
-        bool broken = !Directory.Exists(folderLocation);
-
-        Name = (broken ? "(无效) " : string.Empty) + name;
-        Mod = mod;
-        ModVersion = modVersion;
-        GameVersion = gameVersion;
-        BepInExVersion = bepInExVersion;
-        Platform = platform;
-        FolderLocation = folderLocation;
-        FontGlyph = broken ? "\uE729" : fontGlyph;
-    }
-
-    public bool IsVanilla => ModVersion == new Version();
-}
-
-public class AssemblyMD5InfoItem
-{
-    public string MD5 { get; set; }
-    public GamePlatforms Platform { get; set; }
-    public Version Version { get; set; }
-
-    public AssemblyMD5InfoItem(string md5, GamePlatform platform, Version version)
-    {
-        MD5 = md5;
-        Platform = platform;
-        Version = version;
-    }
 }
