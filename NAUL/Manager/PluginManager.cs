@@ -12,8 +12,6 @@ namespace NAUL.Manager;
 
 internal class PluginManager
 {
-    public static string PLUGIN_SAVE_PATH => Appconfig.CONFIG_SAVE_PATH + @"/Plugins/";
-
     /*
     public static void SearchAllVersion()
     {
