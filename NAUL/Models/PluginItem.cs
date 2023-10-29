@@ -24,6 +24,6 @@ public class PluginItem
 
     public string Description { get; set; }
 
-    public bool IsValid() => File.Exists(Appconfig.PLUGIN_SAVE_PATH + "/" + MD5);
+    public bool IsValid() => File.Exists(DataPaths.SAVE_PLUGIN_PATH + "/" + MD5);
 
 }
