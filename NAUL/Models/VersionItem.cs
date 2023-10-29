@@ -31,6 +31,7 @@ public class VersionItem
     private string _Path;
     public string Path { get => _Path; set { _Path = value.Replace("\\", "/").TrimEnd('/'); } }
 
+    public string Description => $"{GameVersion}, {GamePlatform}, {(HasBepInExInstalled ? ", BepInEx: " + BepInExVersion : string.Empty)}".Trim().TrimEnd(',');
     public bool IsValid => FindGameService.IsValidAmongUsFolder(Path);
     public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
     

@@ -11,8 +11,7 @@ public sealed partial class Page_Version : Page
 {
     private ObservableCollection<VersionItem> VersionsListItemsSource
         => VersionManager.Versions.ToObservableCollection();
-    private Visibility VersionSettingsGridVisibility
-        => VersionsList.SelectedIndex != -1 ? Visibility.Visible : Visibility.Collapsed;
+    private bool VersionSettingsGridVisibility => VersionsList.SelectedIndex != -1;
 
     public Page_Version()
     {
@@ -32,7 +31,6 @@ public sealed partial class Page_Version : Page
 
         GameVersionTextBlock.Text = version.GameVersion.ToString();
         GamePlatformTextBlock.Text = version.GamePlatform.ToString();
-        //ModTextBlock.Text = version.IsVanilla ? "нч" : $"{version.Mod} v{version.ModVersion}";
         BepInExTextBlock.Text = version.HasBepInExInstalled ? version.BepInExVersion : "нч";
 
         GamePathTextBox.Text = version.Path;
@@ -55,4 +53,14 @@ public sealed partial class Page_Version : Page
 
     private void JumpToPlayButton_Click(object sender, RoutedEventArgs e)
         => Page_Main.Current.NavigateTo(typeof(Page_Play));
+
+    private void DeleteVersionButton_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void StartVersionButton_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

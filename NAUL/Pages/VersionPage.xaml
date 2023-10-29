@@ -27,11 +27,11 @@
                       ItemsSource="{x:Bind VersionsListItemsSource}">
                 <ListView.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Icon="Play" Text="启动" Tag="Run"/>
-                        <MenuFlyoutItem Icon="Folder"  Text="浏览目录" Click="OepnLocation_Click" Tag="OepnLocation"/>
-                        <MenuFlyoutItem Icon="Edit" Text="重命名" Tag="Rename"/>
+                        <MenuFlyoutItem Icon="Play" Text="启动" Tag="Run" />
+                        <MenuFlyoutItem Icon="Folder"  Text="浏览目录" Click="OepnLocation_Click" Tag="OepnLocation" />
+                        <MenuFlyoutItem Icon="Edit" Text="重命名" Tag="Rename" />
                         <MenuFlyoutSeparator />
-                        <MenuFlyoutItem Icon="Delete" Text="删除" Tag="Delete"/>
+                        <MenuFlyoutItem Icon="Delete" Text="删除" Tag="Delete" />
                     </MenuFlyout>
                 </ListView.ContextFlyout>
                 <ListView.ItemTemplate>
@@ -40,7 +40,7 @@
                             <FontIcon Glyph="{x:Bind DisplayGlyph}" FontSize="35" Margin="0, 0, 20, 0" />
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{x:Bind DisplayName}" FontSize="22" FontWeight="Bold" />
-                                <TextBlock Text="{x:Bind Path}" FontSize="19" />
+                                <TextBlock Text="{x:Bind Description}" FontSize="19" Foreground="LightGray" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -48,7 +48,7 @@
             </ListView>
             <Button  Margin="34, 10, 0, 0" Click="CreateVersionButton_Click">
                 <StackPanel Orientation="Horizontal" Padding="5, 10, 324, 10">
-                    <FontIcon Glyph="&#xE710;" FontSize="35" Margin="0, 0, 20, 0"/>
+                    <FontIcon Glyph="&#xE710;" FontSize="35" Margin="0, 0, 20, 0" />
                     <TextBlock Text="新建" FontSize="22" FontWeight="Bold" />
                 </StackPanel>
             </Button>
@@ -58,48 +58,75 @@
               Grid.Column="1"
               Visibility="{x:Bind VersionSettingsGridVisibility}">
             
-            <StackPanel Margin="80, 100, 0, 0"
+            <StackPanel Margin="80, 70, 0, 0"
                         Orientation="Vertical"
-                        HorizontalAlignment="Left">
+                        HorizontalAlignment="Left"
+                        Spacing="40">
+
+                <!--  Game platform  -->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="游戏平台：" FontSize="18" FontWeight="SemiBold" />
+                    <TextBlock x:Name="GamePlatformTextBlock" FontSize="18" />
+                </StackPanel>
+
+                <!--  Game version  -->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="游戏版本：" FontSize="18" FontWeight="SemiBold" />
+                    <TextBlock x:Name="GameVersionTextBlock" FontSize="18" />
+                    <Button Margin="20, -3, 0, 0" Content="更改" />
+                </StackPanel>
+
+                <!--  BepInEx version  -->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="BepInEx：" FontSize="18" FontWeight="SemiBold" />
+                    <TextBlock x:Name="BepInExTextBlock" FontSize="18" />
+                    <Button Margin="20, -3, 0, 0" Content="更改" />
+                </StackPanel>
+
+                <!--  Game path  -->
+                <Grid>
+                    <TextBlock Text="游戏目录" FontSize="18" FontWeight="SemiBold" />
+                    <StackPanel Orientation="Horizontal" Margin="0, 30, 0, 0">
+                        <TextBox x:Name="GamePathTextBox" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" SelectionHighlightColor="Green" MaxWidth="700" />
+                        <Button Margin="10, 0, 0, 0" Content="打开" />
+                    </StackPanel>
+                </Grid>
                 
-                <Grid ColumnDefinitions="300, *" Margin="0, 0, 0, 10">
-                    <StackPanel Orientation="Horizontal" Grid.Column="0">
-                        <TextBlock Text="游戏版本：" FontSize="18" FontWeight="SemiBold" />
-                        <TextBlock x:Name="GameVersionTextBlock" FontSize="18" FontWeight="SemiBold" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Column="1">
-                        <TextBlock Text="游戏平台：" FontSize="18" FontWeight="SemiBold" />
-                        <TextBlock x:Name="GamePlatformTextBlock" FontSize="18" FontWeight="SemiBold" />
-                    </StackPanel>
-                </Grid>
-
-                <Grid ColumnDefinitions="300, *" Margin="0, 30, 0, 10">
-                    <StackPanel Orientation="Horizontal" Grid.Column="0">
-                        <TextBlock Text="模组：" FontSize="18" FontWeight="SemiBold" />
-                        <TextBlock x:Name="ModTextBlock" FontSize="18" FontWeight="SemiBold" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Column="1">
-                        <TextBlock Text="BepInEx：" FontSize="18" FontWeight="SemiBold" />
-                        <TextBlock x:Name="BepInExTextBlock" FontSize="18" FontWeight="SemiBold" />
-                    </StackPanel>
-                </Grid>
-
-                <TextBlock Text="游戏目录" FontSize="18" FontWeight="SemiBold" Margin="0, 50, 0, 10" />
-                <TextBox x:Name="GamePathTextBox" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" SelectionHighlightColor="Green" MaxWidth="500" />
-
             </StackPanel>
 
+            <!-- Action button in the lower right corner -->
             <StackPanel Margin="0, 0, 80, 80"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Right"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Spacing="18">
                 <Button CornerRadius="30"
                         Height="65"
                         Width="65"
+                        Foreground="IndianRed"
+                        ToolTipService.ToolTip="删除选中的版本"
+                        Click="DeleteVersionButton_Click">
+                    <FontIcon Glyph="&#xE74D;" />
+                </Button>
+                <Button CornerRadius="30"
+                        Height="65"
+                        Width="65"
+                        Foreground="LightSeaGreen"
+                        ToolTipService.ToolTip="运行选中的版本"
+                        Click="StartVersionButton_Click">
+                    <FontIcon Glyph="&#xEDDA;" />
+                </Button>
+                <Button CornerRadius="30"
+                        Height="65"
+                        Width="65"
+                        Foreground="CornflowerBlue"
+                        ToolTipService.ToolTip="前往首页"
                         Click="JumpToPlayButton_Click">
                     <FontIcon Glyph="&#xE725;" />
                 </Button>
             </StackPanel>
+            
+            
         </Grid>
 
     </Grid>
