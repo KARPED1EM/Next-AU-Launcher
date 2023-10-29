@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using NAUL.Services;
+using NAUL.Manager;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -8,7 +8,7 @@ namespace NAUL;
 
 public sealed partial class Page_Version : Page
 {
-    private ObservableCollection<VersionItem> versions => VersionService.GetCollectionOfVersions();
+    private ObservableCollection<VersionItem> versions => VersionManager.GetCollectionOfVersions();
     private Visibility versionSettingsGridVisibility => VersionsList.SelectedIndex != -1 ? Visibility.Visible : Visibility.Collapsed;
 
     public Page_Version()
@@ -18,14 +18,14 @@ public sealed partial class Page_Version : Page
 
     private void VersionsList_Loaded(object sender, RoutedEventArgs e)
     {
-        VersionsList.SelectedIndex = VersionService.versions.FindIndex(v => v.Name == VersionService.currentVersion.Name);
+        VersionsList.SelectedIndex = VersionManager.versions.FindIndex(v => v.Name == VersionManager.currentVersion.Name);
     }
 
     private void VersionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var version = (VersionItem)e.AddedItems.FirstOrDefault();
 
-        VersionService.currentVersion = version;
+        VersionManager.currentVersion = version;
 
         GameVersionTextBlock.Text = version.GameVersion.ToString();
         GamePlatformTextBlock.Text = version.Platform.ToString();

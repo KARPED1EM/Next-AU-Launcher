@@ -5,10 +5,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NAUL.Services;
 
-namespace NAUL.Services;
+namespace NAUL.Manager;
 
-internal class VersionService
+internal class VersionManager
 {
     public static List<AssemblyMD5Info> assemblyMD5Info = CloudService.RequestAssemblyMODInfo();
     public static List<VersionItem> versions = new();
@@ -133,14 +134,14 @@ public class VersionItem
     {
         bool broken = !Directory.Exists(folderLocation);
 
-        this.Name = (broken ? "(无效) " : string.Empty) + name;
-        this.Mod = mod;
-        this.ModVersion = modVersion;
-        this.GameVersion = gameVersion;
-        this.BepInExVersion = bepInExVersion;
-        this.Platform = platform;
-        this.FolderLocation = folderLocation;
-        this.FontGlyph = broken ? "\uE729" : fontGlyph;
+        Name = (broken ? "(无效) " : string.Empty) + name;
+        Mod = mod;
+        ModVersion = modVersion;
+        GameVersion = gameVersion;
+        BepInExVersion = bepInExVersion;
+        Platform = platform;
+        FolderLocation = folderLocation;
+        FontGlyph = broken ? "\uE729" : fontGlyph;
     }
 
     public bool IsVanilla => ModVersion == new Version();
@@ -154,9 +155,9 @@ public class AssemblyMD5Info
 
     public AssemblyMD5Info(string md5, GamePlatform platform, Version version)
     {
-        this.MD5 = md5;
-        this.Platform = platform;
-        this.Version = version;
+        MD5 = md5;
+        Platform = platform;
+        Version = version;
     }
 }
 

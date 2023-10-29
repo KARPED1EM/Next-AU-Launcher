@@ -1,6 +1,7 @@
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using NAUL.Manager;
 using NAUL.Services;
 using System;
 using System.IO;
@@ -24,9 +25,9 @@ public sealed partial class MainWindow : Window
         this.InitializeComponent();
 
         GamePathService.SearchAllByRegistry();
-        VersionService.SearchAllVersion();
+        VersionManager.SearchAllVersion();
 
-        VersionService.currentVersion = VersionService.versions.FirstOrDefault();
+        VersionManager.currentVersion = VersionManager.versions.FirstOrDefault();
 
         InitializeMainWindow();
     }

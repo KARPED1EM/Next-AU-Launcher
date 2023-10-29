@@ -1,16 +1,16 @@
 using Microsoft.UI.Xaml.Controls;
-using NAUL.Services;
+using NAUL.Manager;
 
 namespace NAUL;
 
 public sealed partial class Page_Play : Page
 {
-    private string titleText => (VersionService.currentVersion?.IsVanilla ?? true)
+    private string titleText => (VersionManager.currentVersion?.IsVanilla ?? true)
         ? "Among Us"
-        : VersionService.currentVersion?.Name;
-    private string descriptionText => (VersionService.currentVersion?.IsVanilla ?? true)
-        ? (VersionService.currentVersion?.GameVersion.ToString() + " | " + VersionService.currentVersion?.Platform)
-        : (VersionService.currentVersion?.ModVersion.ToString() + " | " + VersionService.currentVersion?.Platform);
+        : VersionManager.currentVersion?.Name;
+    private string descriptionText => (VersionManager.currentVersion?.IsVanilla ?? true)
+        ? (VersionManager.currentVersion?.GameVersion.ToString() + " | " + VersionManager.currentVersion?.Platform)
+        : (VersionManager.currentVersion?.ModVersion.ToString() + " | " + VersionManager.currentVersion?.Platform);
 
     public Page_Play()
     {
