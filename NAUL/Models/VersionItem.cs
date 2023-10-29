@@ -1,15 +1,10 @@
-﻿using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Shapes;
-using NAUL.Manager;
+﻿using NAUL.Manager;
 using NAUL.Services;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace NAUL.Models;
 
@@ -34,7 +29,7 @@ public class VersionItem
     public string Description => $"{GameVersion}, {GamePlatform}, {(HasBepInExInstalled ? ", BepInEx: " + BepInExVersion : string.Empty)}".Trim().TrimEnd(',');
     public bool IsValid => FindGameService.IsValidAmongUsFolder(Path);
     public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
-    
+
     private void FormatAndSetName(string name)
     {
         string formatedName;

@@ -1,14 +1,4 @@
-﻿using NAUL.Models;
-using NAUL.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-namespace NAUL.Manager;
+﻿namespace NAUL.Manager;
 
 internal class PluginManager
 {

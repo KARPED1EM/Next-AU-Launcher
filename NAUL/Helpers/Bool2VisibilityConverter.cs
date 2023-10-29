@@ -4,7 +4,7 @@ using System;
 
 namespace TONX;
 
-public class BoolToVisibilityConverter : IValueConverter
+public class Bool2VisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
@@ -17,7 +17,7 @@ public class BoolToVisibilityConverter : IValueConverter
     }
 }
 
-public class BoolToVisibilityReversedConverter : IValueConverter
+public class Bool2VisibilityReversedConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

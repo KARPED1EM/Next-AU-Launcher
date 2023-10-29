@@ -2,7 +2,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using NAUL.Services;
 using System;
-using System.Collections.ObjectModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 

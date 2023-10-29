@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using NAUL.Models;
+﻿using NAUL.Models;
 using NAUL.Services;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 
 namespace NAUL.Manager;
 
@@ -23,7 +23,7 @@ internal class VersionManager
             string jsonString = System.IO.File.ReadAllText(DataPaths.CONFIG_Version_FILE);
 
             JArray jarray = JArray.Parse(jsonString);
-            foreach(var js in jarray.ToList())
+            foreach (var js in jarray.ToList())
             {
                 VersionItem item = JsonSerializer.Deserialize<VersionItem>(js.ToString());
                 if (item == null) continue;
@@ -35,7 +35,7 @@ internal class VersionManager
         // Load from GameFinder
         FindGameService.SearchAllByRegistry();
         bool needSave = false;
-        foreach(var path in FindGameService.FoundGamePaths.Where(p => !Versions.Any(v => v.Path == p)))
+        foreach (var path in FindGameService.FoundGamePaths.Where(p => !Versions.Any(v => v.Path == p)))
         {
             VersionItem item = new()
             {
