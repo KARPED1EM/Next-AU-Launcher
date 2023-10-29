@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NAUL"
-    xmlns:vs="using:NAUL.Services"
+    xmlns:vm="using:NAUL.Manager"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -34,7 +34,7 @@
                     </MenuFlyout>
                 </ListView.ContextFlyout>
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="vs:VersionItem">
+                    <DataTemplate x:DataType="vm:VersionItem">
                         <StackPanel Orientation="Horizontal" Padding="5, 10, 5, 10">
                             <FontIcon Glyph="{x:Bind FontGlyph}" FontSize="35" Margin="0, 0, 20, 0" />
                             <StackPanel Orientation="Vertical">
