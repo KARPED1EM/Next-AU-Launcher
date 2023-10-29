@@ -30,8 +30,6 @@
             <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="CustomAcrylicBrush" />
             <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="ControlFillColorTransparentBrush" />
             
-            
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>
