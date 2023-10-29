@@ -16,23 +16,38 @@ namespace NAUL.Models;
 public class VersionItem
 {
     public string UID { get; private set; }
-    public string DisplayName { get; set; }
+
+    private string _DisplayName;
+    public string DisplayName { get => _DisplayName; set => FormatAndSetName(value); }
+
     public string DisplayGlyph { get; set; }
+
     public Version GameVersion { get => GetGameVersionByAssemblyFile(); }
+
     public GamePlatforms GamePlatform { get => GetGamePlatformByPath(); }
+
     public bool HasBepInExInstalled { get => CheckIntegrityOfBepInEx(); }
+
     public string BepInExVersion { get => GetBepInExVersion(); }
 
     private string _Path;
-    public string Path
-    {
-        get => _Path;
-        set => FormatAndSetPath(value);
-    }
+    public string Path { get => _Path; set => FormatAndSetPath(value); }
 
     public bool IsValid => GamePathService.IsValidAmongUsFolder(Path);
     public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
     
+    private void FormatAndSetName(string name)
+    {
+        string formatedName;
+        int index = 0;
+        do
+        {
+            // eg. TownOfHost (3)
+            formatedName = index == 0 ? name : $"{name} ({index})";
+            index++;
+        } while (VersionManager.versions.Any(v => v.DisplayName == formatedName));
+        _DisplayName = formatedName;
+    }
     private void FormatAndSetPath(string path)
     {
         _Path = path.Replace("\\", "/").TrimEnd('/');

@@ -62,18 +62,6 @@ internal class VersionManager
         }
     }
 
-    private static string FormatNameToPreventDuplicate(string name)
-    {
-        string formatedName;
-        int index = 0;
-        do
-        {
-            formatedName = index == 0 ? name : $"{name} ({index})";
-            index++;
-        } while (versions.Any(v => v.Name == formatedName));
-        return formatedName;
-    }
-
     public static Version GetModVersion(string path)
     {
         var version = FileVersionInfo.GetVersionInfo(path).FileVersion;
