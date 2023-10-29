@@ -11,7 +11,7 @@ namespace NAUL.Manager;
 
 internal class VersionManager
 {
-    public static List<AssemblyMD5Info> assemblyMD5Info = CloudService.RequestAssemblyMODInfo();
+    public static List<AssemblyMD5InfoItem> AssemblyMD5Infos = CloudService.RequestAssemblyMODInfo();
     public static List<VersionItem> versions = new();
     public static VersionItem currentVersion;
 
@@ -76,7 +76,7 @@ internal class VersionManager
     public static Version GetGameVersion(string path)
     {
         string md5 = Utils.GetMD5HashFromFile(path + "/GameAssembly.dll");
-        return assemblyMD5Info.Find(info => info.MD5 == md5)?.Version;
+        return AssemblyMD5Infos.Find(info => info.MD5 == md5)?.Version;
     }
 
     public static bool HasBepInExInstalled(string path)
@@ -147,23 +147,16 @@ public class VersionItem
     public bool IsVanilla => ModVersion == new Version();
 }
 
-public class AssemblyMD5Info
+public class AssemblyMD5InfoItem
 {
     public string MD5 { get; set; }
-    public GamePlatform Platform { get; set; }
+    public GamePlatforms Platform { get; set; }
     public Version Version { get; set; }
 
-    public AssemblyMD5Info(string md5, GamePlatform platform, Version version)
+    public AssemblyMD5InfoItem(string md5, GamePlatform platform, Version version)
     {
         MD5 = md5;
         Platform = platform;
         Version = version;
     }
-}
-
-public enum GamePlatform
-{
-    Local,
-    Steam,
-    Epic
 }

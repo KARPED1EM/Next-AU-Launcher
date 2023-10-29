@@ -1,4 +1,6 @@
-﻿namespace NAUL;
+﻿using System;
+
+namespace NAUL;
 
 internal static class File
 {

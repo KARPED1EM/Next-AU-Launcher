@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Shapes;
 using NAUL.Manager;
 using NAUL.Services;
 using System;
@@ -17,23 +18,37 @@ public class VersionItem
     public string UID { get; private set; }
     public string DisplayName { get; set; }
     public string DisplayGlyph { get; set; }
-    public Version GameVersion { get; set; }
+    public Version GameVersion { get => GetGameVersionByAssemblyFile(); }
     public GamePlatforms GamePlatform { get => GetGamePlatformByPath(); }
     public bool HasBepInExInstalled { get => CheckIntegrityOfBepInEx(); }
     public string BepInExVersion { get => GetBepInExVersion(); }
-    public string Path { get; set; }
+
+    private string _Path;
+    public string Path
+    {
+        get => _Path;
+        set => FormatAndSetPath(value);
+    }
 
     public bool IsValid => GamePathService.IsValidAmongUsFolder(Path);
-    public bool IsBepInExEnabled 
-
-
+    public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
+    
+    private void FormatAndSetPath(string path)
+    {
+        _Path = path.Replace("\\", "/").TrimEnd('/');
+    }
+    private Version GetGameVersionByAssemblyFile()
+    {
+        string md5 = Utils.GetMD5HashFromFile(Path + "/GameAssembly.dll");
+        return VersionManager.AssemblyMD5Infos.Find(info => info.MD5 == md5)?.Version;
+    }
     private bool CheckIntegrityOfBepInEx() // Incomplete
     {
         return !(
             !Directory.Exists(Path)
             || !Directory.Exists(Path + "/BepInEx")
             || !Directory.Exists(Path + "/dotnet")
-            || (!File.Exists(Path + "/winhttp.dll") && !File.Exists(Path + "/winhttp.dll."))
+            || (!File.Exists(Path + "/winhttp.dll"))
             );
     }
     private string GetBepInExVersion()
@@ -49,6 +64,11 @@ public class VersionItem
         if (Directory.Exists(Path + "/.egstore")) return GamePlatforms.Epic;
         else if (System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Path)).EndsWith("steamapps")) return GamePlatforms.Steam;
         else return GamePlatforms.Local;
+    }
+
+    public void SetBepInExStatus(bool enable)
+    {
+        File.SetStatus(Path + "/winhttp.dll", enable);
     }
 
 
