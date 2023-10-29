@@ -15,8 +15,6 @@ namespace NAUL.Models;
 
 public class VersionItem
 {
-    public string UID { get; private set; }
-
     private string _DisplayName;
     public string DisplayName { get => _DisplayName; set => FormatAndSetName(value); }
 
