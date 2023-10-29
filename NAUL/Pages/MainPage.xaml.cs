@@ -16,7 +16,7 @@ public sealed partial class Page_Main : Page
 {
     public static Page_Main Current { get; private set; }
     private readonly Compositor compositor;
-    private ImageSource backgroundImage = new BitmapImage(new Uri("file:///D:/Desktop/NAUL/NAUL/Assets/BG.jpg"));
+    private ImageSource backgroundImage = new BitmapImage(new Uri("file:///D:/Desktop/NAUL/NAUL/Assets/BG.png"));
 
     public Page_Main()
     {

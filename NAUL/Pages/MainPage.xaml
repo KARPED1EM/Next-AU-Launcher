@@ -28,6 +28,9 @@
                    Stretch="UniformToFill" />
         </Border>
 
+        <!--  Main content background image filter  -->
+        <Canvas Background="Black" Opacity="0.18" Grid.Row="1" />
+
         <!--  Title bar acrylic backgroud  -->
         <Border Name="Border_TitleBarBackground"
                 Grid.Row="0"
