@@ -24,10 +24,8 @@ public sealed partial class MainWindow : Window
         Current = this;
         this.InitializeComponent();
 
-        GamePathService.SearchAllByRegistry();
-        VersionManager.SearchAllVersion();
-
-        VersionManager.currentVersion = VersionManager.versions.FirstOrDefault();
+        DataPaths.CreateAllFolders();
+        VersionManager.Init();
 
         InitializeMainWindow();
     }

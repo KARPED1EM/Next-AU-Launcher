@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Shapes;
+using System;
+using System.IO;
 
 namespace NAUL;
 
@@ -15,7 +17,14 @@ public static class DataPaths
     public static string SAVE_PLUGIN_PATH => SAVE_DATA_PATH + @"Plugins/";
 
     // Text data file name
-    public static string CONFIG_APP_PATH => SAVE_CONFIG_PATH + @"App.ini";
-    public static string CONFIG_PLUGIN_PATH => SAVE_CONFIG_PATH + @"Plugin.json";
+    public static string CONFIG_APP_FILE => SAVE_CONFIG_PATH + @"App.ini";
+    public static string CONFIG_Version_FILE => SAVE_CONFIG_PATH + @"Version.json";
+    public static string CONFIG_PLUGIN_FILE => SAVE_CONFIG_PATH + @"Plugin.json";
 
+    public static void CreateAllFolders()
+    {
+        Directory.CreateDirectory(SAVE_DATA_PATH);
+        Directory.CreateDirectory(SAVE_CONFIG_PATH);
+        Directory.CreateDirectory(SAVE_PLUGIN_PATH);
+    }
 }
