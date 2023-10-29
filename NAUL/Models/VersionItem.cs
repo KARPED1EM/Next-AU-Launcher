@@ -33,7 +33,7 @@ public class VersionItem
     private string _Path;
     public string Path { get => _Path; set { _Path = value.Replace("\\", "/").TrimEnd('/'); } }
 
-    public bool IsValid => GamePathService.IsValidAmongUsFolder(Path);
+    public bool IsValid => FindGameService.IsValidAmongUsFolder(Path);
     public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
     
     private void FormatAndSetName(string name)
@@ -72,8 +72,8 @@ public class VersionItem
     }
     private GamePlatforms GetGamePlatformByPath()
     {
-        if (Directory.Exists(Path + "/.egstore")) return GamePlatforms.Epic;
-        else if (System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Path)).EndsWith("steamapps")) return GamePlatforms.Steam;
+        if (Path.EndsWith("/AmongUs") && Directory.Exists(Path + "/.egstore")) return GamePlatforms.Epic;
+        else if (Path.EndsWith("/Among Us") && System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Path)).EndsWith("steamapps")) return GamePlatforms.Steam;
         else return GamePlatforms.Local;
     }
 
