@@ -11,16 +11,16 @@
     <Grid>
 
         <!--  Title  -->
-        <StackPanel Margin="70, 300, 0, 0" Orientation="Vertical">
+        <StackPanel Margin="70, 180, 0, 0" Orientation="Vertical">
             <Grid MaxWidth="1000"
                   HorizontalAlignment="Left">
-                <TextBlock Margin="0, 0, 0, 0" Text="{x:Bind titleText}" FontSize="70" FontWeight="ExtraBold" Foreground="Black" Opacity="0.4" />
-                <TextBlock Margin="-4, -4, 0, 0" Text="{x:Bind titleText}" FontSize="70" FontWeight="ExtraBold" />
+                <TextBlock Margin="0, 0, 0, 0" Text="{x:Bind titleText}" FontSize="100" FontWeight="ExtraBold" Foreground="Black" Opacity="0.4" />
+                <TextBlock Margin="-4, -4, 0, 0" Text="{x:Bind titleText}" FontSize="100" FontWeight="ExtraBold" />
             </Grid>
-            <Grid Margin="0, -8, 0, 0"
+            <Grid Margin="20, -8, 0, 0"
                   HorizontalAlignment="Left"
                   MaxWidth="500"
-                  Height="28"
+                  Height="30"
                   Background="{ThemeResource CustomAcrylicBrush}"
                   Shadow="{StaticResource ThemeShadow}"
                   CornerRadius="10">
@@ -28,15 +28,15 @@
                            HorizontalAlignment="Center"
                            Padding="10, 0, 10, 0"
                            Text="{x:Bind descriptionText}"
-                           FontSize="15" />
+                           FontSize="18" />
             </Grid>
         </StackPanel>
 
         <Grid Margin="0,0,130,100"
               HorizontalAlignment="Right"
               VerticalAlignment="Bottom"
-              MinWidth="240"
-              MinHeight="55"
+              MinWidth="360"
+              MinHeight="75"
               Background="{ThemeResource CustomAcrylicBrush}"
               CornerRadius="20"
               Shadow="{StaticResource ThemeShadow}"
@@ -44,15 +44,15 @@
 
             <!--  Start Game  -->
             <Button Name="Button_StartGame"
-                    Height="55"
+                    Height="75"
                     HorizontalAlignment="Stretch"
                     BorderThickness="0"
                     CornerRadius="20,0,0,20"
-                    FontSize="17">
+                    FontSize="22">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon Margin="-30,2,0,0"
                               VerticalAlignment="Center"
-                              FontSize="18"
+                              FontSize="24"
                               Glyph="&#xE768;" />
                     <TextBlock Text="开始游戏"
                                VerticalAlignment="Center"
@@ -61,14 +61,14 @@
             </Button>
 
             <!--  Game Setting  -->
-            <Button Width="50"
-                    Height="55"
+            <Button Width="60"
+                    Height="75"
                     HorizontalAlignment="Right"
                     Background="Transparent"
                     BorderThickness="0"
                     CornerRadius="20"
                     Click="JumpToVersionButton_Click">
-                <FontIcon Glyph="&#xE713;" Width="20" Height="20" />
+                <FontIcon Glyph="&#xE713;" Width="22" Height="20" />
             </Button>
         </Grid>
 
