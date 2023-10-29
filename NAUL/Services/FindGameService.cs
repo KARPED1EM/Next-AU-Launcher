@@ -7,10 +7,10 @@ namespace NAUL.Services;
 
 internal class FindGameService
 {
-    public static readonly IReadOnlyList<string> FoundGamePaths = _FoundGamePaths.ToList();
-    private static List<string> _FoundGamePaths;
+    public static IReadOnlyList<string> FoundGamePaths => _FoundGamePaths.ToList();
+    private static List<string> _FoundGamePaths = new();
 
-    protected static readonly List<(RegistryKey, string)> registryKeysToSearch = new()
+    protected static List<(RegistryKey, string)> registryKeysToSearch => new()
     {
         // Config of TONX
         (Registry.CurrentUser, @"Software\AU-TONX\"),
