@@ -1,16 +1,14 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
 namespace NAUL.Services;
 
-internal class GamePathService
+internal class FindGameService
 {
-    public static IReadOnlyList<string> GamePaths => gamePaths;
-    private static List<string> gamePaths = new();
+    public static readonly IReadOnlyList<string> FoundGamePaths = _FoundGamePaths.ToList();
+    private static List<string> _FoundGamePaths;
 
     protected static readonly List<(RegistryKey, string)> registryKeysToSearch = new()
     {
@@ -28,26 +26,12 @@ internal class GamePathService
         (Registry.LocalMachine, @"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam"),
     };
 
-    public static ObservableCollection<string> GetCollectionOfGamePaths()
-    {
-        var collection = new ObservableCollection<string>();
-        foreach (var path in GamePaths)
-            collection.Add(path);
-        return collection;
-    }
-    public static void AddGamePath(string path)
-    {
-        path = path.TrimEnd('\\');
-        if (GamePaths.Contains(path)) return;
-        gamePaths.Add(path);
-    }
-
     public static void SearchAllByRegistry()
     {
         foreach (var kvp in registryKeysToSearch)
         {
             var (valid, path) = FindValidPathInKey(kvp.Item1, kvp.Item2);
-            if (valid) gamePaths.Add(path);
+            if (valid) _FoundGamePaths.Add(path);
         }
     }
     private static (bool, string) FindValidPathInKey(RegistryKey registerRoot, string inputKey)
@@ -74,9 +58,9 @@ internal class GamePathService
             else if (path.EndsWith("Steam\\"))
                 path += @"steamapps\common\Among Us\";
 
-            path = TrimGamePath(path, false);
+            path = TrimGamePath(path);
             if (!IsValidAmongUsFolder(path)) continue;
-            if (GamePaths.Contains(path)) continue;
+            if (_FoundGamePaths.Contains(path)) continue;
             return (true, path);
         }
 
@@ -88,17 +72,16 @@ internal class GamePathService
         path = TrimGamePath(path);
         return !(
             !Directory.Exists(path)
-            || !Directory.Exists(path + "Among Us_Data")
-            || !File.Exists(path + "Among Us.exe")
-            || !File.Exists(path + "GameAssembly.dll")
-            || !File.Exists(path + "UnityCrashHandler32.exe")
+            || !Directory.Exists(path + "/Among Us_Data")
+            || !File.Exists(path + "/Among Us.exe")
+            || !File.Exists(path + "/GameAssembly.dll")
+            || !File.Exists(path + "/UnityCrashHandler32.exe")
             );
     }
-    private static string TrimGamePath(string path, bool endWithSolidus = true)
+    private static string TrimGamePath(string path)
     {
         if (path.EndsWith("Among Us.exe")) path = Path.GetDirectoryName(path) ?? "";
         path = path.Replace("\\", "/").TrimEnd('/');
-        if (endWithSolidus) path += "/";
         return path;
     }
 }
