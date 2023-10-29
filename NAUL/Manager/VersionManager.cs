@@ -13,16 +13,10 @@ namespace NAUL.Manager;
 internal class VersionManager
 {
     public static List<AssemblyInfoItem> AssemblyMD5Infos = CloudService.RequestAssemblyMODInfo();
-    public static List<VersionItem> versions = new();
-    public static VersionItem currentVersion;
+    public static List<VersionItem> Versions = new();
 
-    public static ObservableCollection<VersionItem> GetCollectionOfVersions()
-    {
-        var collection = new ObservableCollection<VersionItem>();
-        foreach (var path in versions)
-            collection.Add(path);
-        return collection;
-    }
+    private static VersionItem _SelectedVersion;
+    public static VersionItem SelectedVersion { get { return _SelectedVersion ?? Versions.FirstOrDefault(); } set { _SelectedVersion = value; } }
 
     public static void SearchAllVersion()
     {

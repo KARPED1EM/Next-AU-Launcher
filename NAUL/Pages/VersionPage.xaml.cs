@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using NAUL.Manager;
+using NAUL.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace NAUL;
 
 public sealed partial class Page_Version : Page
 {
-    private ObservableCollection<VersionItem> versions => VersionManager.GetCollectionOfVersions();
+    private static ObservableCollection<VersionItem> ersions => VersionManager.Versions.ToObservableCollection();
     private Visibility versionSettingsGridVisibility => VersionsList.SelectedIndex != -1 ? Visibility.Visible : Visibility.Collapsed;
 
     public Page_Version()

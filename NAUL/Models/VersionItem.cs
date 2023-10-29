@@ -31,7 +31,7 @@ public class VersionItem
     public string BepInExVersion { get => GetBepInExVersion(); }
 
     private string _Path;
-    public string Path { get => _Path; set => FormatAndSetPath(value); }
+    public string Path { get => _Path; set { _Path = value.Replace("\\", "/").TrimEnd('/'); } }
 
     public bool IsValid => GamePathService.IsValidAmongUsFolder(Path);
     public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
@@ -45,12 +45,8 @@ public class VersionItem
             // eg. TownOfHost (3)
             formatedName = index == 0 ? name : $"{name} ({index})";
             index++;
-        } while (VersionManager.versions.Any(v => v.DisplayName == formatedName));
+        } while (VersionManager.Versions.Any(v => v.DisplayName == formatedName));
         _DisplayName = formatedName;
-    }
-    private void FormatAndSetPath(string path)
-    {
-        _Path = path.Replace("\\", "/").TrimEnd('/');
     }
     private Version GetGameVersionByAssemblyFile()
     {
