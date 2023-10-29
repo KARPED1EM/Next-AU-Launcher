@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NAUL.Manager;
 
-internal class ModManager
+internal class PluginManager
 {
 
 }
