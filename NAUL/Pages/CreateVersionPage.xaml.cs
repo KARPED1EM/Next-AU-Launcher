@@ -10,8 +10,7 @@ namespace NAUL;
 
 public sealed partial class Page_CreateVersion : Page
 {
-    private bool isSelectedPathValid => GamePathService.IsValidAmongUsFolder(SelectGameFolderCombo.Text);
-    private ObservableCollection<string> gamePaths => GamePathService.GetCollectionOfGamePaths();
+    private bool isSelectedPathValid => !FindGameService.IsValidAmongUsFolder(SelectGameFolderCombo.Text);
 
     public Page_CreateVersion()
     {
@@ -41,7 +40,6 @@ public sealed partial class Page_CreateVersion : Page
         StorageFolder folder = await openPicker.PickSingleFolderAsync();
         if (folder != null)
         {
-            //StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
             SelectGameFolderCombo.Text = folder.Path;
             CheckForPathAndUpdateUI(folder.Path);
         }
@@ -52,9 +50,8 @@ public sealed partial class Page_CreateVersion : Page
 
     private void CheckForPathAndUpdateUI(string path)
     {
-        if (GamePathService.IsValidAmongUsFolder(path))
+        if (FindGameService.IsValidAmongUsFolder(path))
         {
-            GamePathService.AddGamePath(path);
             NotificationForGameFolder.Visibility = Visibility.Collapsed;
         }
         else

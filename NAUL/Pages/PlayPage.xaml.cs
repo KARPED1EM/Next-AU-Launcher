@@ -5,12 +5,8 @@ namespace NAUL;
 
 public sealed partial class Page_Play : Page
 {
-    private string titleText => (VersionManager.currentVersion?.IsVanilla ?? true)
-        ? "Among Us"
-        : VersionManager.currentVersion?.Name;
-    private string descriptionText => (VersionManager.currentVersion?.IsVanilla ?? true)
-        ? (VersionManager.currentVersion?.GameVersion.ToString() + " | " + VersionManager.currentVersion?.Platform)
-        : (VersionManager.currentVersion?.ModVersion.ToString() + " | " + VersionManager.currentVersion?.Platform);
+    private string titleText => "Among Us";
+    private string descriptionText => $"{VersionManager.SelectedVersion.GameVersion} | {VersionManager.SelectedVersion.GamePlatform}";
 
     public Page_Play()
     {

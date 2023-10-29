@@ -9,8 +9,10 @@ namespace NAUL;
 
 public sealed partial class Page_Version : Page
 {
-    private static ObservableCollection<VersionItem> ersions => VersionManager.Versions.ToObservableCollection();
-    private Visibility versionSettingsGridVisibility => VersionsList.SelectedIndex != -1 ? Visibility.Visible : Visibility.Collapsed;
+    private ObservableCollection<VersionItem> VersionsListItemsSource
+        => VersionManager.Versions.ToObservableCollection();
+    private Visibility VersionSettingsGridVisibility
+        => VersionsList.SelectedIndex != -1 ? Visibility.Visible : Visibility.Collapsed;
 
     public Page_Version()
     {
@@ -19,21 +21,21 @@ public sealed partial class Page_Version : Page
 
     private void VersionsList_Loaded(object sender, RoutedEventArgs e)
     {
-        VersionsList.SelectedIndex = VersionManager.versions.FindIndex(v => v.Name == VersionManager.currentVersion.Name);
+        VersionsList.SelectedIndex = VersionManager.Versions.FindIndex(v => v.Path == VersionManager.SelectedVersion.Path);
     }
 
     private void VersionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var version = (VersionItem)e.AddedItems.FirstOrDefault();
 
-        VersionManager.currentVersion = version;
+        VersionManager.SelectedVersion = version;
 
         GameVersionTextBlock.Text = version.GameVersion.ToString();
-        GamePlatformTextBlock.Text = version.Platform.ToString();
-        ModTextBlock.Text = version.IsVanilla ? "无" : $"{version.Mod} v{version.ModVersion}";
-        BepInExTextBlock.Text = version.BepInExVersion == "None" || version.IsVanilla ? "无" : version.BepInExVersion;
+        GamePlatformTextBlock.Text = version.GamePlatform.ToString();
+        //ModTextBlock.Text = version.IsVanilla ? "无" : $"{version.Mod} v{version.ModVersion}";
+        BepInExTextBlock.Text = version.HasBepInExInstalled ? version.BepInExVersion : "无";
 
-        GamePathTextBox.Text = version.FolderLocation;
+        GamePathTextBox.Text = version.Path;
 
         VersionSettingsGrid.Visibility = Visibility.Visible;
     }
