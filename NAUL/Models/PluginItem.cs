@@ -2,7 +2,7 @@
 
 namespace NAUL.Models;
 
-public class PluginItem
+public class PluginItem : PluginInfoItem
 {
     public string FileName { get; set; }
 
@@ -10,20 +10,9 @@ public class PluginItem
 
     public Version PluginVersion { get; set; }
 
-    public bool IsSingleMod { get; set; }
-
     public string MD5 { get; set; }
 
-    public string IconUrl { get; set; }
-
-    public string Author { get; set; }
-
-    public string URL { get; set; }
-
-    public string License { get; set; }
-
-    public string Description { get; set; }
-
-    public bool IsValid() => File.Exists(DataPaths.SAVE_PLUGIN_PATH + "/" + MD5);
+    public bool IsValid => File.Exists(DataPaths.SAVE_PLUGIN_PATH + "/" + MD5);
+    public string Path => DataPaths.SAVE_PLUGIN_PATH + MD5;
 
 }

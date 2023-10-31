@@ -31,15 +31,12 @@ internal class PluginManager
             foreach (var pluginPath in Directory.EnumerateDirectories(path).Where(path => !Plugins.Any(p => p.MD5 == Utils.GetMD5HashFromFile(path))))
             {
                 var plugin = new PluginItem();
-                plugin.FileName = Path.GetFileNameWithoutExtension(pluginPath);
-                plugin.DisplayName = TryGetPluginName(pluginPath);
                 plugin.MD5 = Utils.GetMD5HashFromFile(path);
-                plugin.IconUrl = null;
-                plugin.Author = null;
-                plugin.URL = null;
-                plugin.License = null;
-                plugin.Description = null;
+                plugin.FileName = Path.GetFileNameWithoutExtension(pluginPath);
+                plugin.DisplayName = plugin.AssemblyTitle = TryGetPluginName(pluginPath);
+                
                 System.IO.File.Copy(pluginPath, DataPaths.SAVE_PLUGIN_PATH + plugin.MD5);
+                Plugins.Add(plugin);
             }
         }
     }
@@ -47,7 +44,7 @@ internal class PluginManager
     public static void DeleteInvalidPlugins(bool saveToConfig = true)
     {
         int originalNum = Plugins.Count;
-        Plugins = Plugins.Where(p => p.IsValid()).ToList();
+        Plugins = Plugins.Where(p => p.IsValid).ToList();
         if (originalNum != Plugins.Count && saveToConfig)
             SavePluginsToConfig();
     }
