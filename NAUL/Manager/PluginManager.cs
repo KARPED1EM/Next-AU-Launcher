@@ -32,8 +32,9 @@ internal class PluginManager
             {
                 var plugin = new PluginItem();
                 plugin.MD5 = Utils.GetMD5HashFromFile(path);
-                plugin.FileName = Path.GetFileNameWithoutExtension(pluginPath);
+                plugin.FileName = Path.GetFileName(pluginPath);
                 plugin.DisplayName = plugin.AssemblyTitle = TryGetPluginName(pluginPath);
+                plugin.PluginVersion = Version.Parse(TryGetPluginVersion(pluginPath));
                 
                 System.IO.File.Copy(pluginPath, DataPaths.SAVE_PLUGIN_PATH + plugin.MD5);
                 Plugins.Add(plugin);

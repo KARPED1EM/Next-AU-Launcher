@@ -29,6 +29,7 @@ public class VersionItem
     public string Description => $"{GameVersion}, {GamePlatform}, {(HasBepInExInstalled ? ", BepInEx: " + BepInExVersion : string.Empty)}".Trim().TrimEnd(',');
     public bool IsValid => FindGameService.IsValidAmongUsFolder(Path);
     public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
+    public string PluginFolderPath => Path + "/BepInEx/plugins";
 
     private void FormatAndSetName(string name)
     {
@@ -76,6 +77,28 @@ public class VersionItem
         File.SetStatus(Path + "/winhttp.dll", enable);
     }
 
+    private string GetPluginFullPathByMD5(string md5)
+    {
+        return Directory.EnumerateFiles(PluginFolderPath).ToList().Find(p => Utils.GetMD5HashFromFile(p) == md5);
+    }
+
+    public bool IsPluginEnabled(PluginItem plugin)
+    {
+        var pluginPath = GetPluginFullPathByMD5(plugin.MD5);
+        if (string.IsNullOrEmpty(pluginPath) || !File.Exists(pluginPath)) return false;
+        return File.IsEnabled(pluginPath);
+    }
+
+    public void SetPluginStatus(PluginItem plugin, bool enable)
+    {
+        var pluginPath = GetPluginFullPathByMD5(plugin.MD5);
+        if (string.IsNullOrEmpty(pluginPath) || !File.Exists(pluginPath))
+        {
+            pluginPath = PluginFolderPath + "/" + plugin.FileName;
+            System.IO.File.Copy(plugin.Path, pluginPath, true);
+        }
+        File.SetStatus(pluginPath, enable);
+    }
 
 }
 
