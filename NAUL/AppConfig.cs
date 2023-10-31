@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.IO;
 
 namespace NAUL;
@@ -43,13 +42,13 @@ public static class AppConfig
         set { _Keys = value; }
     }
 
-    public static T GetValue<T> (string key)
+    public static T GetValue<T>(string key)
     {
         var value = Keys.GetValue(key);
         return (T)value ?? default;
     }
 
-    public static void SetValue (string key, object value)
+    public static void SetValue(string key, object value)
     {
         Keys.SetValue(key, value);
     }

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.Json;
 
 namespace NAUL.Manager;
@@ -28,7 +27,7 @@ internal class PluginManager
     public static void FindPluginsFromAllGamePaths(bool saveToConfig = true)
     {
         bool needSave = false;
-        foreach(var version in VersionManager.Versions)
+        foreach (var version in VersionManager.Versions)
         {
             string folderPath = version.Path + "/BepInEx/plugins";
             if (!Directory.Exists(folderPath)) continue;

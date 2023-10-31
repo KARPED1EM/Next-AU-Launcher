@@ -38,6 +38,6 @@ internal class CloudService
                 Description = "A TOH branch mod",
             }
         };
-        return list; 
+        return list;
     }
 }

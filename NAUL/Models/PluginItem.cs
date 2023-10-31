@@ -1,6 +1,5 @@
 ﻿using NAUL.Manager;
 using System;
-using System.Linq;
 
 namespace NAUL.Models;
 
