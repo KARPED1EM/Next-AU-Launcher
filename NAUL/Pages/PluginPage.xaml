@@ -4,11 +4,48 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:NAUL"
+    xmlns:nmd="using:NAUL.Models"
+    xmlns:nmg="using:NAUL.Manager"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid>
-        
+
+        <StackPanel Orientation="Vertical" Spacing="40">
+            <TextBlock Margin="50, 40, 0, 0" Text="模组列表" FontSize="50" FontWeight="ExtraBold" />
+
+            <ListView x:Name="PluginsList"
+                      Margin="30, 30, 0, 0"
+                      Height="450"
+                      SelectionMode="Single"
+                      VerticalAlignment="Stretch"
+                      IsItemClickEnabled="True"
+                      AllowDrop="True"
+                      CanReorderItems="True"
+                      ItemsSource="{x:Bind PluginsListItemsSource}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="nmd:PluginItem">
+                        <StackPanel Orientation="Horizontal" Padding="5, 10, 5, 10" Spacing="13">
+                            
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{x:Bind DisplayName}" FontSize="22" FontWeight="Bold" />
+                                <TextBlock Text="{x:Bind PluginVersion}" FontSize="19" Foreground="LightGray" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{x:Bind Author}" FontSize="22" Foreground="LightGray" />
+                                <TextBlock Text="{x:Bind License}" FontSize="19" Foreground="LightGray" />
+                            </StackPanel>
+
+                            <HyperlinkButton Content="链接" NavigateUri="{x:Bind URL}" Visibility="{x:Bind HasURL}" />
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackPanel>
+
     </Grid>
 </Page>
