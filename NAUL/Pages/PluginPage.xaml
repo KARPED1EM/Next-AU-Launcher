@@ -12,39 +12,66 @@
 
     <Grid>
 
-        <StackPanel Orientation="Vertical" Spacing="40">
-            <TextBlock Margin="50, 40, 0, 0" Text="模组列表" FontSize="50" FontWeight="ExtraBold" />
+        <StackPanel Orientation="Vertical" Spacing="40" Margin="50, 0, 0, 0">
 
-            <ListView x:Name="PluginsList"
-                      Margin="30, 30, 0, 0"
-                      Height="450"
-                      SelectionMode="Single"
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="0, 40, 0, 0" Text="模组列表" FontSize="50" FontWeight="ExtraBold" />
+                <ComboBox VerticalAlignment="Center" Margin="30, 45, 0, 0" ItemsSource="{x:Bind VersionsLisItemSource}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="nmd:VersionItem">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="{x:Bind DisplayName}" FontWeight="SemiBold" />
+                                <TextBlock Text="{x:Bind GameVersion}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <ListView
+                Height="460"
+                SelectionMode="None">
+
+                <StackPanel Orientation="Horizontal" Margin="0, 0, 20, 20" Spacing="20">
+                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" ></Line>
+                    <TextBlock Text="主模组" FontSize="20" FontWeight="Bold" />
+                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" ></Line>
+                </StackPanel>
+
+                <ListView x:Name="PluginsList"
+                      SelectionMode="None"
                       VerticalAlignment="Stretch"
-                      IsItemClickEnabled="True"
                       AllowDrop="True"
                       CanReorderItems="True"
                       ItemsSource="{x:Bind PluginsListItemsSource}">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="nmd:PluginItem">
-                        <StackPanel Orientation="Horizontal" Padding="5, 10, 5, 10" Spacing="13">
-                            
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{x:Bind DisplayName}" FontSize="22" FontWeight="Bold" />
-                                <TextBlock Text="{x:Bind PluginVersion}" FontSize="19" Foreground="LightGray" />
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="nmd:PluginItem">
+                            <StackPanel Orientation="Horizontal" Padding="5, 10, 5, 10" Spacing="15">
+
+                                <RadioButton Margin="0, 0, -85, 0" />
+
+                                <StackPanel Orientation="Vertical" >
+                                    <TextBlock Text="{x:Bind DisplayName}" FontSize="22" FontWeight="Bold" />
+                                    <TextBlock Text="{x:Bind PluginVersion}" FontSize="19" Foreground="LightGray" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{x:Bind Author}" FontSize="22" Foreground="LightGray" />
+                                    <TextBlock Text="{x:Bind License}" FontSize="19" Foreground="LightGray" />
+                                </StackPanel>
+
                             </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{x:Bind Author}" FontSize="22" Foreground="LightGray" />
-                                <TextBlock Text="{x:Bind License}" FontSize="19" Foreground="LightGray" />
-                            </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 40, 20, 20" Spacing="20">
+                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" ></Line>
+                    <TextBlock Text="附加模组" FontSize="20" FontWeight="Bold" />
+                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" ></Line>
+                </StackPanel>
 
-                            <HyperlinkButton Content="链接" NavigateUri="{x:Bind URL}" Visibility="{x:Bind HasURL}" />
-
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
             </ListView>
-
         </StackPanel>
 
     </Grid>

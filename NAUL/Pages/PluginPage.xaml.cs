@@ -20,6 +20,8 @@ namespace NAUL;
 
 public sealed partial class Page_Plugin : Page
 {
+    private ObservableCollection<VersionItem> VersionsLisItemSource
+        => VersionManager.Versions.ToObservableCollection();
     private ObservableCollection<PluginItem> PluginsListItemsSource
         => PluginManager.Plugins.ToObservableCollection();
 
