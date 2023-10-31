@@ -33,7 +33,7 @@ internal static class File
     }
     public static bool IsEnabled(string path)
     {
-        return path.EndsWith(DisabledSuffix);
+        return !path.EndsWith(DisabledSuffix);
     }
     public static void SetStatus(string path, bool enable)
     {
