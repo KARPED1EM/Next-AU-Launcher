@@ -86,11 +86,11 @@ public sealed partial class Page_Main : Page
         if (item == null) return;
         Type pageType = item.Tag switch
         {
-            "Play" => typeof(Page_Play), 
-            "Version" => typeof(Page_Version),
-            "Plugin" => typeof(Page_Plugin),
-            "About" => typeof(Page_About),
-            "Setting" => typeof(Page_Setting),
+            "Page_Play" => typeof(Page_Play),
+            "Page_Version" => typeof(Page_Version),
+            "Page_Plugin" => typeof(Page_Plugin),
+            "Page_About" => typeof(Page_About),
+            "Page_Setting" => typeof(Page_Setting),
             _ => typeof(Page_Play),
         };
         NavigateTo(pageType);
@@ -107,10 +107,7 @@ public sealed partial class Page_Main : Page
             destPage = nameof(Page_Play);
         }
 
-        if (page?.Name is nameof(Page_Play))
-        {
-            GlobalNavigation.SelectedItem = GlobalNavigation.MenuItems.FirstOrDefault();
-        }
+        GlobalNavigation.SelectedItem = GlobalNavigation.MenuItems.ToList().Find(item => (item as NavigationViewItem)?.Tag.ToString() == page?.Name);
 
         Content_Frame.Navigate(page, param);
 

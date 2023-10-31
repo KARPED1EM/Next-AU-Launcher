@@ -20,7 +20,9 @@ internal class PluginManager
     {
         ReadPluginsFromConfig();
         DeleteInvalidPlugins();
-        FindPluginsFromAllGamePaths();
+        FindPluginsFromAllGamePaths(false);
+        Plugins.ForEach(p => p.TryGetInfoFromCloud());
+        SavePluginsToConfig();
     }
 
     public static void FindPluginsFromAllGamePaths(bool saveToConfig = true)
@@ -28,17 +30,23 @@ internal class PluginManager
         bool needSave = false;
         foreach(var version in VersionManager.Versions)
         {
-            string path = version.Path = "/BepInEx/plugins";
-            if (!Directory.Exists(path)) continue;
-            foreach (var pluginPath in Directory.EnumerateDirectories(path).Where(path => !Plugins.Any(p => p.MD5 == Utils.GetMD5HashFromFile(path))))
+            string folderPath = version.Path + "/BepInEx/plugins";
+            if (!Directory.Exists(folderPath)) continue;
+            foreach (var filePath in Directory.EnumerateFiles(folderPath).Where(path => path.EndsWith(".dll") && !Plugins.Any(p => p.MD5 == Utils.GetMD5HashFromFile(path))))
             {
+                string pluginPath = filePath.Replace("\\", "/");
                 var plugin = new PluginItem();
-                plugin.MD5 = Utils.GetMD5HashFromFile(path);
+                plugin.MD5 = Utils.GetMD5HashFromFile(pluginPath);
                 plugin.FileName = Path.GetFileName(pluginPath);
-                plugin.DisplayName = plugin.AssemblyTitle = TryGetPluginName(pluginPath);
+                plugin.DisplayName = plugin.PluginName = TryGetPluginName(pluginPath);
                 plugin.PluginVersion = Version.Parse(TryGetPluginVersion(pluginPath));
-                
-                System.IO.File.Copy(pluginPath, DataPaths.SAVE_PLUGIN_PATH + plugin.MD5);
+                plugin.Author = TryGetPluginAuthor(pluginPath, plugin.PluginName);
+                plugin.IsSingleMod = true;
+
+                string destFileName = DataPaths.SAVE_PLUGIN_PATH + plugin.MD5;
+                if (!File.Exists(destFileName))
+                    System.IO.File.Copy(pluginPath, destFileName, false);
+
                 Plugins.Add(plugin);
                 needSave = true;
             }
@@ -77,14 +85,19 @@ internal class PluginManager
         System.IO.File.WriteAllText(DataPaths.CONFIG_PLUGIN_FILE, jsonString);
     }
 
+    public static string TryGetPluginAuthor(string path, string pluginName)
+    {
+        string author = FileVersionInfo.GetVersionInfo(path).CompanyName;
+        return string.IsNullOrWhiteSpace(author) || author == pluginName ? null : author;
+    }
+
     public static string TryGetPluginName(string path)
     {
-        Assembly assembly = Assembly.LoadFrom(path);
+        var info = FileVersionInfo.GetVersionInfo(path);
         var titleList = new List<string>()
         {
-            assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title,
-            assembly.GetCustomAttribute<AssemblyProductAttribute>().Product,
-            assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
+            info.ProductName,
+            info.CompanyName,
         }.Where(i => !string.IsNullOrWhiteSpace(i));
         return titleList.FirstOrDefault() ?? "unknown";
     }
@@ -92,11 +105,12 @@ internal class PluginManager
     public static string TryGetPluginVersion(string path)
     {
         // Uncompleted (mod such as Nebula's version does not shows in file version info)
+        var info = FileVersionInfo.GetVersionInfo(path);
         var verList = new List<string>()
         {
             // Sort by priority
-            FileVersionInfo.GetVersionInfo(path).FileVersion,
-            FileVersionInfo.GetVersionInfo(path).ProductVersion,
+            info.FileVersion,
+            info.ProductVersion,
         }.Where(v => Version.TryParse(v, out var result) && result != new Version("1.0.0"));
 
         return (verList?.Any() ?? false)

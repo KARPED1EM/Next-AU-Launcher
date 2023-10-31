@@ -10,7 +10,7 @@ namespace NAUL;
 public static class DataPaths
 {
     // Setted data save folder
-    public static string SAVE_DATA_PATH => Environment.GetFolderPath(0) + @"/NAUL_DATA/";
+    public static string SAVE_DATA_PATH => @"D:/Desktop/NAUL_DATA/";
 
     // Different categories of data storage locations
     public static string SAVE_CONFIG_PATH => SAVE_DATA_PATH + @"Configs/";

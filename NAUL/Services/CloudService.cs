@@ -29,7 +29,7 @@ internal class CloudService
         {
             new()
             {
-                AssemblyTitle = "TONX",
+                PluginName = "TONX",
                 IsSingleMod = true,
                 IconUrl = null,
                 Author = "KARPED1EM",

@@ -20,7 +20,7 @@ public class PluginItem : PluginInfoItem
 
     public void TryGetInfoFromCloud()
     {
-        var info = PluginManager.PluginInfos.Find(i => i.AssemblyTitle == this.AssemblyTitle);
+        var info = PluginManager.PluginInfos.Find(i => i.PluginName == this.PluginName);
         if (info == null) return;
 
         IsSingleMod = info.IsSingleMod;

@@ -60,13 +60,13 @@
             </NavigationView.Resources>
             
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="启动游戏" Tag="Play" Icon="Play" IsSelected="True"/>
-                <NavigationViewItem Content="版本管理" Tag="Version" Icon="Tag" />
-                <NavigationViewItem Content="模组管理" Tag="Plugin" Icon="Library" />
+                <NavigationViewItem Content="启动游戏" Tag="Page_Play" Icon="Play" IsSelected="True"/>
+                <NavigationViewItem Content="版本管理" Tag="Page_Version" Icon="Tag" />
+                <NavigationViewItem Content="模组管理" Tag="Page_Plugin" Icon="Library" />
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
-                <NavigationViewItem Content="关于" Tag="About" Icon="ContactInfo" />
-                <NavigationViewItem Content="设置" Tag="Setting" Icon="Setting" />
+                <NavigationViewItem Content="关于" Tag="Page_About" Icon="ContactInfo" />
+                <NavigationViewItem Content="设置" Tag="Page_Setting" Icon="Setting" />
             </NavigationView.FooterMenuItems>
             
             <Frame Name="Content_Frame" Margin="0,46,0,0" />

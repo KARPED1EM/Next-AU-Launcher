@@ -8,7 +8,7 @@ namespace NAUL.Models;
 
 public class PluginInfoItem
 {
-    public string AssemblyTitle { get; set; }
+    public string PluginName { get; set; }
 
     public bool IsSingleMod { get; set; }
 
