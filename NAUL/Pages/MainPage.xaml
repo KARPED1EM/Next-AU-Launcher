@@ -54,7 +54,7 @@
                         IsSettingsVisible="False"
                         IsTabStop="True"
                         PaneDisplayMode="LeftMinimal"
-                        ItemInvoked="GlobalNavigation_ItemInvoked">
+                        SelectionChanged="GlobalNavigation_SelectionChanged">
             <NavigationView.Resources>
                 <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
             </NavigationView.Resources>

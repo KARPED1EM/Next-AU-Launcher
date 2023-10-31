@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using Windows.Foundation;
@@ -79,12 +80,11 @@ public sealed partial class Page_Main : Page
         catch { }
     }
 
-    private async void GlobalNavigation_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+    private void GlobalNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
-        if (args.InvokedItemContainer?.IsSelected ?? false || args.IsSettingsInvoked) return;
-        var item = args.InvokedItemContainer as NavigationViewItem;
-        if (item == null) return;
-        Type pageType = item.Tag switch
+        var selected = args.SelectedItem as NavigationViewItem;
+        if (selected == null) return;
+        Type pageType = selected.Tag switch
         {
             "Page_Play" => typeof(Page_Play),
             "Page_Version" => typeof(Page_Version),
@@ -93,21 +93,17 @@ public sealed partial class Page_Main : Page
             "Page_Setting" => typeof(Page_Setting),
             _ => typeof(Page_Play),
         };
-        NavigateTo(pageType);
+        NavigateTo(pageType, false);
     }
 
 #nullable enable
-    public void NavigateTo(Type? page, object? param = null)
+    public void NavigateTo(Type page, bool needChangeNaviSelection = true, object? param = null)
     {
         Border_ContentBackground.Visibility = Visibility.Visible;
-        string? sourcePage = Content_Frame.CurrentSourcePageType?.Name, destPage = page?.Name;
-        if (page is null)
-        {
-            page = typeof(Page_Play);
-            destPage = nameof(Page_Play);
-        }
+        string? sourcePage = Content_Frame.CurrentSourcePageType?.Name, destPage = page.Name;
 
-        GlobalNavigation.SelectedItem = GlobalNavigation.MenuItems.ToList().Find(item => (item as NavigationViewItem)?.Tag.ToString() == page?.Name);
+        if (needChangeNaviSelection)
+            GlobalNavigation.SelectedItem = GlobalNavigation.MenuItems.ToList().Find(item => (item as NavigationViewItem)?.Tag.ToString() == page.Name);
 
         Content_Frame.Navigate(page, param);
 
