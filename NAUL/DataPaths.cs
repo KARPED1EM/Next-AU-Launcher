@@ -17,7 +17,7 @@ public static class DataPaths
 
     // Text data file name
     public static string CONFIG_APP_FILE => SAVE_CONFIG_PATH + @"App.ini";
-    public static string CONFIG_Version_FILE => SAVE_CONFIG_PATH + @"Version.json";
+    public static string CONFIG_VERSION_FILE => SAVE_CONFIG_PATH + @"Version.json";
     public static string CONFIG_PLUGIN_FILE => SAVE_CONFIG_PATH + @"Plugin.json";
 
     public static void CreateAllFolders()

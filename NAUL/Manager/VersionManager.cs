@@ -17,22 +17,12 @@ internal class VersionManager
 
     public static void Init()
     {
-        // Read json file if exists
-        if (File.Exists(DataPaths.CONFIG_Version_FILE))
-        {
-            string jsonString = System.IO.File.ReadAllText(DataPaths.CONFIG_Version_FILE);
+        ReadVersionsFromConfig();
+        LoadVersionsFromGameFinder();
+    }
 
-            JArray jarray = JArray.Parse(jsonString);
-            foreach (var js in jarray.ToList())
-            {
-                VersionItem item = JsonSerializer.Deserialize<VersionItem>(js.ToString());
-                if (item == null) continue;
-                if (!Versions.Any(v => v.Path == item.Path))
-                    Versions.Add(item);
-            }
-        }
-
-        // Load from GameFinder
+    public static void LoadVersionsFromGameFinder(bool saveToConfig = true)
+    {
         FindGameService.SearchAllByRegistry();
         bool needSave = false;
         foreach (var path in FindGameService.FoundGamePaths.Where(p => !Versions.Any(v => v.Path == p)))
@@ -52,16 +42,29 @@ internal class VersionManager
             Versions.Add(item);
             needSave = true;
         }
-        if (needSave) SaveVersionsToConfig();
+        if (needSave && saveToConfig) SaveVersionsToConfig();
+    }
 
+    public static void ReadVersionsFromConfig()
+    {
+        if (!File.Exists(DataPaths.CONFIG_VERSION_FILE)) return;
+        string jsonString = System.IO.File.ReadAllText(DataPaths.CONFIG_VERSION_FILE);
 
+        JArray jarray = JArray.Parse(jsonString);
+        foreach (var js in jarray.ToList())
+        {
+            VersionItem item = JsonSerializer.Deserialize<VersionItem>(js.ToString());
+            if (item == null) continue;
+            if (!Versions.Any(v => v.Path == item.Path))
+                Versions.Add(item);
+        }
     }
 
     public static void SaveVersionsToConfig()
     {
         string jsonString = JsonSerializer.Serialize(Versions);
-        if (!File.Exists(DataPaths.CONFIG_Version_FILE))
-            System.IO.File.Create(DataPaths.CONFIG_Version_FILE).Close();
-        System.IO.File.WriteAllText(DataPaths.CONFIG_Version_FILE, jsonString);
+        if (!File.Exists(DataPaths.CONFIG_VERSION_FILE))
+            System.IO.File.Create(DataPaths.CONFIG_VERSION_FILE).Close();
+        System.IO.File.WriteAllText(DataPaths.CONFIG_VERSION_FILE, jsonString);
     }
 }
