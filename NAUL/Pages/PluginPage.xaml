@@ -16,7 +16,7 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="0, 40, 0, 0" Text="模组列表" FontSize="50" FontWeight="ExtraBold" />
-                <ComboBox VerticalAlignment="Center" Margin="30, 45, 0, 0" ItemsSource="{x:Bind VersionsLisItemSource}">
+                <ComboBox VerticalAlignment="Center" Margin="30, 45, 0, 0" ItemsSource="{x:Bind VersionItemsSource}" SelectedItem="{x:Bind SelectedVersion}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="nmd:VersionItem">
                             <StackPanel Orientation="Horizontal" Spacing="10">
@@ -33,42 +33,54 @@
                 SelectionMode="None">
 
                 <StackPanel Orientation="Horizontal" Margin="0, 0, 20, 20" Spacing="20">
-                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" ></Line>
+                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" />
                     <TextBlock Text="主模组" FontSize="20" FontWeight="Bold" />
-                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" ></Line>
+                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" />
                 </StackPanel>
 
-                <ListView x:Name="PluginsList"
-                      SelectionMode="None"
-                      VerticalAlignment="Stretch"
-                      AllowDrop="True"
-                      CanReorderItems="True"
-                      ItemsSource="{x:Bind PluginsListItemsSource}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="nmd:PluginItem">
-                            <StackPanel Orientation="Horizontal" Padding="5, 10, 5, 10" Spacing="15">
+                <StackPanel Orientation="Horizontal">
 
-                                <RadioButton Margin="0, 0, -85, 0" />
+                    <RadioButtons x:Name="SinglePluginsRadioButtons"
+                                  Margin="0, 0, -85, 0"
+                                  SelectionChanged="SinglePluginsRadioButtons_SelectionChanged"
+                                  Unloaded="SinglePluginsRadioButtons_Unloaded"
+                                  ItemsSource="{x:Bind SinglePluginItemsSource}">
+                        <RadioButtons.ItemTemplate>
+                            <DataTemplate x:DataType="nmd:PluginItem">
+                                <RadioButton Margin="0, 18, 0, 18" IsChecked="{x:Bind IsEnabledSinglePluginForSelectedVersion}"/>
+                            </DataTemplate>
+                        </RadioButtons.ItemTemplate>
+                    </RadioButtons>
+                    
+                    <ListView x:Name="SinglePluginsList"
+                              SelectionMode="None"
+                              VerticalAlignment="Stretch"
+                              ItemsSource="{x:Bind SinglePluginItemsSource}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="nmd:PluginItem">
+                                <StackPanel Orientation="Horizontal" Padding="5, 10, 5, 10" Spacing="15">
+                                    
+                                    <StackPanel Orientation="Vertical" >
+                                        <TextBlock Text="{x:Bind DisplayName}" FontSize="22" FontWeight="Bold" />
+                                        <TextBlock Text="{x:Bind PluginVersion}" FontSize="19" Foreground="LightGray" />
+                                    </StackPanel>
 
-                                <StackPanel Orientation="Vertical" >
-                                    <TextBlock Text="{x:Bind DisplayName}" FontSize="22" FontWeight="Bold" />
-                                    <TextBlock Text="{x:Bind PluginVersion}" FontSize="19" Foreground="LightGray" />
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Text="{x:Bind Author}" FontSize="22" Foreground="LightGray" />
+                                        <TextBlock Text="{x:Bind License}" FontSize="19" Foreground="LightGray" />
+                                    </StackPanel>
+
                                 </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{x:Bind Author}" FontSize="22" Foreground="LightGray" />
-                                    <TextBlock Text="{x:Bind License}" FontSize="19" Foreground="LightGray" />
-                                </StackPanel>
-
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0, 40, 20, 20" Spacing="20">
-                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" ></Line>
+                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" />
                     <TextBlock Text="附加模组" FontSize="20" FontWeight="Bold" />
-                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" ></Line>
+                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" />
                 </StackPanel>
 
             </ListView>
