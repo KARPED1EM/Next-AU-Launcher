@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text.Json;
 
 namespace NAUL.Manager;
@@ -15,6 +14,7 @@ namespace NAUL.Manager;
 internal class PluginManager
 {
     public static List<PluginItem> Plugins = new();
+    public static List<PluginInfoItem> PluginInfos = CloudService.RequestPluginInfos();
 
     public static void Init()
     {

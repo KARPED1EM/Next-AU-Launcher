@@ -21,4 +21,23 @@ internal class CloudService
         };
         return list;
     }
+
+    public static List<PluginInfoItem> RequestPluginInfos()
+    {
+        // Wait for compelete
+        var list = new List<PluginInfoItem>()
+        {
+            new()
+            {
+                AssemblyTitle = "TONX",
+                IsSingleMod = true,
+                IconUrl = null,
+                Author = "KARPED1EM",
+                URL = "https://tonx.cc",
+                License = "GPL-3.0",
+                Description = "A TOH branch mod",
+            }
+        };
+        return list; 
+    }
 }

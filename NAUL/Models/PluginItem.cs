@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NAUL.Manager;
+using System;
+using System.Linq;
 
 namespace NAUL.Models;
 
@@ -15,4 +17,16 @@ public class PluginItem : PluginInfoItem
     public bool IsValid => File.Exists(DataPaths.SAVE_PLUGIN_PATH + "/" + MD5);
     public string Path => DataPaths.SAVE_PLUGIN_PATH + MD5;
 
+    public void TryGetInfoFromCloud()
+    {
+        var info = PluginManager.PluginInfos.Find(i => i.AssemblyTitle == this.AssemblyTitle);
+        if (info == null) return;
+
+        IsSingleMod = info.IsSingleMod;
+        IconUrl = info.IconUrl;
+        Author = info.Author;
+        URL = info.URL;
+        License = info.License;
+        Description = info.Description;
+    }
 }
