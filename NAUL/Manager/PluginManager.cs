@@ -1,43 +1,105 @@
-﻿namespace NAUL.Manager;
+﻿using NAUL.Models;
+using NAUL.Services;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Text.Json;
+
+namespace NAUL.Manager;
 
 internal class PluginManager
 {
-    /*
-    public static void SearchAllVersion()
+    public static List<PluginItem> Plugins = new();
+
+    public static void Init()
     {
-        foreach (var gamePath in FindGameService.FoundGamePaths)
+        ReadPluginsFromConfig();
+        FindPluginsFromAllGamePaths();
+    }
+
+    public static void FindPluginsFromAllGamePaths(bool saveToConfig = true)
+    {
+        foreach(var version in VersionManager.Versions)
         {
-            Version gameVer = GetGameVersion(gamePath);
-            string bepInExVer = GetBepInExVersion(gamePath);
-            GamePlatform gamePlatform = GetGamePlatformByPath(gamePath);
-
-            // Add vanilla first
-            string vanillaName = gamePlatform switch
+            string path = version.Path = "/BepInEx/plugins";
+            if (!Directory.Exists(path)) continue;
+            foreach (var pluginPath in Directory.EnumerateDirectories(path).Where(path => !Plugins.Any(p => p.MD5 == Utils.GetMD5HashFromFile(path))))
             {
-                GamePlatform.Steam => "Steam",
-                GamePlatform.Epic => "Epic",
-                _ => "本地"
-            } + " 原版";
-            vanillaName = FormatNameToPreventDuplicate(vanillaName);
-            versions.Add(new(vanillaName, "原版", new(), gameVer, bepInExVer, gamePlatform, gamePath));
-
-            // Jump to next game path if BepInEx not installed
-            if (!HasBepInExInstalled(gamePath)) continue;
-
-            // Find mods
-            string pluginPath = gamePath + "/BepInEx/plugins";
-
-            var dllPaths = Directory.EnumerateFiles(pluginPath);
-
-            foreach (var dllPath in dllPaths)
-            {
-                if (!dllPath.EndsWith(".disabled") && !dllPath.EndsWith(".dll")) continue;
-                string dllName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(dllPath));
-                dllName = Regex.Replace(dllName, @"\-.*|v.+|\s", string.Empty);
-
-                versions.Add(new(FormatNameToPreventDuplicate(dllName), dllName, GetModVersion(dllPath), gameVer, bepInExVer, gamePlatform, gamePath));
+                var plugin = new PluginItem();
+                plugin.FileName = Path.GetFileNameWithoutExtension(pluginPath);
+                plugin.DisplayName = TryGetPluginName(pluginPath);
+                plugin.MD5 = Utils.GetMD5HashFromFile(path);
+                plugin.IconUrl = null;
+                plugin.Author = null;
+                plugin.URL = null;
+                plugin.License = null;
+                plugin.Description = null;
+                System.IO.File.Copy(pluginPath, DataPaths.SAVE_PLUGIN_PATH + plugin.MD5);
             }
-
         }
-    } */
+    }
+
+    public static void DeleteInvalidPlugins(bool saveToConfig = true)
+    {
+        int originalNum = Plugins.Count;
+        Plugins = Plugins.Where(p => p.IsValid()).ToList();
+        if (originalNum != Plugins.Count && saveToConfig)
+            SavePluginsToConfig();
+    }
+
+    public static void ReadPluginsFromConfig()
+    {
+        if (!File.Exists(DataPaths.CONFIG_PLUGIN_FILE)) return;
+        string jsonString = System.IO.File.ReadAllText(DataPaths.CONFIG_PLUGIN_FILE);
+
+        JArray jarray = JArray.Parse(jsonString);
+        foreach (var js in jarray.ToList())
+        {
+            PluginItem item = JsonSerializer.Deserialize<PluginItem>(js.ToString());
+            if (item == null) continue;
+            if (!Plugins.Any(p => p.MD5 == item.MD5))
+                Plugins.Add(item);
+        }
+    }
+
+    public static void SavePluginsToConfig()
+    {
+        string jsonString = JsonSerializer.Serialize(Plugins);
+        if (!File.Exists(DataPaths.CONFIG_PLUGIN_FILE))
+            System.IO.File.Create(DataPaths.CONFIG_PLUGIN_FILE).Close();
+        System.IO.File.WriteAllText(DataPaths.CONFIG_PLUGIN_FILE, jsonString);
+    }
+
+    public static string TryGetPluginName(string path)
+    {
+        Assembly assembly = Assembly.LoadFrom(path);
+        var titleList = new List<string>()
+        {
+            assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title,
+            assembly.GetCustomAttribute<AssemblyProductAttribute>().Product,
+            assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company,
+        }.Where(i => !string.IsNullOrWhiteSpace(i));
+        return titleList.FirstOrDefault() ?? "unknown";
+    }
+
+    public static string TryGetPluginVersion(string path)
+    {
+        // Uncompleted (mod such as Nebula's version does not shows in file version info)
+        var verList = new List<string>()
+        {
+            // Sort by priority
+            FileVersionInfo.GetVersionInfo(path).FileVersion,
+            FileVersionInfo.GetVersionInfo(path).ProductVersion,
+        }.Where(v => Version.TryParse(v, out var result) && result != new Version("1.0.0"));
+
+        return (verList?.Any() ?? false)
+            ? verList.First()
+            : "unknown";
+    }
+
 }
