@@ -29,7 +29,7 @@ public sealed partial class Page_Version : Page
 
         VersionManager.SelectedVersion = version;
 
-        GameVersionTextBlock.Text = version.GameVersion.ToString();
+        GameVersionTextBlock.Text = version.GameVersion?.ToString();
         GamePlatformTextBlock.Text = version.GamePlatform.ToString();
         BepInExTextBlock.Text = version.HasBepInExInstalled ? version.BepInExVersion : "нч";
 

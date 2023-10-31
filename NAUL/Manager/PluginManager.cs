@@ -19,11 +19,13 @@ internal class PluginManager
     public static void Init()
     {
         ReadPluginsFromConfig();
+        DeleteInvalidPlugins();
         FindPluginsFromAllGamePaths();
     }
 
     public static void FindPluginsFromAllGamePaths(bool saveToConfig = true)
     {
+        bool needSave = false;
         foreach(var version in VersionManager.Versions)
         {
             string path = version.Path = "/BepInEx/plugins";
@@ -38,8 +40,10 @@ internal class PluginManager
                 
                 System.IO.File.Copy(pluginPath, DataPaths.SAVE_PLUGIN_PATH + plugin.MD5);
                 Plugins.Add(plugin);
+                needSave = true;
             }
         }
+        if (needSave && saveToConfig) SavePluginsToConfig();
     }
 
     public static void DeleteInvalidPlugins(bool saveToConfig = true)

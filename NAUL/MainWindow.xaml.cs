@@ -24,6 +24,7 @@ public sealed partial class MainWindow : Window
 
         DataPaths.CreateAllFolders();
         VersionManager.Init();
+        PluginManager.Init();
 
         InitializeMainWindow();
     }
