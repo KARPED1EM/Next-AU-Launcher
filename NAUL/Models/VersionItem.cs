@@ -84,7 +84,9 @@ public class VersionItem
         string path = PluginFolderPath + "/" + plugin.FileName;
         return File.Exists(path)
             ? File.GetTruePath(path)
-            : GetPluginFullPathByMD5(plugin.MD5);
+            : Directory.Exists(PluginFolderPath)
+            ? GetPluginFullPathByMD5(plugin.MD5)
+            : null;
     }
     private string GetPluginFullPathByMD5(string md5)
     {
@@ -103,6 +105,8 @@ public class VersionItem
         var pluginPath = GetPluginFullPath(plugin);
         if (string.IsNullOrEmpty(pluginPath) || !File.Exists(pluginPath))
         {
+            if (!Directory.Exists(PluginFolderPath))
+                Directory.CreateDirectory(PluginFolderPath);
             pluginPath = PluginFolderPath + "/" + plugin.FileName;
             System.IO.File.Copy(plugin.Path, pluginPath, true);
         }
