@@ -54,7 +54,7 @@ public class VersionItem
     {
         return !(
             !Directory.Exists(Path)
-            || !Directory.Exists(Path + "/BepInEx")
+            || !Directory.Exists(Path + "/BepInEx/core")
             || !Directory.Exists(Path + "/dotnet")
             || (!File.Exists(Path + "/winhttp.dll"))
             );

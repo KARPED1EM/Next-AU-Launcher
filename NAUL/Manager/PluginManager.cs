@@ -26,12 +26,12 @@ internal class PluginManager
 
     public static void FindPluginsFromAllGamePaths(bool saveToConfig = true)
     {
-        bool needSave = false;
+        bool needSave = false; 
         foreach (var version in VersionManager.Versions)
         {
             string folderPath = version.Path + "/BepInEx/plugins";
             if (!Directory.Exists(folderPath)) continue;
-            foreach (var filePath in Directory.EnumerateFiles(folderPath).Where(path => path.EndsWith(".dll") && !Plugins.Any(p => p.MD5 == Utils.GetMD5HashFromFile(path))))
+            foreach (var filePath in Directory.EnumerateFiles(folderPath).Where(path => path.EndsWith(".dll") || path.EndsWith(".dll" + File.DisabledSuffix) && !Plugins.Any(p => p.MD5 == Utils.GetMD5HashFromFile(path))))
             {
                 string pluginPath = filePath.Replace("\\", "/");
                 var plugin = new PluginItem();

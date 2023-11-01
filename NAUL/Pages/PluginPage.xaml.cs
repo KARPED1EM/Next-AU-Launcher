@@ -25,5 +25,4 @@ public sealed partial class Page_Plugin : Page
         e.AddedItems.Where(i => i != null).ToList().ForEach(i => VersionManager.SelectedVersion.SetPluginStatus((i as PluginItem), true));
         VersionManager.SelectedVersion.EnabledSinglePlugin = e.AddedItems.FirstOrDefault() as PluginItem;
     }
-
 }
