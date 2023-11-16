@@ -4,7 +4,9 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using NAUL.Manager;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using Windows.Foundation;
@@ -18,19 +20,20 @@ public sealed partial class Page_Main : Page
     private readonly Compositor compositor;
     private ImageSource backgroundImage = new BitmapImage(new Uri("file:///D:/Desktop/NAUL/NAUL/Assets/BG.png"));
 
+    private ObservableCollection<PageControl> MenuItemsSource
+        => PageControl.AllPages.Where(p => p.MenuType is MenuTypes.MainMenu).ToObservableCollection();
+    private ObservableCollection<PageControl> FooterMenuItemsSource
+        => PageControl.AllPages.Where(p => p.MenuType is MenuTypes.FooterMenu).ToObservableCollection();
+
     public Page_Main()
     {
         Current = this;
-        this.InitializeComponent();
-        compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-        NavigateTo(typeof(Page_Play));
-    }
 
-    private async void Page_Loaded(object sender, RoutedEventArgs e)
-    {
-        //InitializeSystemTray();
-        //await UpdateBackgroundImageAsync(true);
-        //await CheckUpdateAsync();
+        PageControl.Init();
+
+        this.InitializeComponent();
+
+        compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
     }
 
     private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -80,36 +83,23 @@ public sealed partial class Page_Main : Page
     }
 
     private void GlobalNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-    {
-        var selected = args.SelectedItem as NavigationViewItem;
-        if (selected == null) return;
-        Type pageType = selected.Tag switch
-        {
-            "Page_Play" => typeof(Page_Play),
-            "Page_Version" => typeof(Page_Version),
-            "Page_Plugin" => typeof(Page_Plugin),
-            "Page_About" => typeof(Page_About),
-            "Page_Setting" => typeof(Page_Setting),
-            _ => typeof(Page_Play),
-        };
-        NavigateTo(pageType, false);
-    }
+        => NavigateTo((args.SelectedItem as PageControl).PageClass, false);
 
 #nullable enable
-    public void NavigateTo(Type page, bool needChangeNaviSelection = true, object? param = null)
+    public void NavigateTo(object page, bool needChangeNaviSelection = true, object? param = null)
     {
-        Border_ContentBackground.Visibility = Visibility.Visible;
-        string? sourcePage = Content_Frame.CurrentSourcePageType?.Name, destPage = page.Name;
+        Current.DispatcherQueue.TryEnqueue(() =>
+        {
+            Border_ContentBackground.Visibility = Visibility.Visible;
 
-        if (needChangeNaviSelection)
-            GlobalNavigation.SelectedItem = GlobalNavigation.MenuItems.ToList().Find(item => (item as NavigationViewItem)?.Tag.ToString() == page.Name);
+            if (needChangeNaviSelection)
+                GlobalNavigation.SelectedItem = page;
 
-        Content_Frame.Navigate(page, param);
+            Content_Frame.Content = page;
 
-        Border_ContentBackground.Opacity = destPage is nameof(Page_Play) ? 0 : 1;
+            Border_ContentBackground.Opacity = page.GetType() == typeof(Page_Play) ? 0 : 1;
 
-        IsPaneToggleButtonVisible = true;
+            IsPaneToggleButtonVisible = true;
+        });
     }
-#nullable disable
-
 }
