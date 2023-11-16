@@ -17,7 +17,7 @@
 		<RootNamespace>NAUL</RootNamespace>
 		<ApplicationIcon>Assets\LOGO.ico</ApplicationIcon>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<NoWarn>CS1998</NoWarn>
+		<NoWarn>CS1998, CA1822, IDE0044</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
