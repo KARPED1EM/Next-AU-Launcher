@@ -5,12 +5,10 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>NAUL (Package)</ActiveDebugProfile>
+    <_LastSelectedProfileId>D:\Desktop\NAUL\NAUL\Properties\PublishProfiles\win-x86.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
     <None Update="App.xaml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="Package.appxmanifest">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
