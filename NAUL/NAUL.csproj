@@ -14,8 +14,8 @@
 		<WindowsPackageType>None</WindowsPackageType>
 		<WindowsAppSDKSelfContained>True</WindowsAppSDKSelfContained>
 
-		<RootNamespace>Installer</RootNamespace>
-		<ApplicationIcon>Assets/LOGO.ico</ApplicationIcon>
+		<RootNamespace>NAUL</RootNamespace>
+		<ApplicationIcon>Assets\LOGO.ico</ApplicationIcon>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<NoWarn>CS1998</NoWarn>
 	</PropertyGroup>
