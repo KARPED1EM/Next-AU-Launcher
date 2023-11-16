@@ -89,7 +89,7 @@ public sealed partial class Page_Main : Page
         => (sender as NavigationView).SelectedItem = PageControl.AllPages.First();
 
 #nullable enable
-    public void NavigateTo(object page, bool needChangeNaviSelection = true, object? param = null)
+    public void NavigateTo(object page, bool needChangeNaviSelection = true)
     {
         Current.DispatcherQueue.TryEnqueue(() =>
         {

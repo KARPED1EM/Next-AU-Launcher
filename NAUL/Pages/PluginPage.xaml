@@ -38,49 +38,61 @@
                     <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-
-                    <RadioButtons x:Name="SinglePluginsRadioButtons"
-                                  Margin="0, 0, -85, 0"
-                                  SelectionChanged="SinglePluginsRadioButtons_SelectionChanged"
-                                  ItemsSource="{x:Bind SinglePluginItemsSource}">
-                        <RadioButtons.ItemTemplate>
-                            <DataTemplate x:DataType="nmd:PluginItem">
-                                <RadioButton Margin="0, 18, 0, 18" IsChecked="{x:Bind IsEnabledSinglePluginForSelectedVersion}"/>
-                            </DataTemplate>
-                        </RadioButtons.ItemTemplate>
-                    </RadioButtons>
-                    
-                    <ListView x:Name="SinglePluginsList"
-                              SelectionMode="None"
-                              VerticalAlignment="Stretch"
+                <RadioButtons x:Name="SinglePluginsRadioButtons"
+                              Margin="0, 0, -85, 0"
+                              SelectionChanged="SinglePluginsRadioButtons_SelectionChanged"
                               ItemsSource="{x:Bind SinglePluginItemsSource}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="nmd:PluginItem">
-                                <StackPanel Orientation="Horizontal" Padding="5, 10, 5, 10" Spacing="15">
-                                    
-                                    <StackPanel Orientation="Vertical" >
+                    <RadioButtons.ItemTemplate>
+                        <DataTemplate x:DataType="nmd:PluginItem">
+                            <StackPanel Orientation="Horizontal" Spacing="30">
+
+                                <StackPanel Orientation="Vertical" Margin="15, -10, 0, 0">
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
                                         <TextBlock Text="{x:Bind DisplayName}" FontSize="22" FontWeight="Bold" />
-                                        <TextBlock Text="{x:Bind PluginVersion}" FontSize="19" Foreground="LightGray" />
+                                        <TextBlock Text="{x:Bind PluginVersion}" FontSize="18" Margin="0, 4, 0, 0"/>
                                     </StackPanel>
-
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="{x:Bind Author}" FontSize="22" Foreground="LightGray" />
-                                        <TextBlock Text="{x:Bind License}" FontSize="19" Foreground="LightGray" />
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBlock Text="{x:Bind Author}" FontSize="16" Foreground="LightGray" />
+                                        <TextBlock Text="{x:Bind License}" FontSize="16" Foreground="LightGray" />
                                     </StackPanel>
-
                                 </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
 
-                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </RadioButtons.ItemTemplate>
+                </RadioButtons>
 
                 <StackPanel Orientation="Horizontal" Margin="0, 40, 20, 20" Spacing="20">
                     <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" />
                     <TextBlock Text="附加模组" FontSize="20" FontWeight="Bold" />
-                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="480" Y1="15" Y2="15" />
+                    <Line Stroke="White" StrokeThickness="1" X1="0" X2="460" Y1="15" Y2="15" />
                 </StackPanel>
+
+                <ListView x:Name="AdditionalPluginListView"
+                          Margin="-15, 10, -85, 0"
+                          ItemsSource="{x:Bind AdditionalPluginItemsSource}"
+                          SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="nmd:PluginItem">
+                            <StackPanel Orientation="Horizontal">
+
+                                <CheckBox Margin="0, -7, 0, 0" Checked="AdditionalPluginItemsCheckBox_Checked"/>
+
+                                <StackPanel Orientation="Vertical" Margin="-78, 0, 0, 0">
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBlock Text="{x:Bind DisplayName}" FontSize="22" FontWeight="Bold" />
+                                        <TextBlock Text="{x:Bind PluginVersion}" FontSize="18" Margin="0, 4, 0, 0"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBlock Text="{x:Bind Author}" FontSize="16" Foreground="LightGray" />
+                                        <TextBlock Text="{x:Bind License}" FontSize="16" Foreground="LightGray" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
             </ListView>
         </StackPanel>

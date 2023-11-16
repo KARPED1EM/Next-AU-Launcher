@@ -30,7 +30,7 @@ internal class CloudService
             new()
             {
                 PluginName = "TONX",
-                IsSingleMod = true,
+                PluginType = PluginTypes.Single,
                 IconUrl = null,
                 Author = "KARPED1EM",
                 URL = "https://tonx.cc",

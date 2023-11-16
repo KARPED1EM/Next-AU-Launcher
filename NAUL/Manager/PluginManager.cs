@@ -33,7 +33,7 @@ internal class PluginManager
         {
             string folderPath = version.Path + "/BepInEx/plugins";
             if (!Directory.Exists(folderPath)) continue;
-            foreach (var filePath in Directory.EnumerateFiles(folderPath).Where(path => path.EndsWith(".dll") || path.EndsWith(".dll" + File.DisabledSuffix) && !AllPlugins.Any(p => p.MD5 == Utils.GetMD5HashFromFile(path))))
+            foreach (var filePath in Directory.EnumerateFiles(folderPath).Where(path => (path.EndsWith(".dll") || path.EndsWith(".dll" + File.DisabledSuffix)) && !AllPlugins.Any(p => p.MD5 == Utils.GetMD5HashFromFile(path))))
             {
                 string pluginPath = filePath.Replace("\\", "/");
                 var plugin = new PluginItem();
