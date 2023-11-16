@@ -24,7 +24,7 @@ public class PluginItem : PluginInfoItem
         var info = PluginManager.PluginInfos.Find(i => i.PluginName == this.PluginName);
         if (info == null) return;
 
-        IsSingleMod = info.IsSingleMod;
+        PluginType = info.PluginType;
         IconUrl = info.IconUrl;
         Author = info.Author;
         URL = info.URL;

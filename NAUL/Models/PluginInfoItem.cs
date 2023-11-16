@@ -4,7 +4,7 @@ public class PluginInfoItem
 {
     public string PluginName { get; set; }
 
-    public bool IsSingleMod { get; set; }
+    public PluginTypes PluginType { get; set; }
 
     public string IconUrl { get; set; }
 
@@ -15,4 +15,10 @@ public class PluginInfoItem
     public string License { get; set; }
 
     public string Description { get; set; }
+}
+
+public enum PluginTypes
+{
+    Single,
+    Additional,
 }

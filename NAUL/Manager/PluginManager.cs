@@ -12,15 +12,17 @@ namespace NAUL.Manager;
 
 internal class PluginManager
 {
-    public static List<PluginItem> Plugins = new();
     public static List<PluginInfoItem> PluginInfos = CloudService.RequestPluginInfos();
+    public static List<PluginItem> AllPlugins = new();
+    public static IReadOnlyList<PluginItem> AllSinglePlugins => AllPlugins.Where(p => p.PluginType == PluginTypes.Single).ToList();
+    public static IReadOnlyList<PluginItem> AllAdditionalPlugins => AllPlugins.Where(p => p.PluginType == PluginTypes.Additional).ToList();
 
     public static void Init()
     {
         ReadPluginsFromConfig();
         DeleteInvalidPlugins();
         FindPluginsFromAllGamePaths(false);
-        Plugins.ForEach(p => p.TryGetInfoFromCloud());
+        AllPlugins.ForEach(p => p.TryGetInfoFromCloud());
         SavePluginsToConfig();
     }
 
@@ -31,7 +33,7 @@ internal class PluginManager
         {
             string folderPath = version.Path + "/BepInEx/plugins";
             if (!Directory.Exists(folderPath)) continue;
-            foreach (var filePath in Directory.EnumerateFiles(folderPath).Where(path => path.EndsWith(".dll") || path.EndsWith(".dll" + File.DisabledSuffix) && !Plugins.Any(p => p.MD5 == Utils.GetMD5HashFromFile(path))))
+            foreach (var filePath in Directory.EnumerateFiles(folderPath).Where(path => path.EndsWith(".dll") || path.EndsWith(".dll" + File.DisabledSuffix) && !AllPlugins.Any(p => p.MD5 == Utils.GetMD5HashFromFile(path))))
             {
                 string pluginPath = filePath.Replace("\\", "/");
                 var plugin = new PluginItem();
@@ -40,13 +42,13 @@ internal class PluginManager
                 plugin.DisplayName = plugin.PluginName = TryGetPluginName(pluginPath);
                 plugin.PluginVersion = Version.Parse(TryGetPluginVersion(pluginPath));
                 plugin.Author = TryGetPluginAuthor(pluginPath, plugin.PluginName);
-                plugin.IsSingleMod = true;
+                plugin.PluginType = PluginTypes.Single;
 
                 string destFileName = DataPaths.SAVE_PLUGIN_PATH + plugin.MD5;
                 if (!File.Exists(destFileName))
                     System.IO.File.Copy(pluginPath, destFileName, false);
 
-                Plugins.Add(plugin);
+                AllPlugins.Add(plugin);
                 needSave = true;
             }
         }
@@ -55,9 +57,9 @@ internal class PluginManager
 
     public static void DeleteInvalidPlugins(bool saveToConfig = true)
     {
-        int originalNum = Plugins.Count;
-        Plugins = Plugins.Where(p => p.IsValid).ToList();
-        if (originalNum != Plugins.Count && saveToConfig)
+        int originalNum = AllPlugins.Count;
+        AllPlugins = AllPlugins.Where(p => p.IsValid).ToList();
+        if (originalNum != AllPlugins.Count && saveToConfig)
             SavePluginsToConfig();
     }
 
@@ -71,14 +73,14 @@ internal class PluginManager
         {
             PluginItem item = JsonSerializer.Deserialize<PluginItem>(js.ToString());
             if (item == null) continue;
-            if (!Plugins.Any(p => p.MD5 == item.MD5))
-                Plugins.Add(item);
+            if (!AllPlugins.Any(p => p.MD5 == item.MD5))
+                AllPlugins.Add(item);
         }
     }
 
     public static void SavePluginsToConfig()
     {
-        string jsonString = JsonSerializer.Serialize(Plugins);
+        string jsonString = JsonSerializer.Serialize(AllPlugins);
         if (!File.Exists(DataPaths.CONFIG_PLUGIN_FILE))
             System.IO.File.Create(DataPaths.CONFIG_PLUGIN_FILE).Close();
         System.IO.File.WriteAllText(DataPaths.CONFIG_PLUGIN_FILE, jsonString);
