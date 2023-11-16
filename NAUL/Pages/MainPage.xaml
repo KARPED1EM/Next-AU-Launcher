@@ -55,6 +55,7 @@
                         IsTabStop="True"
                         PaneDisplayMode="LeftMinimal"
                         SelectionChanged="GlobalNavigation_SelectionChanged"
+                        Loaded="GlobalNavigation_Loaded"
                         MenuItemsSource="{x:Bind MenuItemsSource}"
                         FooterMenuItemsSource="{x:Bind FooterMenuItemsSource}">
             <NavigationView.Resources>

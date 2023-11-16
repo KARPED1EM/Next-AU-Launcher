@@ -29,9 +29,9 @@ public sealed partial class Page_Main : Page
     {
         Current = this;
 
-        PageControl.Init();
-
         this.InitializeComponent();
+
+        PageControl.Init();
 
         compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
     }
@@ -83,13 +83,19 @@ public sealed partial class Page_Main : Page
     }
 
     private void GlobalNavigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        => NavigateTo((args.SelectedItem as PageControl).PageClass, false);
+        => NavigateTo((args.SelectedItem as PageControl)?.PageClass, false);
+
+    private void GlobalNavigation_Loaded(object sender, RoutedEventArgs e)
+        => (sender as NavigationView).SelectedItem = PageControl.AllPages.First();
 
 #nullable enable
     public void NavigateTo(object page, bool needChangeNaviSelection = true, object? param = null)
     {
         Current.DispatcherQueue.TryEnqueue(() =>
         {
+            if (Content_Frame.Content == page)
+                return;
+
             Border_ContentBackground.Visibility = Visibility.Visible;
 
             if (needChangeNaviSelection)
@@ -97,7 +103,7 @@ public sealed partial class Page_Main : Page
 
             Content_Frame.Content = page;
 
-            Border_ContentBackground.Opacity = page.GetType() == typeof(Page_Play) ? 0 : 1;
+            Border_ContentBackground.Opacity = page == PageControl.AllPages.First().PageClass ? 0 : 1;
 
             IsPaneToggleButtonVisible = true;
         });

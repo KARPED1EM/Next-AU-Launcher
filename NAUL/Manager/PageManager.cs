@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NAUL.Manager;
 
 public class PageControl
 {
-    public Type PageType { get => PageClass.GetType(); }
+    public Type PageType => PageClass.GetType();
 
     public object PageClass { get; set; }
     
@@ -16,11 +17,13 @@ public class PageControl
     public MenuTypes MenuType { get; set; }
 
     public void Show(bool needChangeNaviSelection = true)
-        => Page_Main.Current.NavigateTo(PageType, needChangeNaviSelection);
+        => Page_Main.Current.NavigateTo(PageClass, needChangeNaviSelection);
 
     public static List<PageControl> AllPages;
 
-    public static void Init() => AllPages = new()
+    public static void Init()
+    {
+        AllPages = new()
         {
             new()
             {
@@ -58,6 +61,7 @@ public class PageControl
                 PageIcon = "\uE713",
             },
         };
+    }
 
     public static void NavigateTo(Type type)
         => AllPages.Find(p => p.PageType == type)?.Show();
