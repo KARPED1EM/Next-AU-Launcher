@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
 using NAUL.Manager;
 using NAUL.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -21,6 +22,9 @@ public sealed partial class Page_Plugin : Page
     {
         this.InitializeComponent();
     }
+
+    private void SinglePluginsRadioButtons_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        => (sender as RadioButtons).SelectedItem = PluginManager.AllSinglePlugins.ToList().Find(p => p.IsEnabledForSelectedVersion);
 
     private void SinglePluginsRadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
