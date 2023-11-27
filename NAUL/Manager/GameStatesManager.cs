@@ -18,7 +18,7 @@ public static class GameStatesManager
     public static bool IsRunning(this VersionItem version)
     {
         var procList = Process.GetProcesses();
-        return QueryProcIdByPath(version.Path + "/Among Us.exe") != null;
+        return QueryProcIdByPath(version.Path + "/Among Us.exe") != null; 
     }
     private static string QueryProcIdByPath(string executablePath)
     {
