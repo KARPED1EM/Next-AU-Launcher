@@ -5,6 +5,7 @@ using NAUL.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 
 namespace NAUL;
 
@@ -60,7 +61,15 @@ public sealed partial class Page_Version : Page
             CloseButtonText = "È¡Ïû",
         }).ShowAsync();
         if (act != ContentDialogResult.Primary) return;
+
         VersionManager.SelectedVersion.Terminate();
+        int waited = 1;
+        while(waited < 3 || VersionManager.SelectedVersion.IsRunning())
+        {
+            Thread.Sleep(300);
+            waited++;
+        }
+
         if (VersionManager.SelectedVersion.Delete(out var reason))
         {
             Bindings.Update();
