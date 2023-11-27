@@ -43,7 +43,10 @@ public sealed partial class Page_Play : Page
 
     private void Button_StartGame_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        VersionManager.SelectedVersion?.Run();
+        if ((sender as Button).Tag.ToString() == "Start")
+            VersionManager.SelectedVersion?.Run();
+        else
+            VersionManager.SelectedVersion?.Terminate();
         UpdateComponents();
     }
 
@@ -56,11 +59,13 @@ public sealed partial class Page_Play : Page
                 Current.Button_StartGame.IsEnabled = true;
                 if (VersionManager.SelectedVersion.IsRunning())
                 {
+                    Current.Button_StartGame.Tag = "Stop";
                     Current.TextBlock_StartGame.Text = "停止运行";
                     Current.FontIcon_StartGame.Glyph = "\uE711";
                 }
                 else
                 {
+                    Current.Button_StartGame.Tag = "Start";
                     Current.TextBlock_StartGame.Text = "启动游戏";
                     Current.FontIcon_StartGame.Glyph = "\uE768";
                 }

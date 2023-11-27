@@ -41,6 +41,19 @@ public static class GameStatesManager
                 break;
         }
     }
+    public static void Terminate(this VersionItem version)
+    {
+        int pid = PID.TryGetValue(version, out pid) ? pid : QueryProcIdByPath(version.ExecutablePath);
+        if (pid != -1)
+        {
+            var proc = Process.GetProcessById(pid);
+            if (proc != null)
+            {
+                if (!proc.CloseMainWindow())
+                    proc.Kill();
+            }
+        }
+    }
 
     private const string SteamCommand = "steam://rungameid/945360";
     private const string EpicCommand = "com.epicgames.launcher://apps/33956bcb55d4452d8c47e16b94e294bd%3A729a86a5146640a2ace9e8c595414c56%3A963137e4c29d4c79a81323b8fab03a40?action=launch&silent=true";
