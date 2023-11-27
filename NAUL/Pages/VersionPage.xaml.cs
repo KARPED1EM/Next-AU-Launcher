@@ -66,6 +66,7 @@ public sealed partial class Page_Version : Page
             CloseButtonText = "È¡Ïû",
         }).ShowAsync();
         if (act != ContentDialogResult.Primary) return;
+        VersionManager.SelectedVersion.Terminate();
         if (VersionManager.SelectedVersion.Delete(out var reason))
         {
             Bindings.Update();
