@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace NAUL.Manager;
 
-internal class VersionManager
+public static class VersionManager
 {
     public static List<AssemblyInfoItem> AssemblyMD5Infos = CloudService.RequestAssemblyMODInfo();
     public static List<VersionItem> Versions = new();

@@ -10,7 +10,7 @@ using System.Text.Json;
 
 namespace NAUL.Manager;
 
-internal class PluginManager
+public static class PluginManager
 {
     public static List<PluginInfoItem> PluginInfos = CloudService.RequestPluginInfos();
     public static List<PluginItem> AllPlugins = new();
