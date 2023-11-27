@@ -51,11 +51,11 @@
                     CornerRadius="20,0,0,20"
                     FontSize="22">
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <FontIcon Margin="-30,2,0,0"
+                    <FontIcon x:Name="FontIcon_StartGame"
+                              Margin="-30,2,0,0"
                               VerticalAlignment="Center"
-                              FontSize="24"
-                              Glyph="&#xE768;" />
-                    <TextBlock  x:Name="TextBlock_StartGame"
+                              FontSize="24"/>
+                    <TextBlock x:Name="TextBlock_StartGame"
                                VerticalAlignment="Center"
                                FontWeight="ExtraBold" />
                 </StackPanel>

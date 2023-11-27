@@ -16,9 +16,26 @@ public sealed partial class Page_Play : Page
 
     private void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        Button_StartGame.IsEnabled = VersionManager.SelectedVersion != null;
-        TextBlock_StartGame.Text = Button_StartGame.IsEnabled
-            ? "启动游戏" : "未安装游戏";
+        if (VersionManager.SelectedVersion != null)
+        {
+            Button_StartGame.IsEnabled = true;
+            if (VersionManager.SelectedVersion.IsRunning())
+            {
+                TextBlock_StartGame.Text = "停止运行";
+                FontIcon_StartGame.Glyph = "\uE711";
+            }
+            else
+            {
+                TextBlock_StartGame.Text = "启动游戏";
+                FontIcon_StartGame.Glyph = "\uE768";
+            }
+        }
+        else
+        {
+            Button_StartGame.IsEnabled = false;
+            TextBlock_StartGame.Text = "未安装游戏";
+        }
+        
     }
 
     private void JumpToVersionButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
