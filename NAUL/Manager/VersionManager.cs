@@ -13,7 +13,11 @@ public static class VersionManager
     public static List<VersionItem> Versions = new();
 
     private static VersionItem _SelectedVersion;
-    public static VersionItem SelectedVersion { get { return _SelectedVersion ?? Versions.FirstOrDefault(); } set { _SelectedVersion = value; } }
+    public static VersionItem SelectedVersion 
+    {
+        get { return _SelectedVersion ?? Versions.FirstOrDefault(); }
+        set { _SelectedVersion = value; }
+    }
 
     public static void Init()
     {

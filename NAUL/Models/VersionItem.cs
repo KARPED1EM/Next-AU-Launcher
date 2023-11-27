@@ -121,6 +121,22 @@ public class VersionItem
         Process.Start(psi);
     }
 
+    public bool Delete(out string reason)
+    {
+        reason = null;
+        try { Directory.Delete(Path, true); }
+        catch(Exception ex) { reason = ex.Message; }
+        if (Directory.Exists(Path)) return false;
+        else
+        {
+            VersionManager.Versions.Remove(this);
+            if (VersionManager.Versions.Count > 0)
+                VersionManager.SelectedVersion = VersionManager.Versions.First();
+            else
+                VersionManager.SelectedVersion = null;
+            return true;
+        }
+    }
 }
 
 public enum GamePlatforms

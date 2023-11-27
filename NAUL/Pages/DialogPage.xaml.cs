@@ -1,4 +1,3 @@
-using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -15,17 +14,16 @@ public sealed partial class Page_Dialog : Page
         this.InitializeComponent();
     }
 
-    public static ContentDialogResult Show(string title, string text, ContentDialog dialog)
+    public static ContentDialog Create(string title, string text, ContentDialog? dialog)
     {
-        ContentDialogResult result = ContentDialogResult.None;
-        Current.DispatcherQueue.TryEnqueue(() =>
-        {
-            Current.TextBlock.Text = text;
-            dialog.Title = title;
-            dialog.XamlRoot = Current.XamlRoot;
-            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            result = dialog.ShowAsync().GetAwaiter().GetResult();
-        });
-        return result;
+        Current ??= new Page_Dialog();
+        Current.TextBlock.Text = text;
+        Current.TextBlock.Visibility = string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
+
+        dialog ??= new();
+        dialog.Title ??= title;
+        dialog.Style ??= Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+
+        return dialog;
     }
 }

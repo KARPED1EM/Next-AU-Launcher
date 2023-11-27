@@ -2,6 +2,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using NAUL.Manager;
 using NAUL.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -27,6 +28,7 @@ public sealed partial class Page_Version : Page
     private void VersionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var version = (VersionItem)e.AddedItems.FirstOrDefault();
+        if (version == null) return;
 
         VersionManager.SelectedVersion = version;
 
@@ -50,9 +52,24 @@ public sealed partial class Page_Version : Page
     private void JumpToPlayButton_Click(object sender, RoutedEventArgs e)
         => PageControl.NavigateTo(typeof(Page_Play));
 
-    private void DeleteVersionButton_Click(object sender, RoutedEventArgs e)
+    private async void DeleteVersionButton_Click(object sender, RoutedEventArgs e)
     {
-
+        var act = await Page_Dialog.Create("确定要删除吗？", "此操作无法撤回，该版本的全部游戏文件将被删除。\n插件与模组不受影响。", new()
+        {
+            XamlRoot = this.XamlRoot,
+            PrimaryButtonText = "确认删除",
+            CloseButtonText = "取消",
+        }).ShowAsync();
+        if (act != ContentDialogResult.Primary) return;
+        if (VersionManager.SelectedVersion.Delete(out var reason))
+        {
+            Bindings.Update();
+            VersionsList.SelectedIndex = VersionManager.Versions.FindIndex(v => v.Path == VersionManager.SelectedVersion.Path);
+        }
+        else
+        {
+            _ = Page_Dialog.Create("错误", reason, null).ShowAsync();
+        }
     }
 
     private void StartVersionButton_Click(object sender, RoutedEventArgs e)
