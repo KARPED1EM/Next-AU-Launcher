@@ -1,7 +1,6 @@
 using Microsoft.UI.Xaml.Controls;
 using NAUL.Manager;
 using NAUL.Models;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 

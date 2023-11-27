@@ -1,6 +1,5 @@
 using Microsoft.UI.Xaml.Controls;
 using NAUL.Manager;
-using System.Diagnostics;
 using System.Threading;
 
 namespace NAUL;
@@ -12,7 +11,7 @@ public sealed partial class Page_Play : Page
     private string TitleText => VersionManager.SelectedVersion?.EnabledSinglePlugin?.DisplayName ?? "Among Us";
     private string DescriptionText => VersionManager.SelectedVersion?.GetDescriptionText() ?? string.Empty;
 
-    private static Thread UpdateThread { get; set; } 
+    private static Thread UpdateThread { get; set; }
 
     public Page_Play()
     {

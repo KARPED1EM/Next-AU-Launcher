@@ -4,7 +4,6 @@ using NAUL.Manager;
 using NAUL.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 
 namespace NAUL;
@@ -42,14 +41,9 @@ public sealed partial class Page_Version : Page
         GamePlatformTextBlock.Text = version.GamePlatform.ToString();
         BepInExTextBlock.Text = version.HasBepInExInstalled ? version.BepInExVersion : "нч";
 
-        GamePathTextBox.Text =  version.Path;
+        GamePathTextBox.Text = version.Path;
 
         VersionSettingsGrid.Visibility = Visibility.Visible;
-    }
-
-    private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-    {
-
     }
 
     private void CreateVersionButton_Click(object sender, RoutedEventArgs e)

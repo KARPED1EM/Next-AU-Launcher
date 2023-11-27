@@ -28,7 +28,7 @@ public static class PluginManager
 
     public static void FindPluginsFromAllGamePaths(bool saveToConfig = true)
     {
-        bool needSave = false; 
+        bool needSave = false;
         foreach (var version in VersionManager.AllVersions)
         {
             string folderPath = version.Path + "/BepInEx/plugins";

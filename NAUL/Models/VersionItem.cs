@@ -1,5 +1,4 @@
-﻿using Microsoft.UI.Xaml.Shapes;
-using NAUL.Manager;
+﻿using NAUL.Manager;
 using NAUL.Services;
 using System;
 using System.Diagnostics;
@@ -132,7 +131,7 @@ public class VersionItem
     {
         reason = null;
         try { Directory.Delete(Path, true); }
-        catch(Exception ex) { reason = ex.Message; }
+        catch (Exception ex) { reason = ex.Message; }
         if (Directory.Exists(Path)) return false;
         else
         {

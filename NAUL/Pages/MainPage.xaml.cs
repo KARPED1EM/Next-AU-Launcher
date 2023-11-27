@@ -101,14 +101,13 @@ public sealed partial class Page_Main : Page
                 return;
 
             Border_ContentBackground.Visibility = Visibility.Visible;
+            Border_ContentBackground.Opacity = page == PageControl.AllPages.First().PageClass ? 0 : 1;
 
             if (needChangeNaviSelection)
                 GlobalNavigation.SelectedItem = PageControl.GetPageByInstance(page);
 
             Content_Frame.Content = page;
             CurrentlySelectedPage = PageControl.GetPageByInstance(page);
-
-            Border_ContentBackground.Opacity = page == PageControl.AllPages.First().PageClass ? 0 : 1;
 
             IsPaneToggleButtonVisible = true;
         });

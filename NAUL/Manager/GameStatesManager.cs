@@ -79,7 +79,7 @@ public static class GameStatesManager
         var searcher = new ManagementObjectSearcher(query);
         var list = searcher.Get();
 
-        foreach(var item in list)
+        foreach (var item in list)
             return int.Parse(item["ProcessID"].ToString());
         return -1;
     }
