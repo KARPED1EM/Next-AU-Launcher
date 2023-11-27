@@ -34,7 +34,7 @@ public sealed partial class Page_Version : Page
         GamePlatformTextBlock.Text = version.GamePlatform.ToString();
         BepInExTextBlock.Text = version.HasBepInExInstalled ? version.BepInExVersion : "нч";
 
-        GamePathTextBox.Text = version.Path;
+        GamePathTextBox.Text =  version.Path;
 
         VersionSettingsGrid.Visibility = Visibility.Visible;
     }
@@ -61,9 +61,5 @@ public sealed partial class Page_Version : Page
     }
 
     private void OepnLocationButton_Click(object sender, RoutedEventArgs e)
-    {
-        ProcessStartInfo psi = new ProcessStartInfo("Explorer.exe")
-        { Arguments = "/e,/select," + GamePathTextBox.Text.Replace("/", "\\") };
-        Process.Start(psi);
-    }
+        => VersionManager.SelectedVersion.OpenInExplorer();
 }

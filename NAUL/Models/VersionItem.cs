@@ -1,4 +1,5 @@
-﻿using NAUL.Manager;
+﻿using Microsoft.UI.Xaml.Shapes;
+using NAUL.Manager;
 using NAUL.Services;
 using System;
 using System.Diagnostics;
@@ -111,6 +112,13 @@ public class VersionItem
             System.IO.File.Copy(plugin.Path, pluginPath, true);
         }
         File.SetStatus(pluginPath, enable);
+    }
+
+    public void OpenInExplorer()
+    {
+        ProcessStartInfo psi = new ProcessStartInfo("Explorer.exe")
+        { Arguments = "/e,/select," + Path.Replace("/", "\\") };
+        Process.Start(psi);
     }
 
 }
