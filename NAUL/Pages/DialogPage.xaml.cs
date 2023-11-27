@@ -21,6 +21,9 @@ public sealed partial class Page_Dialog : Page
         dialog.Style ??= Application.Current.Resources["DefaultContentDialogStyle"] as Style;
         dialog.Content ??= new Page_Dialog(text);
 
+        if (string.IsNullOrEmpty(dialog.PrimaryButtonText) && string.IsNullOrEmpty(dialog.SecondaryButtonText) && string.IsNullOrEmpty(dialog.CloseButtonText))
+            dialog.CloseButtonText = "ÖªµÀÁË";
+
         return dialog;
     }
 }
