@@ -28,9 +28,15 @@ public sealed partial class Page_Version : Page
     private void VersionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var version = (VersionItem)e.AddedItems.FirstOrDefault();
-        if (version == null) return;
+        if (version == null)
+        {
+            VersionManager.SelectedVersion = null;
+            VersionSettingsGrid.Visibility = Visibility.Collapsed;
+            return;
+        }
 
         VersionManager.SelectedVersion = version;
+        VersionSettingsGrid.Visibility = Visibility.Visible;
 
         GameVersionTextBlock.Text = version.GameVersion?.ToString();
         GamePlatformTextBlock.Text = version.GamePlatform.ToString();
