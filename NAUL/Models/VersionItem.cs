@@ -27,6 +27,8 @@ public class VersionItem
     private string _Path;
     public string Path { get => _Path; set { _Path = value.Replace("\\", "/").TrimEnd('/'); } }
 
+    public string ExecutablePath { get => Path + "/Among Us.exe"; }
+
     public PluginItem EnabledSinglePlugin { get; set; }
 
     public string Description => $"{GameVersion}, {GamePlatform}, {(HasBepInExInstalled ? "BepInEx: " + BepInExVersion : string.Empty)}".Trim().TrimEnd(',');

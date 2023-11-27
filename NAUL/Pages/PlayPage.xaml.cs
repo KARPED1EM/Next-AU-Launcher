@@ -16,6 +16,21 @@ public sealed partial class Page_Play : Page
 
     private void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        UpdateComponents();
+        Bindings.Update();
+    }
+
+    private void JumpToVersionButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        => PageControl.NavigateTo(typeof(Page_Version));
+
+    private void Button_StartGame_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        VersionManager.SelectedVersion?.Run();
+        UpdateComponents();
+    }
+
+    private void UpdateComponents()
+    {
         if (VersionManager.SelectedVersion != null)
         {
             Button_StartGame.IsEnabled = true;
@@ -35,9 +50,5 @@ public sealed partial class Page_Play : Page
             Button_StartGame.IsEnabled = false;
             TextBlock_StartGame.Text = "Î´°²×°ÓÎÏ·";
         }
-        
     }
-
-    private void JumpToVersionButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-        => PageControl.NavigateTo(typeof(Page_Version));
 }
