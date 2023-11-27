@@ -88,15 +88,9 @@ public sealed partial class Page_Main : Page
     private void GlobalNavigation_Loaded(object sender, RoutedEventArgs e)
         => (sender as NavigationView).SelectedItem = PageControl.AllPages.First();
 
-    private static bool isCurrentlySelected = false;
+    private static PageControl CurrentlySelectedPage;
     public static bool IsCurrentlySelected(PageControl pc)
-    {
-        Current.DispatcherQueue.TryEnqueue(() =>
-        {
-            isCurrentlySelected = Current.GlobalNavigation.SelectedItem == pc;
-        });
-        return isCurrentlySelected;
-    }
+        => CurrentlySelectedPage == pc;
 
 #nullable enable
     public void NavigateTo(object page, bool needChangeNaviSelection = true)
@@ -110,8 +104,9 @@ public sealed partial class Page_Main : Page
 
             if (needChangeNaviSelection)
                 GlobalNavigation.SelectedItem = PageControl.GetPageByInstance(page);
-             
+
             Content_Frame.Content = page;
+            CurrentlySelectedPage = PageControl.GetPageByInstance(page);
 
             Border_ContentBackground.Opacity = page == PageControl.AllPages.First().PageClass ? 0 : 1;
 
