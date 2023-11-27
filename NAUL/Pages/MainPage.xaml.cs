@@ -95,11 +95,19 @@ public sealed partial class Page_Main : Page
 #nullable enable
     public void NavigateTo(object page, bool needChangeNaviSelection = true)
     {
+        if (Content_Frame.Content == page)
+            return;
+
+        if (page is Page_Plugin && !VersionManager.AllVersions.Any())
+        {
+            _ = Page_Dialog.Create("未安装游戏", "无法进行模组管理", null).ShowAsync();
+            if (!needChangeNaviSelection)
+                GlobalNavigation.SelectedItem = PageControl.GetPageByType(typeof(Page_Version));
+            return;
+        }
+
         Current.DispatcherQueue.TryEnqueue(() =>
         {
-            if (Content_Frame.Content == page)
-                return;
-
             Border_ContentBackground.Visibility = Visibility.Visible;
             Border_ContentBackground.Opacity = page == PageControl.AllPages.First().PageClass ? 0 : 1;
 
