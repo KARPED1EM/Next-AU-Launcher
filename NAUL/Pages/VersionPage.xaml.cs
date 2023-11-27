@@ -49,10 +49,10 @@ public sealed partial class Page_Version : Page
     }
 
     private void CreateVersionButton_Click(object sender, RoutedEventArgs e)
-        => Page_Main.Current.NavigateTo(typeof(Page_CreateVersion));
+        => PageControl.NavigateTo(typeof(Page_CreateVersion));
 
     private void JumpToPlayButton_Click(object sender, RoutedEventArgs e)
-        => Page_Main.Current.NavigateTo(typeof(Page_Play));
+        => PageControl.NavigateTo(typeof(Page_Play));
 
     private void DeleteVersionButton_Click(object sender, RoutedEventArgs e)
     {

@@ -7,14 +7,17 @@ namespace NAUL.Manager;
 public class PageControl
 {
     public Type PageType => PageClass.GetType();
+    public object PageClass { get; private set; }
 
-    public object PageClass { get; set; }
-    
     public string PageName { get; set; }
-
     public string PageIcon { get; set; }
-
     public MenuTypes MenuType { get; set; }
+
+    public int IndexOfAllPages => AllPages.IndexOf(this);
+    public bool Showing => Page_Main.IsCurrentlySelected(this);
+
+    public static PageControl GetPageByType(Type type) => AllPages.Find(p => p.PageType == type);
+    public static PageControl GetPageByInstance(object instance) => AllPages.Find(p => p.PageType == instance.GetType());
 
     public void Show(bool needChangeNaviSelection = true)
         => Page_Main.Current.NavigateTo(PageClass, needChangeNaviSelection);

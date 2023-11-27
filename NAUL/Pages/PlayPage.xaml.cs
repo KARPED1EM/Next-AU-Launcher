@@ -14,5 +14,5 @@ public sealed partial class Page_Play : Page
     }
 
     private void JumpToVersionButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-        => Page_Main.Current.NavigateTo(typeof(Page_Version));
+        => PageControl.NavigateTo(typeof(Page_Version));
 }

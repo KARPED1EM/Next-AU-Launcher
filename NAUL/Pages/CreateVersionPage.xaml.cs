@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using NAUL.Manager;
 using NAUL.Services;
 using System;
 using Windows.Storage;
@@ -17,9 +18,7 @@ public sealed partial class Page_CreateVersion : Page
     }
 
     private void BackButton_Click(object sender, RoutedEventArgs e)
-    {
-        Page_Main.Current.NavigateTo(typeof(Page_Version));
-    }
+        => PageControl.NavigateTo(typeof(Page_Version));
 
     private void SelectGameFolderCombo_Loaded(object sender, RoutedEventArgs e)
     {
