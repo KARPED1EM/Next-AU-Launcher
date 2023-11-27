@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using NAUL.Manager;
 using NAUL.Models;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace NAUL;
@@ -43,11 +44,6 @@ public sealed partial class Page_Version : Page
 
     }
 
-    private void OepnLocation_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
-
     private void CreateVersionButton_Click(object sender, RoutedEventArgs e)
         => PageControl.NavigateTo(typeof(Page_CreateVersion));
 
@@ -62,5 +58,12 @@ public sealed partial class Page_Version : Page
     private void StartVersionButton_Click(object sender, RoutedEventArgs e)
     {
 
+    }
+
+    private void OepnLocationButton_Click(object sender, RoutedEventArgs e)
+    {
+        ProcessStartInfo psi = new ProcessStartInfo("Explorer.exe")
+        { Arguments = "/e,/select," + GamePathTextBox.Text.Replace("/", "\\") };
+        Process.Start(psi);
     }
 }
