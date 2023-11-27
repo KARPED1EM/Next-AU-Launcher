@@ -78,10 +78,8 @@ public sealed partial class Page_Version : Page
     }
 
     private void StartVersionButton_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
+        => VersionManager.SelectedVersion?.Run();
 
     private void OepnLocationButton_Click(object sender, RoutedEventArgs e)
-        => VersionManager.SelectedVersion.OpenInExplorer();
+        => VersionManager.SelectedVersion?.OpenInExplorer();
 }
