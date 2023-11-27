@@ -34,6 +34,11 @@ public class VersionItem
     public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
     public string PluginFolderPath => Path + "/BepInEx/plugins";
 
+    public string GetDescriptionText()
+        => (EnabledSinglePlugin?.IsValid ?? false)
+        ? $"{GamePlatform} | {EnabledSinglePlugin.DisplayName} {EnabledSinglePlugin.PluginVersion}"
+        : $"{GamePlatform} | {GameVersion}";
+
     private void FormatAndSetName(string name)
     {
         string formatedName;
@@ -43,7 +48,7 @@ public class VersionItem
             // eg. TownOfHost (3)
             formatedName = index == 0 ? name : $"{name} ({index})";
             index++;
-        } while (VersionManager.Versions.Any(v => v.DisplayName == formatedName));
+        } while (VersionManager.AllVersions.Any(v => v.DisplayName == formatedName));
         _DisplayName = formatedName;
     }
     private Version GetGameVersionByAssemblyFile()
@@ -129,9 +134,9 @@ public class VersionItem
         if (Directory.Exists(Path)) return false;
         else
         {
-            VersionManager.Versions.Remove(this);
-            if (VersionManager.Versions.Count > 0)
-                VersionManager.SelectedVersion = VersionManager.Versions.First();
+            VersionManager.AllVersions.Remove(this);
+            if (VersionManager.AllVersions.Count > 0)
+                VersionManager.SelectedVersion = VersionManager.AllVersions.First();
             else
                 VersionManager.SelectedVersion = null;
             return true;

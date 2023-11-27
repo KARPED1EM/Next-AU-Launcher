@@ -16,8 +16,8 @@ public class PluginItem : PluginInfoItem
     public bool IsValid => File.Exists(DataPaths.SAVE_PLUGIN_PATH + "/" + MD5);
     public string Path => DataPaths.SAVE_PLUGIN_PATH + MD5;
     public bool HasURL => !string.IsNullOrWhiteSpace(URL);
-    public bool IsEnabledForSelectedVersion => VersionManager.SelectedVersion?.IsPluginEnabled(this) ?? false;
-    public bool IsEnabledSinglePluginForSelectedVersion => VersionManager.SelectedVersion?.EnabledSinglePlugin == this;
+    public bool IsEnabledForThisVersion => VersionManager.SelectedVersion?.IsPluginEnabled(this) ?? false;
+    public bool IsEnabledSinglePluginForThisVersion => VersionManager.SelectedVersion?.EnabledSinglePlugin == this;
 
     public void TryGetInfoFromCloud()
     {

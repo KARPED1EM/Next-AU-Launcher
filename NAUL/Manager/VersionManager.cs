@@ -10,18 +10,19 @@ namespace NAUL.Manager;
 public static class VersionManager
 {
     public static List<AssemblyInfoItem> AssemblyMD5Infos = CloudService.RequestAssemblyMODInfo();
-    public static List<VersionItem> Versions = new();
+    public static List<VersionItem> AllVersions = new();
 
     private static VersionItem _SelectedVersion;
     public static VersionItem SelectedVersion 
     {
-        get { return _SelectedVersion ?? Versions.FirstOrDefault(); }
+        get { return _SelectedVersion ?? AllVersions.FirstOrDefault(); }
         set { _SelectedVersion = value; }
     }
 
     public static void Init()
     {
         ReadVersionsFromConfig();
+        DeleteInvalidVersions();
         LoadVersionsFromGameFinder();
     }
 
@@ -29,7 +30,7 @@ public static class VersionManager
     {
         FindGameService.SearchAllByRegistry();
         bool needSave = false;
-        foreach (var path in FindGameService.FoundGamePaths.Where(p => !Versions.Any(v => v.Path == p)))
+        foreach (var path in FindGameService.FoundGamePaths.Where(p => !AllVersions.Any(v => v.Path == p)))
         {
             VersionItem item = new()
             {
@@ -43,7 +44,7 @@ public static class VersionManager
                 _ => "本地",
             };
 
-            Versions.Add(item);
+            AllVersions.Add(item);
             needSave = true;
         }
         if (needSave && saveToConfig) SaveVersionsToConfig();
@@ -59,14 +60,22 @@ public static class VersionManager
         {
             VersionItem item = JsonSerializer.Deserialize<VersionItem>(js.ToString());
             if (item == null) continue;
-            if (!Versions.Any(v => v.Path == item.Path))
-                Versions.Add(item);
+            if (!AllVersions.Any(v => v.Path == item.Path))
+                AllVersions.Add(item);
         }
+    }
+
+    public static void DeleteInvalidVersions(bool saveToConfig = true)
+    {
+        int originalNum = AllVersions.Count;
+        AllVersions = AllVersions.Where(v => v.IsValid).ToList();
+        if (originalNum != AllVersions.Count && saveToConfig)
+            SaveVersionsToConfig();
     }
 
     public static void SaveVersionsToConfig()
     {
-        string jsonString = JsonSerializer.Serialize(Versions);
+        string jsonString = JsonSerializer.Serialize(AllVersions);
         if (!File.Exists(DataPaths.CONFIG_VERSION_FILE))
             System.IO.File.Create(DataPaths.CONFIG_VERSION_FILE).Close();
         System.IO.File.WriteAllText(DataPaths.CONFIG_VERSION_FILE, jsonString);

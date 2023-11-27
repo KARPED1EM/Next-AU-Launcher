@@ -10,7 +10,7 @@ namespace NAUL;
 public sealed partial class Page_Plugin : Page
 {
     private ObservableCollection<VersionItem> VersionItemsSource
-        => VersionManager.Versions.ToObservableCollection();
+        => VersionManager.AllVersions.ToObservableCollection();
     private ObservableCollection<PluginItem> SinglePluginItemsSource
         => PluginManager.AllSinglePlugins.ToObservableCollection();
     private ObservableCollection<PluginItem> AdditionalPluginItemsSource
@@ -24,7 +24,7 @@ public sealed partial class Page_Plugin : Page
     }
 
     private void SinglePluginsRadioButtons_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-        => (sender as RadioButtons).SelectedItem = PluginManager.AllSinglePlugins.ToList().Find(p => p.IsEnabledForSelectedVersion);
+        => (sender as RadioButtons).SelectedItem = PluginManager.AllSinglePlugins.ToList().Find(p => p.IsEnabledForThisVersion);
 
     private void SinglePluginsRadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {

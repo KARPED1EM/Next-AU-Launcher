@@ -6,6 +6,7 @@
     xmlns:local="using:NAUL"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="Page_Loaded"
     mc:Ignorable="d">
 
     <Grid>
@@ -14,8 +15,8 @@
         <StackPanel Margin="70, 180, 0, 0" Orientation="Vertical">
             <Grid MaxWidth="1000"
                   HorizontalAlignment="Left">
-                <TextBlock Margin="0, 0, 0, 0" Text="{x:Bind titleText}" FontSize="100" FontWeight="ExtraBold" Foreground="Black" Opacity="0.4" />
-                <TextBlock Margin="-4, -4, 0, 0" Text="{x:Bind titleText}" FontSize="100" FontWeight="ExtraBold" />
+                <TextBlock Margin="0, 0, 0, 0" Text="{x:Bind TitleText}" FontSize="100" FontWeight="ExtraBold" Foreground="Black" Opacity="0.4" />
+                <TextBlock Margin="-4, -4, 0, 0" Text="{x:Bind TitleText}" FontSize="100" FontWeight="ExtraBold" />
             </Grid>
             <Grid Margin="20, -8, 0, 0"
                   HorizontalAlignment="Left"
@@ -27,7 +28,7 @@
                 <TextBlock VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            Padding="10, 0, 10, 0"
-                           Text="{x:Bind descriptionText}"
+                           Text="{x:Bind DescriptionText}"
                            FontSize="18" />
             </Grid>
         </StackPanel>
@@ -54,7 +55,7 @@
                               VerticalAlignment="Center"
                               FontSize="24"
                               Glyph="&#xE768;" />
-                    <TextBlock Text="开始游戏"
+                    <TextBlock  Text="开始游戏"
                                VerticalAlignment="Center"
                                FontWeight="ExtraBold" />
                 </StackPanel>

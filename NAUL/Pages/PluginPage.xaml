@@ -78,7 +78,7 @@
                             <StackPanel Orientation="Horizontal">
 
                                 <CheckBox Margin="0, -7, 0, 0"
-                                          IsChecked="{x:Bind IsEnabledForSelectedVersion}"
+                                          IsChecked="{x:Bind IsEnabledForThisVersion}"
                                           Checked="AdditionalPluginItemsCheckBox_Checked"/>
 
                                 <StackPanel Orientation="Vertical" Margin="-78, 0, 0, 0">

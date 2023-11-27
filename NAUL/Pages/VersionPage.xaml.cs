@@ -12,7 +12,7 @@ namespace NAUL;
 public sealed partial class Page_Version : Page
 {
     private ObservableCollection<VersionItem> VersionsListItemsSource
-        => VersionManager.Versions.ToObservableCollection();
+        => VersionManager.AllVersions.ToObservableCollection();
     private bool VersionSettingsGridVisibility => VersionsList.SelectedIndex != -1;
 
     public Page_Version()
@@ -22,7 +22,7 @@ public sealed partial class Page_Version : Page
 
     private void VersionsList_Loaded(object sender, RoutedEventArgs e)
     {
-        VersionsList.SelectedIndex = VersionManager.Versions.FindIndex(v => v.Path == VersionManager.SelectedVersion.Path);
+        VersionsList.SelectedIndex = VersionManager.AllVersions.FindIndex(v => v.Path == VersionManager.SelectedVersion.Path);
     }
 
     private void VersionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -70,7 +70,7 @@ public sealed partial class Page_Version : Page
         if (VersionManager.SelectedVersion.Delete(out var reason))
         {
             Bindings.Update();
-            VersionsList.SelectedIndex = VersionManager.Versions.FindIndex(v => v.Path == VersionManager.SelectedVersion.Path);
+            VersionsList.SelectedIndex = VersionManager.AllVersions.FindIndex(v => v.Path == VersionManager.SelectedVersion.Path);
         }
         else
         {
