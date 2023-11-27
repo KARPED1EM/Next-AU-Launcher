@@ -3,6 +3,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using NAUL.Manager;
 using System;
+using System.Diagnostics;
 using System.IO;
 using Vanara.PInvoke;
 using Windows.Graphics;
@@ -101,5 +102,11 @@ public sealed partial class MainWindow : Window
                     break;
             }
         }
+    }
+
+    private void Window_Closed(object sender, WindowEventArgs args)
+    {
+        Application.Current.Exit();
+        Process.GetCurrentProcess().Kill();
     }
 }
