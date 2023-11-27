@@ -29,7 +29,7 @@ public class VersionItem
 
     public PluginItem EnabledSinglePlugin { get; set; }
 
-    public string Description => $"{GameVersion}, {GamePlatform}, {(HasBepInExInstalled ? ", BepInEx: " + BepInExVersion : string.Empty)}".Trim().TrimEnd(',');
+    public string Description => $"{GameVersion}, {GamePlatform}, {(HasBepInExInstalled ? "BepInEx: " + BepInExVersion : string.Empty)}".Trim().TrimEnd(',');
     public bool IsValid => FindGameService.IsValidAmongUsFolder(Path);
     public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
     public string PluginFolderPath => Path + "/BepInEx/plugins";
