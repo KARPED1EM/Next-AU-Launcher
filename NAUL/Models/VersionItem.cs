@@ -36,8 +36,8 @@ public class VersionItem
 
     public string GetDescriptionText()
         => (EnabledSinglePlugin?.IsValid ?? false)
-        ? $"{GamePlatform} | {EnabledSinglePlugin.DisplayName} {EnabledSinglePlugin.PluginVersion}"
-        : $"{GamePlatform} | {GameVersion}";
+        ? $"{EnabledSinglePlugin.PluginVersion} | {GamePlatform}"
+        : $"{GameVersion} | {GamePlatform}";
 
     private void FormatAndSetName(string name)
     {

@@ -6,7 +6,7 @@ namespace NAUL;
 
 public sealed partial class Page_Play : Page
 {
-    private string TitleText => "Among Us";
+    private string TitleText => VersionManager.SelectedVersion?.EnabledSinglePlugin?.DisplayName ?? "Among Us";
     private string DescriptionText => VersionManager.SelectedVersion?.GetDescriptionText() ?? string.Empty;
 
     public Page_Play()
