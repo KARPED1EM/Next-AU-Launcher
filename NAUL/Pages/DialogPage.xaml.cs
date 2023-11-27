@@ -5,24 +5,21 @@ namespace NAUL;
 
 public sealed partial class Page_Dialog : Page
 {
-    public static Page_Dialog Current { get; private set; }
-
-    public Page_Dialog()
+    public Page_Dialog(string text)
     {
-        Current = this;
-
         this.InitializeComponent();
+
+        TextBlock.Text = text;
+        TextBlock.Visibility = string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
     }
 
     public static ContentDialog Create(string title, string text, ContentDialog? dialog)
     {
-        Current ??= new Page_Dialog();
-        Current.TextBlock.Text = text;
-        Current.TextBlock.Visibility = string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
-
         dialog ??= new();
         dialog.Title ??= title;
+        dialog.XamlRoot ??= Page_Main.Current.XamlRoot;
         dialog.Style ??= Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        dialog.Content ??= new Page_Dialog(text);
 
         return dialog;
     }

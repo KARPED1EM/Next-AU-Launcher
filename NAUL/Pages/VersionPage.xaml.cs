@@ -62,7 +62,6 @@ public sealed partial class Page_Version : Page
     {
         var act = await Page_Dialog.Create("确定要删除吗？", "此操作无法撤回，该版本的全部游戏文件将被删除。\n插件与模组不受影响。", new()
         {
-            XamlRoot = this.XamlRoot,
             PrimaryButtonText = "确认删除",
             CloseButtonText = "取消",
         }).ShowAsync();
