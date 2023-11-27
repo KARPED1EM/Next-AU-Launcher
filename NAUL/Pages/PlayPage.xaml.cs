@@ -17,7 +17,8 @@ public sealed partial class Page_Play : Page
     private void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         Button_StartGame.IsEnabled = VersionManager.SelectedVersion != null;
-        Debug.WriteLine(Button_StartGame.IsEnabled);
+        TextBlock_StartGame.Text = Button_StartGame.IsEnabled
+            ? "启动游戏" : "未安装游戏";
     }
 
     private void JumpToVersionButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

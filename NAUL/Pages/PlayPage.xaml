@@ -55,7 +55,7 @@
                               VerticalAlignment="Center"
                               FontSize="24"
                               Glyph="&#xE768;" />
-                    <TextBlock  Text="开始游戏"
+                    <TextBlock  x:Name="TextBlock_StartGame"
                                VerticalAlignment="Center"
                                FontWeight="ExtraBold" />
                 </StackPanel>
