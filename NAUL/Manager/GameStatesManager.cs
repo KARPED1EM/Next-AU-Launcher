@@ -12,6 +12,12 @@ public static class GameStatesManager
 
     public static bool IsRunning(this VersionItem version)
     {
+        if (Processes.TryGetValue(version, out var proc))
+        {
+            if (!proc?.HasExited ?? false) return true;
+            Processes.Remove(version);
+        }
+
         int pid = QueryProcIdByPath(version.ExecutablePath);
         if (pid == -1) return false;
 
