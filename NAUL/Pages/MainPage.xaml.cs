@@ -105,6 +105,13 @@ public sealed partial class Page_Main : Page
                 GlobalNavigation.SelectedItem = PageControl.GetPageByType(typeof(Page_Version));
             return;
         }
+        if (page is Page_Plugin && !VersionManager.SelectedVersion.HasBepInExInstalled)
+        {
+            _ = Page_Dialog.Create("该版本未安装BepInEx", "游戏必须安装BepInEx以使用模组").ShowAsync();
+            if (!needChangeNaviSelection)
+                GlobalNavigation.SelectedItem = PageControl.GetPageByType(typeof(Page_Version));
+            return;
+        }
 
         Current.DispatcherQueue.TryEnqueue(() =>
         {
