@@ -30,8 +30,11 @@ public static class GameStatesManager
         {
             case GamePlatforms.Local:
                 var proc = Process.Start(version.ExecutablePath);
-                if (proc == null) return;
-                Processes[version] = proc;
+                if (proc == null)
+                {
+                    _ = Page_Dialog.Create("启动游戏失败", "原因未知，请尝试手动启动游戏");
+                }
+                else Processes[version] = proc;
                 break;
             case GamePlatforms.Steam:
                 RunBySteam();

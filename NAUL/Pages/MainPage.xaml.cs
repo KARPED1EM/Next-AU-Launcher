@@ -100,7 +100,7 @@ public sealed partial class Page_Main : Page
 
         if (page is Page_Plugin && !VersionManager.AllVersions.Any())
         {
-            _ = Page_Dialog.Create("未安装游戏", "无法进行模组管理", null).ShowAsync();
+            _ = Page_Dialog.Create("未安装游戏", "无法进行模组管理").ShowAsync();
             if (!needChangeNaviSelection)
                 GlobalNavigation.SelectedItem = PageControl.GetPageByType(typeof(Page_Version));
             return;

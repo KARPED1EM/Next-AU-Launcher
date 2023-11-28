@@ -77,7 +77,7 @@ public sealed partial class Page_Version : Page
         }
         else
         {
-            _ = Page_Dialog.Create("´íÎó", reason, null).ShowAsync();
+            _ = Page_Dialog.Create("É¾³ý°æ±¾Ê§°Ü", reason).ShowAsync();
         }
     }
 

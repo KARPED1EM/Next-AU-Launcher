@@ -13,7 +13,7 @@ public sealed partial class Page_Dialog : Page
         TextBlock.Visibility = string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
     }
 
-    public static ContentDialog Create(string title, string text, ContentDialog? dialog)
+    public static ContentDialog Create(string title, string text, ContentDialog dialog = null)
     {
         dialog ??= new();
         dialog.Title ??= title;
