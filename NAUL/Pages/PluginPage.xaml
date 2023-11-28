@@ -16,7 +16,11 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="0, 40, 0, 0" Text="模组列表" FontSize="50" FontWeight="ExtraBold" />
-                <ComboBox VerticalAlignment="Center" Margin="30, 45, 0, 0" ItemsSource="{x:Bind VersionItemsSource}" SelectedItem="{x:Bind SelectedVersion}">
+                <ComboBox VerticalAlignment="Center"
+                          Margin="30, 45, 0, 0"
+                          SelectionChanged="SelectVersionComboBox_SelectionChanged"
+                          Loaded="SelectVersionComboBox_Loaded"
+                          ItemsSource="{x:Bind VersionItemsSource}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="nmd:VersionItem">
                             <StackPanel Orientation="Horizontal" Spacing="10">
@@ -79,6 +83,8 @@
 
                                 <CheckBox Margin="0, -7, 0, 0"
                                           IsChecked="{x:Bind IsEnabledForThisVersion}"
+                                          Tag="{x:Bind MD5}"
+                                          Unchecked="AdditionalPluginItemsCheckBox_Unchecked"
                                           Checked="AdditionalPluginItemsCheckBox_Checked"/>
 
                                 <StackPanel Orientation="Vertical" Margin="-78, 0, 0, 0">
