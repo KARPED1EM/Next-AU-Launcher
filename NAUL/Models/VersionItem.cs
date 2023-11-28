@@ -136,6 +136,7 @@ public class VersionItem
         else
         {
             VersionManager.AllVersions.Remove(this);
+            VersionManager.SaveVersionsToConfig();
             if (VersionManager.AllVersions.Count > 0)
                 VersionManager.SelectedVersion = VersionManager.AllVersions.First();
             else
