@@ -35,13 +35,9 @@ public static class GameStatesManager
                 break;
             case GamePlatforms.Steam:
                 RunBySteam();
-                Thread.Sleep(1000);
-                QueryProcIdByPath(version.ExecutablePath);
                 break;
             case GamePlatforms.Epic:
                 RunByEpic();
-                Thread.Sleep(1000);
-                QueryProcIdByPath(version.ExecutablePath);
                 break;
         }
     }
