@@ -8,15 +8,14 @@ namespace NAUL.Manager;
 
 public static class GameStatesManager
 {
-    public static Dictionary<VersionItem, int> PID { get; private set; } = new();
+    public static Dictionary<VersionItem, Process> Processes { get; private set; } = new();
 
     public static bool IsRunning(this VersionItem version)
     {
         int pid = QueryProcIdByPath(version.ExecutablePath);
         if (pid == -1) return false;
 
-        PID.Remove(version);
-        PID.Add(version, pid);
+        Processes[version] = Process.GetProcessById(pid);
         return true;
     }
     public static void Run(this VersionItem version)
@@ -26,8 +25,7 @@ public static class GameStatesManager
             case GamePlatforms.Local:
                 var proc = Process.Start(version.ExecutablePath);
                 if (proc == null) return;
-                PID.Remove(version);
-                PID.Add(version, proc.Id);
+                Processes[version] = proc;
                 break;
             case GamePlatforms.Steam:
                 RunBySteam();
@@ -43,15 +41,16 @@ public static class GameStatesManager
     }
     public static void Terminate(this VersionItem version)
     {
-        int pid = PID.TryGetValue(version, out pid) ? pid : QueryProcIdByPath(version.ExecutablePath);
-        if (pid != -1)
+        if (!Processes.TryGetValue(version, out Process proc))
         {
-            var proc = Process.GetProcessById(pid);
-            if (proc != null)
-            {
-                if (!proc.CloseMainWindow())
-                    proc.Kill();
-            }
+            int pid = QueryProcIdByPath(version.ExecutablePath);
+            if (pid == -1) return;
+            proc = Process.GetProcessById(pid);
+        }
+        if (proc != null)
+        {
+            if (!proc.CloseMainWindow())
+                proc.Kill();
         }
     }
 
