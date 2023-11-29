@@ -1,5 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
 using NAUL.Manager;
+using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
@@ -12,30 +14,25 @@ public sealed partial class Page_Play : Page
     private string TitleText => VersionManager.SelectedVersion?.GetTitleForUI() ?? "Among Us";
     private string DescriptionText => VersionManager.SelectedVersion?.GetDescriptionForUI() ?? string.Empty;
 
-    private static Thread UpdateThread { get; set; }
-
     public Page_Play()
     {
         Current = this;
 
         this.InitializeComponent();
-
-        UpdateThread = new(() =>
-        {
-            while (true)
-            {
-                Thread.Sleep(1500);
-                if (Current == null || !PageControl.GetPageByInstance(Current).Showing) continue;
-                UpdateComponents();
-            }
-        });
-        UpdateThread.Start();
     }
 
     private void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        UpdateComponents();
         Bindings.Update();
+
+        new Thread(() =>
+        {
+            while (Current != null && PageControl.GetPageByInstance(Current).Showing)
+            {
+                UpdateComponents();
+                Thread.Sleep(1500);
+            }
+        }).Start();
     }
 
     private void JumpToVersionButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
