@@ -1,8 +1,5 @@
 using Microsoft.UI.Xaml.Controls;
 using NAUL.Manager;
-using System;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 
 namespace NAUL;

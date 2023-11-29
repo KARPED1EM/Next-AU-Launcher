@@ -65,7 +65,7 @@ public sealed partial class Page_Version : Page
 
         VersionManager.SelectedVersion.Terminate();
         int waited = 1;
-        while(waited < 3 || VersionManager.SelectedVersion.IsRunning())
+        while (waited < 3 || VersionManager.SelectedVersion.IsRunning())
         {
             Thread.Sleep(300);
             waited++;

@@ -24,7 +24,7 @@ public static class AppConfig
         var value = Keys.GetValue(key) ?? default;
         return (T)value;
     }
-    
+
     public static void SetValue(AppConfigs key, object value) => SetValue(key.ToString(), value);
     public static void SetValue(string key, object value)
     {
