@@ -19,6 +19,8 @@ public class PluginItem : PluginInfoItem
     public bool IsEnabledForThisVersion => VersionManager.SelectedVersion?.IsPluginEnabled(this) ?? false;
     public bool IsEnabledSinglePluginForThisVersion => VersionManager.SelectedVersion?.EnabledSinglePlugin == this;
 
+    public bool Is(string filePath) => Utils.GetMD5HashFromFile(filePath) == MD5;
+
     public void TryGetInfoFromCloud()
     {
         var info = PluginManager.PluginInfos.Find(i => i.PluginName == this.PluginName);

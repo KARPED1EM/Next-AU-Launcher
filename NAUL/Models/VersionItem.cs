@@ -103,7 +103,7 @@ public class VersionItem
     public bool IsPluginEnabled(PluginItem plugin)
     {
         var pluginPath = GetPluginFullPath(plugin);
-        if (string.IsNullOrEmpty(pluginPath) || !File.Exists(pluginPath)) return false;
+        if (string.IsNullOrEmpty(pluginPath) || !File.Exists(pluginPath) || !plugin.Is(pluginPath)) return false;
         return File.IsEnabled(pluginPath);
     }
 
