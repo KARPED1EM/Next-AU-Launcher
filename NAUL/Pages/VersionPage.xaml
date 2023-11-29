@@ -78,7 +78,7 @@
                 <Grid>
                     <TextBlock Text="游戏目录" FontSize="18" FontWeight="SemiBold" />
                     <StackPanel Orientation="Horizontal" Margin="0, 30, 0, 0">
-                        <TextBox x:Name="GamePathTextBox" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" SelectionHighlightColor="Green" MaxWidth="700" />
+                        <TextBox x:Name="GamePathTextBox" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="False" SelectionHighlightColor="Green" Width="500" />
                         <Button Margin="10, 0, 0, 0" Content="打开" Click="OepnLocationButton_Click"/>
                     </StackPanel>
                 </Grid>
