@@ -87,4 +87,14 @@ public sealed partial class Page_Version : Page
 
     private void OepnLocationButton_Click(object sender, RoutedEventArgs e)
         => VersionManager.SelectedVersion?.OpenInExplorer();
+
+    private void ChangeGameVersionButton_Click(object sender, RoutedEventArgs e)
+    {
+        
+    }
+
+    private void ChangeBepInExVersionButton_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

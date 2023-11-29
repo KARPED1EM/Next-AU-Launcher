@@ -64,14 +64,14 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="游戏版本：" FontSize="18" FontWeight="SemiBold" />
                     <TextBlock x:Name="GameVersionTextBlock" FontSize="18" />
-                    <Button Margin="20, -3, 0, 0" Content="更改" />
+                    <Button Margin="20, -3, 0, 0" Content="更改" Click="ChangeGameVersionButton_Click" />
                 </StackPanel>
 
                 <!--  BepInEx version  -->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="BepInEx：" FontSize="18" FontWeight="SemiBold" />
                     <TextBlock x:Name="BepInExTextBlock" FontSize="18" />
-                    <Button Margin="20, -3, 0, 0" Content="更改" />
+                    <Button Margin="20, -3, 0, 0" Content="更改" Click="ChangeBepInExVersionButton_Click" />
                 </StackPanel>
 
                 <!--  Game path  -->
