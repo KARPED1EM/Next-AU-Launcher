@@ -25,13 +25,17 @@ public sealed partial class Page_Plugin : Page
     }
 
     private void SinglePluginsRadioButtons_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-        => (sender as RadioButtons).SelectedItem = PluginManager.AllSinglePlugins.ToList().Find(p => p.IsEnabledForThisVersion);
+    {
+        var enabledPlugin = VersionManager.SelectedVersion.EnabledSinglePlugin;
+        if (enabledPlugin != null)
+            (sender as RadioButtons).SelectedItem = enabledPlugin;
+    }
 
     private void SinglePluginsRadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         e.RemovedItems.Where(i => i != null).ToList().ForEach(i => VersionManager.SelectedVersion.SetPluginStatus((i as PluginItem), false));
         e.AddedItems.Where(i => i != null).ToList().ForEach(i => VersionManager.SelectedVersion.SetPluginStatus((i as PluginItem), true));
-        VersionManager.SelectedVersion.EnabledSinglePlugin = e.AddedItems.FirstOrDefault() as PluginItem;
+        VersionManager.SelectedVersion.EnabledSinglePlugin = e.AddedItems.Any() ? e.AddedItems.FirstOrDefault() as PluginItem : null;
     }
 
     private void AdditionalPluginItemsCheckBox_Checked(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

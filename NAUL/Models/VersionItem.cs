@@ -28,15 +28,19 @@ public class VersionItem
 
     public string ExecutablePath { get => Path + "/Among Us.exe"; }
 
-    public PluginItem EnabledSinglePlugin { get; set; } 
+    public PluginItem EnabledSinglePlugin { get; set; }
 
     public string Description => $"{(GameVersion == null ? "未知版本" : GameVersion)}, {GamePlatform}, {(HasBepInExInstalled ? "BepInEx: " + BepInExVersion : string.Empty)}".Trim().TrimEnd(',');
     public bool IsValid => FindGameService.IsValidAmongUsFolder(Path);
     public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
     public string PluginFolderPath => Path + "/BepInEx/plugins";
 
-    public string GetDescriptionText()
-        => (EnabledSinglePlugin?.IsValid ?? false)
+    public string GetTitleForUI()
+        => (IsBepInExEnabled && (EnabledSinglePlugin?.IsValid ?? false))
+        ? EnabledSinglePlugin.DisplayName
+        : "Among Us";
+    public string GetDescriptionForUI()
+        => (IsBepInExEnabled && (EnabledSinglePlugin?.IsValid ?? false))
         ? $"{EnabledSinglePlugin.PluginVersion} | {GamePlatform}"
         : $"{(GameVersion == null ? "未知版本" : GameVersion)} | {GamePlatform}";
 
@@ -63,7 +67,7 @@ public class VersionItem
             !Directory.Exists(Path)
             || !Directory.Exists(Path + "/BepInEx/core")
             || !Directory.Exists(Path + "/dotnet")
-            || (!File.Exists(Path + "/winhttp.dll"))
+            || !File.Exists(Path + "/winhttp.dll")
             );
     }
     private string GetBepInExVersion()
@@ -110,12 +114,13 @@ public class VersionItem
     public void SetPluginStatus(PluginItem plugin, bool enable)
     {
         var pluginPath = GetPluginFullPath(plugin);
-        if (string.IsNullOrEmpty(pluginPath) || !File.Exists(pluginPath))
+        if (enable && (string.IsNullOrEmpty(pluginPath) || !File.Exists(pluginPath) || !plugin.Is(pluginPath)))
         {
             if (!Directory.Exists(PluginFolderPath))
                 Directory.CreateDirectory(PluginFolderPath);
             pluginPath = PluginFolderPath + "/" + plugin.FileName;
-            System.IO.File.Copy(plugin.Path, pluginPath, true);
+            System.IO.File.Copy(plugin.ArchivedPath, pluginPath, true);
+            Utils.ClearMD5CahceFor(pluginPath);
         }
         File.SetStatus(pluginPath, enable);
     }

@@ -14,7 +14,7 @@ public class PluginItem : PluginInfoItem
     public string MD5 { get; set; }
 
     public bool IsValid => File.Exists(DataPaths.SAVE_PLUGIN_PATH + "/" + MD5);
-    public string Path => DataPaths.SAVE_PLUGIN_PATH + MD5;
+    public string ArchivedPath => DataPaths.SAVE_PLUGIN_PATH + MD5;
     public bool HasURL => !string.IsNullOrWhiteSpace(URL);
     public bool IsEnabledForThisVersion => VersionManager.SelectedVersion?.IsPluginEnabled(this) ?? false;
     public bool IsEnabledSinglePluginForThisVersion => VersionManager.SelectedVersion?.EnabledSinglePlugin == this;

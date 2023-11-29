@@ -21,11 +21,12 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         Current = this;
-        this.InitializeComponent();
 
         DataPaths.CreateAllFolders();
         VersionManager.Init();
         PluginManager.Init();
+
+        this.InitializeComponent();
 
         InitializeMainWindow();
     }

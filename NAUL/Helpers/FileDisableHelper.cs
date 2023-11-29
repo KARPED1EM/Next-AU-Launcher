@@ -12,10 +12,13 @@ internal static class File
     {
         System.IO.File.Delete(path);
         System.IO.File.Delete(path + DisabledSuffix);
+        Utils.ClearMD5CahceFor(path);
+        Utils.ClearMD5CahceFor(path + DisabledSuffix);
     }
-    public static void Move(string sourceFileName, string destFileName)
+    public static void Move(string sourceFileName, string destFileName, bool overwrite = true)
     {
-        System.IO.File.Move(GetTruePath(sourceFileName), GetTruePath(destFileName));
+        System.IO.File.Move(GetTruePath(sourceFileName), GetTruePath(destFileName), overwrite);
+        Utils.ClearMD5CahceFor(GetTruePath(destFileName));
     }
 
     public static string GetTruePath(string path)
@@ -26,24 +29,27 @@ internal static class File
         }
         else
         {
-            if (IsEnabled(path)) path += DisabledSuffix;
+            if (!path.EndsWith(DisabledSuffix)) path += DisabledSuffix;
             else path = path.Remove(path.IndexOf(DisabledSuffix));
             return path;
         }
     }
     public static bool IsEnabled(string path)
     {
-        return !path.EndsWith(DisabledSuffix);
+        return !(GetTruePath(path)).EndsWith(DisabledSuffix);
     }
     public static void SetStatus(string path, bool enable)
     {
-        if (enable && path.EndsWith(DisabledSuffix))
+        path = GetTruePath(path);
+        if (enable)
         {
-            System.IO.File.Move(path, path.Remove(path.IndexOf(DisabledSuffix)));
+            if (path.EndsWith(DisabledSuffix))
+                System.IO.File.Move(path, path.Remove(path.IndexOf(DisabledSuffix)), true);
         }
-        else if (!path.EndsWith(DisabledSuffix))
+        else
         {
-            System.IO.File.Move(path, path + DisabledSuffix);
+            if (!path.EndsWith(DisabledSuffix))
+                System.IO.File.Move(path, path + DisabledSuffix, true);
         }
     }
 }

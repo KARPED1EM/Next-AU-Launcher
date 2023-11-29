@@ -1,4 +1,5 @@
-﻿using NAUL.Models;
+﻿using CommunityToolkit.WinUI.Helpers;
+using NAUL.Models;
 using NAUL.Services;
 using Newtonsoft.Json.Linq;
 using System;
@@ -24,6 +25,9 @@ public static class PluginManager
         FindPluginsFromAllGamePaths(false);
         AllPlugins.ForEach(p => p.TryGetInfoFromCloud());
         SavePluginsToConfig();
+
+        // Set enabled single plugins for each version
+        VersionManager.AllVersions.ForEach(v => v.EnabledSinglePlugin = AllSinglePlugins.ToList().Find(v.IsPluginEnabled));
     }
 
     public static void FindPluginsFromAllGamePaths(bool saveToConfig = true)

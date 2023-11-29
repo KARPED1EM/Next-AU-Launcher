@@ -7,9 +7,8 @@ namespace NAUL;
 public static class Utils
 {
     private static Dictionary<string, string> MD5Cache = new();
-
-    public static void ClearCache() => MD5Cache.Clear();
-
+    public static void ClearAllMD5Cache() => MD5Cache.Clear();
+    public static void ClearMD5CahceFor(string fileName) => MD5Cache.Remove(fileName);
     public static string GetMD5HashFromFile(string fileName, bool useCache = true)
     {
         if (useCache && MD5Cache.TryGetValue(fileName, out var cacheMd5))
