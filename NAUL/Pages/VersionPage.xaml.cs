@@ -38,7 +38,8 @@ public sealed partial class Page_Version : Page
         VersionManager.SelectedVersion = version;
         VersionSettingsGrid.Visibility = Visibility.Visible;
 
-        GameVersionTextBlock.Text = version.GameVersion?.ToString();
+        string versionText = version.GameVersion?.ToString();
+        GameVersionTextBlock.Text = string.IsNullOrEmpty(versionText) ? "Î´Öª°æ±¾" : versionText;
         GamePlatformTextBlock.Text = version.GamePlatform.ToString();
         BepInExTextBlock.Text = version.HasBepInExInstalled ? version.BepInExVersion : "ÎÞ";
 

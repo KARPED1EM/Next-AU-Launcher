@@ -28,9 +28,9 @@ public class VersionItem
 
     public string ExecutablePath { get => Path + "/Among Us.exe"; }
 
-    public PluginItem EnabledSinglePlugin { get; set; }
+    public PluginItem EnabledSinglePlugin { get; set; } 
 
-    public string Description => $"{GameVersion}, {GamePlatform}, {(HasBepInExInstalled ? "BepInEx: " + BepInExVersion : string.Empty)}".Trim().TrimEnd(',');
+    public string Description => $"{(GameVersion == null ? "未知版本" : GameVersion)}, {GamePlatform}, {(HasBepInExInstalled ? "BepInEx: " + BepInExVersion : string.Empty)}".Trim().TrimEnd(',');
     public bool IsValid => FindGameService.IsValidAmongUsFolder(Path);
     public bool IsBepInExEnabled => File.IsEnabled(Path + "/winhttp.dll");
     public string PluginFolderPath => Path + "/BepInEx/plugins";
@@ -38,7 +38,7 @@ public class VersionItem
     public string GetDescriptionText()
         => (EnabledSinglePlugin?.IsValid ?? false)
         ? $"{EnabledSinglePlugin.PluginVersion} | {GamePlatform}"
-        : $"{GameVersion} | {GamePlatform}";
+        : $"{(GameVersion == null ? "未知版本" : GameVersion)} | {GamePlatform}";
 
     private void FormatAndSetName(string name)
     {
