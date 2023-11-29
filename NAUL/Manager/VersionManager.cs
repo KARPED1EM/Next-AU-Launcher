@@ -15,8 +15,17 @@ public static class VersionManager
     private static VersionItem _SelectedVersion;
     public static VersionItem SelectedVersion
     {
-        get { return _SelectedVersion ?? AllVersions.FirstOrDefault(); }
-        set { _SelectedVersion = value; }
+        get
+        {
+            if (_SelectedVersion != null) return _SelectedVersion;
+            var selectedVer = AllVersions.Find(v => v.Path == AppConfig.GetValue<string>(AppConfigs.SelectedVersion));
+            return selectedVer ?? AllVersions.FirstOrDefault();
+        }
+        set
+        {
+            _SelectedVersion = value;
+            AppConfig.SetValue(AppConfigs.SelectedVersion, value.Path);
+        }
     }
 
     public static void Init()
