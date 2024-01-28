@@ -1,4 +1,4 @@
-# Next Among Us Launcher
+# Next Among Us Launcher（废弃项目）
 
 一个使用 [WinUI3](https://github.com/microsoft/microsoft-ui-xaml/tree/winui3/main) 制作的 AmongUs 启动器
 
